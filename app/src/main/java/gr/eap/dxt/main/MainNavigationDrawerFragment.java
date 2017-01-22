@@ -6,39 +6,38 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Context;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import gr.eap.dxt.R;
+import gr.eap.dxt.tools.AppShared;
+import gr.eap.dxt.tools.StoreManagement;
 
 public class MainNavigationDrawerFragment extends Fragment {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
-    private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 
-    private static final String OVERVIEW = "gr.eap.dxt.main.MainNavigationDrawerFragment.OVERVIEW";
-    private static final String PROJECTS = "gr.eap.dxt.main.MainNavigationDrawerFragment.PROJECTS";
-    private static final String PEOPLE = "gr.eap.dxt.main.MainNavigationDrawerFragment.PEOPLE";
-    private static final String BACKLOG = "gr.eap.dxt.main.MainNavigationDrawerFragment.BACKLOG";
-    private static final String SPRINTS = "gr.eap.dxt.main.MainNavigationDrawerFragment.SPRINTS";
+
+    public static final String HOME = "gr.eap.dxt.main.MainNavigationDrawerFragment.HOME";
+    public static final String PROJECTS = "gr.eap.dxt.main.MainNavigationDrawerFragment.PROJECTS";
+    public static final String PEOPLE = "gr.eap.dxt.main.MainNavigationDrawerFragment.PEOPLE";
+    public static final String BACKLOG = "gr.eap.dxt.main.MainNavigationDrawerFragment.BACKLOG";
+    public static final String SPRINTS = "gr.eap.dxt.main.MainNavigationDrawerFragment.SPRINTS";
+    public static final String ABOUT = "gr.eap.dxt.main.MainNavigationDrawerFragment.ABOUT";
 
     public interface NavigationDrawerCallbacks {
-        void onNavigationDrawerItemSelected(int position);
+        void onNavigationDrawerItemSelected(String itemId);
     }
     private NavigationDrawerCallbacks mCallbacks;
 
@@ -89,18 +88,16 @@ public class MainNavigationDrawerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Read in the flag indicating whether or not the user has demonstrated awareness of the
-        // drawer. See PREF_USER_LEARNED_DRAWER for details.
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
+        StoreManagement store = new StoreManagement(getActivity());
+        mUserLearnedDrawer = store.getMainNavigationDrawerUserLearned();
 
         if (savedInstanceState != null) {
-            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
+            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION, 0);
             mFromSavedInstanceState = true;
         }
 
         createListItems();
-        selectItem(mCurrentSelectedPosition);
+        handleItemSelection(mCurrentSelectedPosition);
     }
 
     @Override
@@ -116,13 +113,15 @@ public class MainNavigationDrawerFragment extends Fragment {
 
         mListView = (ListView) rootView.findViewById(R.id.my_list_view);
         if (mListView != null){
+            mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             mListView.setItemChecked(mCurrentSelectedPosition, true);
             ListMyOptionsItemAdapter adapter = new ListMyOptionsItemAdapter(getActivity(), items);
             mListView.setAdapter(adapter);
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    selectItem(position);
+                    int pos = position - mListView.getHeaderViewsCount();
+                    handleItemSelection(pos);
                 }
             });
         }
@@ -133,14 +132,39 @@ public class MainNavigationDrawerFragment extends Fragment {
     private void createListItems(){
         items = new ArrayList<>();
 
-        items.add(new MyOtionsItem(getString(R.string.overview), null, OVERVIEW));
-        items.add(new MyOtionsItem(getString(R.string.projects), null, PROJECTS));
-        items.add(new MyOtionsItem(getString(R.string.people), null, PEOPLE));
-        items.add(new MyOtionsItem(getString(R.string.backlog), null, BACKLOG));
-        items.add(new MyOtionsItem(getString(R.string.sprints), null, SPRINTS));
+        items.add(new MyOtionsItem(getString(R.string.home), R.drawable.ic_action_home_purple, HOME));
+        items.add(new MyOtionsItem(getString(R.string.projects), R.drawable.ic_action_project_purple, PROJECTS));
+        items.add(new MyOtionsItem(getString(R.string.people), R.drawable.ic_action_people_purple, PEOPLE));
+        items.add(new MyOtionsItem(getString(R.string.backlog), R.drawable.ic_action_backlog_purple, BACKLOG));
+        items.add(new MyOtionsItem(getString(R.string.sprints), R.drawable.ic_action_event_purple, SPRINTS));
+        items.add(new MyOtionsItem(getString(R.string.about), R.drawable.ic_action_about_purple, ABOUT));
     }
 
-    private void selectItem(int position) {
+    private void handleItemSelection(int position){
+        if (items == null) {
+            AppShared.writeErrorToLogString(getClass().toString(), "items == null");
+            return;
+        }
+        if (items.isEmpty()) {
+            AppShared.writeErrorToLogString(getClass().toString(), "items.isEmpty()");
+            return;
+        }
+
+        if (position < 0){
+            AppShared.writeErrorToLogString(getClass().toString(), "position < 0");
+            return;
+        }
+        if (position >= items.size()){
+            AppShared.writeErrorToLogString(getClass().toString(), "position >= items.size()");
+            return;
+        }
+
+        MyOtionsItem item = items.get(position);
+        if (item == null) {
+            AppShared.writeErrorToLogString(getClass().toString(), "item == null");
+            return;
+        }
+
         mCurrentSelectedPosition = position;
         if (mListView != null) {
             mListView.setItemChecked(position, true);
@@ -149,14 +173,15 @@ public class MainNavigationDrawerFragment extends Fragment {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
         if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(position);
+            mCallbacks.onNavigationDrawerItemSelected(item.getId());
         }
     }
 
+/*
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
     }
-
+*/
     /**
      * Users of this fragment must call this method to set up the navigation drawer interactions.
      *
@@ -167,20 +192,16 @@ public class MainNavigationDrawerFragment extends Fragment {
         mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
 
-        // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        // set up the drawer's list view with items and click listener
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the navigation drawer and the action bar app icon.
         mDrawerToggle = new ActionBarDrawerToggle(
                 getActivity(),                    /* host Activity */
                 mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
+                //R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
                 R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
         ) {
@@ -205,9 +226,8 @@ public class MainNavigationDrawerFragment extends Fragment {
                     // The user manually opened the drawer; store this flag to prevent auto-showing
                     // the navigation drawer automatically in the future.
                     mUserLearnedDrawer = true;
-                    SharedPreferences sp = PreferenceManager
-                            .getDefaultSharedPreferences(getActivity());
-                    sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
+                    StoreManagement store = new StoreManagement(getActivity());
+                    store.setMainNavigationDrawerUserLearned(true);
                 }
 
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
@@ -228,7 +248,7 @@ public class MainNavigationDrawerFragment extends Fragment {
             }
         });
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
 
     @Override
@@ -244,40 +264,38 @@ public class MainNavigationDrawerFragment extends Fragment {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    /*
+/*
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // If the drawer is open, show the global app actions in the action bar. See also
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
         if (mDrawerLayout != null && isDrawerOpen()) {
             inflater.inflate(R.menu.global, menu);
-            //showGlobalContextActionBar();
+            showGlobalContextActionBar();
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
-    */
+*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        super.onOptionsItemSelected(item);
+        if (item == null || mDrawerToggle == null) return false;
+        return mDrawerToggle.onOptionsItemSelected(item);
     }
 
     /**
      * Per the navigation drawer design guidelines, updates the action bar to show the global app
      * 'context', rather than just what's in the current screen.
      */
-    /*
+/*
     private void showGlobalContextActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setTitle(R.string.app_name);
     }
-    */
+*/
 
     private ActionBar getActionBar() {
         return getActivity().getActionBar();

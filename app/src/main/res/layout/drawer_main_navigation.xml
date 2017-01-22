@@ -25,7 +25,7 @@
         <Button
             android:id="@+id/my_button_logout"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/list_selector_my_transp_background"
             android:textColor="@color/color_white"
