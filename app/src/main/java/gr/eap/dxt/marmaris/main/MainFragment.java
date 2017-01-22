@@ -1,4 +1,4 @@
-package gr.eap.dxt.main;
+package gr.eap.dxt.marmaris.main;
 
 import android.os.Bundle;
 import android.app.Fragment;

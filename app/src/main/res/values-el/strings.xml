@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- MainActivity -->
+    <string name="login">Είσοδος</string>
+    <string name="logout">\'Εξοδος</string>
+    <string name="welcome_to_scrum_tool">Καλώς ορίσατε στο scrum tool!</string>
+
+    <!-- MainNavigationDrawerFragment -->
+    <string name="home">Αρχική</string>
+    <string name="projects">Projects</string>
+    <string name="people">Μέλη</string>
+    <string name="backlog">Backlog</string>
+    <string name="sprints">Sprints</string>
+    <string name="about">Πληροφορίες</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- AboutFragment -->
+    <string name="eap">Ελληνικό Ανοικτό Πανεπιστήμιο</string>
+    <string name="eap_website">https://www.eap.gr</string>
+    <string name="app_description">Η παρούσα εφαρμογή αποτελεί τμήμα της διπλωματικής εργασίας με τίτλο \"Διαχείριση, παρακολούθηση και έλεγχος έργων πληροφορικής - ανάπτυξη Android λογισμικού υποστήριξης της μεθόδου SCRUM\"\n\nΣυγγραφέας: Γεώργιος Μαρμάρης\nΕπιβλέπων: Βασίλειος Κώστογλου\nΒ\΄ Αξιολογητής: Νικόλαος Φραγκάκης\n\nΕλληνικό Ανοικτό Πανεπιστήμιο\nΑριστοτέλους 18, 26335 Πάτρα, Ελλάδα</string>
+
+
+    <!-- ProgressBar, AlertDialog -->
+    <string name="loading">Φορτώνει&#8230;</string>
+    <string name="cancel">/Άκυρο</string>
+    <string name="ok">OK</string>
+    <string name="select">Επιλέξτε</string>
+
+</resources>

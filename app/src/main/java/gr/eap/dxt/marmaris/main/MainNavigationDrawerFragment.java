@@ -1,4 +1,4 @@
-package gr.eap.dxt.main;
+package gr.eap.dxt.marmaris.main;
 
 
 import android.annotation.TargetApi;
@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -21,20 +22,22 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import gr.eap.dxt.R;
-import gr.eap.dxt.tools.AppShared;
-import gr.eap.dxt.tools.StoreManagement;
+import gr.eap.dxt.marmaris.tools.AppShared;
+import gr.eap.dxt.marmaris.tools.ListMyOptionsItemAdapter;
+import gr.eap.dxt.marmaris.tools.MyOtionsItem;
+import gr.eap.dxt.marmaris.tools.StoreManagement;
 
 public class MainNavigationDrawerFragment extends Fragment {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
 
-    public static final String HOME = "gr.eap.dxt.main.MainNavigationDrawerFragment.HOME";
-    public static final String PROJECTS = "gr.eap.dxt.main.MainNavigationDrawerFragment.PROJECTS";
-    public static final String PEOPLE = "gr.eap.dxt.main.MainNavigationDrawerFragment.PEOPLE";
-    public static final String BACKLOG = "gr.eap.dxt.main.MainNavigationDrawerFragment.BACKLOG";
-    public static final String SPRINTS = "gr.eap.dxt.main.MainNavigationDrawerFragment.SPRINTS";
-    public static final String ABOUT = "gr.eap.dxt.main.MainNavigationDrawerFragment.ABOUT";
+    public static final String HOME = "gr.eap.dxt.marmaris.main.MainNavigationDrawerFragment.HOME";
+    public static final String PROJECTS = "gr.eap.dxt.marmaris.main.MainNavigationDrawerFragment.PROJECTS";
+    public static final String PEOPLE = "gr.eap.dxt.marmaris.main.MainNavigationDrawerFragment.PEOPLE";
+    public static final String BACKLOG = "gr.eap.dxt.marmaris.main.MainNavigationDrawerFragment.BACKLOG";
+    public static final String SPRINTS = "gr.eap.dxt.marmaris.main.MainNavigationDrawerFragment.SPRINTS";
+    public static final String ABOUT = "gr.eap.dxt.marmaris.main.MainNavigationDrawerFragment.ABOUT";
 
     public interface NavigationDrawerCallbacks {
         void onNavigationDrawerItemSelected(String itemId);
@@ -89,7 +92,7 @@ public class MainNavigationDrawerFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         StoreManagement store = new StoreManagement(getActivity());
-        mUserLearnedDrawer = store.getMainNavigationDrawerUserLearned();
+        mUserLearnedDrawer = store.userLearnedMainDrawer();
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION, 0);
@@ -227,7 +230,7 @@ public class MainNavigationDrawerFragment extends Fragment {
                     // the navigation drawer automatically in the future.
                     mUserLearnedDrawer = true;
                     StoreManagement store = new StoreManagement(getActivity());
-                    store.setMainNavigationDrawerUserLearned(true);
+                    store.setUserLearnedMainDrawer(true);
                 }
 
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
@@ -280,6 +283,7 @@ public class MainNavigationDrawerFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
+        //noinspection SimplifiableIfStatement
         if (item == null || mDrawerToggle == null) return false;
         return mDrawerToggle.onOptionsItemSelected(item);
     }
@@ -300,6 +304,12 @@ public class MainNavigationDrawerFragment extends Fragment {
     private ActionBar getActionBar() {
         return getActivity().getActionBar();
     }
+
+    /**
+     * Called only at the first launch and
+     * adds a shortcut on home screen
+     */
+
 
 
 }
