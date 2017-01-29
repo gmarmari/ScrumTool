@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 
 import java.util.ArrayList;
 
-import gr.eap.dxt.R;
+import gr.eap.dxt.marmaris.R;
 
 /**
  * Created by GEO on 22/1/2017.

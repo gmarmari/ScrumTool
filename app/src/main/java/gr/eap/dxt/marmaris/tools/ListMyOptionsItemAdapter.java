@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import gr.eap.dxt.R;
+import gr.eap.dxt.marmaris.R;
 
 /**
  * Created by GEO on 21/1/2017.

@@ -19,6 +19,21 @@ public class StoreManagement {
         }
     }
 
+    //Registration ID
+    private static final String PROPERTY_FCM_REG_ID = "FCMRegistrationId";
+    public String getFCMRegistrationId(){
+        if (prefs == null) return "";
+        return prefs.getString(PROPERTY_FCM_REG_ID, "");
+    }
+    public void setFCMRegistrationId(String regid){
+        if (regid == null) return;
+        if (prefs == null) return;
+        Editor editor = prefs.edit();
+        if (editor == null) return;
+        editor.putString(PROPERTY_FCM_REG_ID, regid);
+        editor.apply();
+    }
+
     private static final String PREF_USER_LEARNED_MAIN_DRAWER = "pref_user_learned_main_drawer";
     public boolean userLearnedMainDrawer(){
         return prefs != null && prefs.getBoolean(PREF_USER_LEARNED_MAIN_DRAWER, false);

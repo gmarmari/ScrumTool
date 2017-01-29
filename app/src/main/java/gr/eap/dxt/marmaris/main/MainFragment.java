@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import gr.eap.dxt.R;
+import gr.eap.dxt.marmaris.R;
 
 
 public class MainFragment extends Fragment {

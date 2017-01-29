@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "gr-eap-dxt-marmaris-scrumtool",
+  "private_key_id": "e99975df68b9bae27b68d834f8d0f75d1244ad89",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDSE8wqY2PAhksL\n3BJN83QqatWaRraUPz3xtVMKFP8RECD/lb8YbuLcLnJX1hbb64dWsq+ovMJqpJ7Y\nJdbnSBNxWJASGwj0OWTT0tnMMK1F9amUaBTmxvBPdRl2EzIziFuPx/4KMG+LuAuC\npj70KGNxIhKCu+r9v3xMwy0OeBRGXTO26LKuVs7Yxwp+YERz4P8gImm4EumiDC/I\n3rlEvVPW746a5iOLYNFH2V4Ju+/Hkk4rvCEs7NF3uAmp5TF/HzSGutKVy39NvutY\nnxugCZrvx0asSelEynMBVEHHkZwhXvnurbpyhUmRJYSTKqDZ96RFthAKn1Z7ba/6\nF4UKk3hBAgMBAAECggEBALrCvPRGLc1f1mHxwRgpwnFfTwx7px9+Zbx3nh5NckEi\nHKP75cp78hUa+a5a9zGGX2hVLNMPFKwoM8snQLmWmypeOJ7QCBLO33NtdRERiUmz\nz5HPQh20aLnK+dq90Bh+NiBKBO/cBZ6p/RmmYDtBmL5gMyKkm5IA5Sl9LpY5bJTr\n9IZRGrvIRPZ3a/MH1ckpHq7eoyccaKUda8IfzbQRjSKWBshbnBCHnljn6+7S8V1C\nfyjS+2nVVcX4cxi0asGKYY7MP4F0hJLKhDv3qSeUHtlmUNn+dIVoUghhO/yyqdmr\nwdUl95BfnkZMWPUzL5z/lfqPFjj9HAyFX8knPTGfQQ0CgYEA63F8UII1hvtX/A9/\nmPxcxy1skdwK/7XvgfQyFCTLc+JAUY4KN0KSCUShfNF33QXJwmyBpdwkXHrdoVVn\nOMUdX4nd/y46bz1ObD23+WkAHgP8ebG8PwEpN8t5r1qx+zW8NZ9mHJurInYR1Dzp\npyrTm1K1rphObqHdTkvUr36UESsCgYEA5GtYFoYM7w/IDog9bxhZnuRgSSJx0Nyd\nU+LH2AUAIK1Ij5ieFzG+5wNusali+Xpn1KGOV5A+qr7PjMxpZKCEiTXVmLeKE401\nFR5SXrDvWfKuWWspmetqL/af9eX82Y0zOeu5bqXKFx8JlhBGw0vIBMY/6H3lldKE\nzWhDIaUX7kMCgYEAxYRbSh8yUJ8jXO6TmQB9xQqyflsfTw6Oc3MtYADOPdWdJ84F\ne/55DRVqdJA2AlIMxPLKgR6B0qOwstw20EVtMu0yNBXQJ+pClEPix3XzBztI377f\nseuDbK9i0l0/2wNldYbX30Ao/awXoPnI+tjO1Qs6J9LWWbGpOzoan2+NQCkCgYAu\nsJJs6DG0m/E0pzyHfN60z9GuoU/KdY3jG7Plv//qrgDq+TM3Yn+3EMiLoCgO/qpC\nmFNUKrPkiuQ5z36rhvQQZ+SlNr8OiAqVqoEDwf7qz+Q7euAiCjDGZQ8FYGFyxp31\n9O0OZO0OFNYMyn7sZI0aDLv7deB743Ap3Gn8cpaVqQKBgFSl4BejPKgpc72lA/pb\nkbA9179OOextl80nnhNcs5tzAJVjR/NKdMJ/ocLR1J0s5i4MltQfkjj5O4BFl8NO\n+1dkPVMLLXc4v3FMlEltKWyD/JjiumN5GVftxWH/6+CMBvCNorFVhG74ijupK4bC\nfOrZT2sZhBX4jIij1rgaliAU\n-----END PRIVATE KEY-----\n",
+  "client_email": "scrumtool-servlet@gr-eap-dxt-marmaris-scrumtool.iam.gserviceaccount.com",
+  "client_id": "108430651023538141503",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/scrumtool-servlet%40gr-eap-dxt-marmaris-scrumtool.iam.gserviceaccount.com"
+}

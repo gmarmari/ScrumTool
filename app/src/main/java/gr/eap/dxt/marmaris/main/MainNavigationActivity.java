@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 
-import gr.eap.dxt.R;
+import com.google.android.gms.common.ConnectionResult;
+
+import gr.eap.dxt.marmaris.R;
 import gr.eap.dxt.marmaris.tools.AppShared;
+import gr.eap.dxt.marmaris.tools.GooglePlayServices;
 import gr.eap.dxt.marmaris.tools.StoreManagement;
 
 public class MainNavigationActivity extends Activity implements MainNavigationDrawerFragment.NavigationDrawerCallbacks{
@@ -27,6 +30,20 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
             addShortcut();
             store.setFirstRunAfterInstal(false);
         }
+
+        GooglePlayServices googlePlay = new GooglePlayServices(this);
+
+        // Check for GooglePlayServices and get the Push ID if it is not already gotten
+        int resultCode = googlePlay.checkPlayServices(true);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            // If error try second time
+            resultCode = googlePlay.checkPlayServices(false);
+        }
+        if (resultCode != ConnectionResult.SUCCESS) {
+            // If error try third time
+            googlePlay.checkPlayServices(false);
+        }
+        googlePlay.getRegistrationID();
     }
 
     /**

@@ -8,7 +8,7 @@ import android.os.AsyncTask;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import gr.eap.dxt.R;
+import gr.eap.dxt.marmaris.R;
 
 /**
  * Created by GEO on 22/1/2017.

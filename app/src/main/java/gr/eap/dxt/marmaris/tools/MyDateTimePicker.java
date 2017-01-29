@@ -12,7 +12,7 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 import java.util.Date;
 
-import gr.eap.dxt.R;
+import gr.eap.dxt.marmaris.R;
 
 /**
  * Created by GEO on 22/1/2017.

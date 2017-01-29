@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-import gr.eap.dxt.R;
+import gr.eap.dxt.marmaris.R;
 
 /**
  * Created by GEO on 22/1/2017.
