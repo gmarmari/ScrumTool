@@ -16,12 +16,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 import gr.eap.dxt.marmaris.R;
 import gr.eap.dxt.marmaris.tools.AppShared;
+import gr.eap.dxt.marmaris.tools.Keyboard;
 import gr.eap.dxt.marmaris.tools.ListMyOptionsItemAdapter;
 import gr.eap.dxt.marmaris.tools.MyOtionsItem;
 import gr.eap.dxt.marmaris.tools.StoreManagement;
@@ -40,6 +42,7 @@ public class MainNavigationDrawerFragment extends Fragment {
 
     public interface NavigationDrawerCallbacks {
         void onNavigationDrawerItemSelected(String itemId);
+        void openLoginFragment();
     }
     private NavigationDrawerCallbacks mCallbacks;
 
@@ -124,6 +127,33 @@ public class MainNavigationDrawerFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     int pos = position - mListView.getHeaderViewsCount();
                     handleItemSelection(pos);
+                }
+            });
+        }
+
+
+        Button button = (Button) rootView.findViewById(R.id.my_button_toggle_login);
+        if (button != null){
+            StoreManagement store = new StoreManagement(getActivity());
+            final boolean isLoggedIn = store.isLoggedIn();
+            if (isLoggedIn){
+                button.setText(R.string.logout);
+            }else{
+                button.setText(R.string.login);
+            }
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isLoggedIn){
+                        //: TODO logout
+                    }else{
+                        if (mDrawerLayout != null) {
+                            mDrawerLayout.closeDrawer(mFragmentContainerView);
+                        }
+                        if (mCallbacks != null) {
+                            mCallbacks.openLoginFragment();
+                        }
+                    }
                 }
             });
         }
@@ -232,6 +262,7 @@ public class MainNavigationDrawerFragment extends Fragment {
                     store.setUserLearnedMainDrawer(true);
                 }
 
+                Keyboard.close(getActivity());
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
         };

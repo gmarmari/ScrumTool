@@ -14,7 +14,8 @@ import gr.eap.dxt.marmaris.tools.AppShared;
 import gr.eap.dxt.marmaris.tools.GooglePlayServices;
 import gr.eap.dxt.marmaris.tools.StoreManagement;
 
-public class MainNavigationActivity extends Activity implements MainNavigationDrawerFragment.NavigationDrawerCallbacks{
+public class MainNavigationActivity extends Activity implements MainNavigationDrawerFragment.NavigationDrawerCallbacks,
+        LoginFragment.FragmentInteractionListener {
 
 
     @Override
@@ -46,9 +47,7 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         googlePlay.getRegistrationID();
     }
 
-    /**
-     * From MainNavigationDrawerFragment.NavigationDrawerCallbacks
-     */
+    /**  From {@link MainNavigationDrawerFragment.NavigationDrawerCallbacks} */
     @Override
     public void onNavigationDrawerItemSelected(String itemId) {
         if (itemId == null) {
@@ -68,6 +67,12 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
                 getFragmentManager().beginTransaction().replace(R.id.container, new Fragment()).commit();
                 break;
         }
+    }
+
+    /**  From {@link MainNavigationDrawerFragment.NavigationDrawerCallbacks} */
+    @Override
+    public void openLoginFragment() {
+        getFragmentManager().beginTransaction().replace(R.id.container, new LoginFragment()).commit();
     }
 
 /*
@@ -92,4 +97,9 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         getApplicationContext().sendBroadcast(addIntent);
     }
 
+    /** From {@link LoginFragment.FragmentInteractionListener}*/
+    @Override
+    public void onDidLogIn() {
+        //: TODO handle login
+    }
 }

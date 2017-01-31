@@ -57,4 +57,16 @@ public class StoreManagement {
         editor.putBoolean(PREF_FIRST_RUN_AFTER_INSTAL, value);
         editor.apply();
     }
+
+    private static final String PREF_IS_LOGGED_IN = "pref_is_logged_in";
+    public boolean isLoggedIn(){
+        return prefs != null && prefs.getBoolean(PREF_IS_LOGGED_IN, false);
+    }
+    public void setIsLoggedIn(boolean value){
+        if (prefs == null) return;
+        Editor editor = prefs.edit();
+        if (editor == null) return;
+        editor.putBoolean(PREF_IS_LOGGED_IN, value);
+        editor.apply();
+    }
 }

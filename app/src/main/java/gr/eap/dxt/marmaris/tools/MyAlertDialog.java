@@ -62,7 +62,7 @@ public class MyAlertDialog {
         itemSelectedListener = listener;
     }
 
-    private void alertMessage(){
+    public void alertMessage(){
         if (!type.equals(MyAlertDialogType.MESSAGE)) return;
         if (title == null && message == null) return;
 
@@ -78,7 +78,7 @@ public class MyAlertDialog {
         }
 
         if (negativeButtonListener == null && positiveButtonListener == null){
-            builder.setNegativeButton(R.string.cancel,
+            builder.setNegativeButton(R.string.ok,
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

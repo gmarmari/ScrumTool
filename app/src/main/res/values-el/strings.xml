@@ -21,11 +21,20 @@
     <string name="eap_website">https://www.eap.gr</string>
     <string name="app_description">Η παρούσα εφαρμογή αποτελεί τμήμα της διπλωματικής εργασίας με τίτλο \"Διαχείριση, παρακολούθηση και έλεγχος έργων πληροφορικής - ανάπτυξη Android λογισμικού υποστήριξης της μεθόδου SCRUM\"\n\nΣυγγραφέας: Γεώργιος Μαρμάρης\nΕπιβλέπων: Βασίλειος Κώστογλου\nΒ\΄ Αξιολογητής: Νικόλαος Φραγκάκης\n\nΕλληνικό Ανοικτό Πανεπιστήμιο\nΑριστοτέλους 18, 26335 Πάτρα, Ελλάδα</string>
 
+    <!-- LoginFragment -->
+    <string name="company">Εταιρεία</string>
+    <string name="email">E-mail</string>
+    <string name="password">Κωδικός</string>
+    <string name="enter_company">Συμπληρώστε την εταιρεία</string>
+    <string name="enter_email">Συμπληρώστε το e-mail</string>
+    <string name="invalid_email">\'Ακυρο e-mail</string>
+    <string name="enter_password">Δώστε τον κωδικό</string>
 
     <!-- ProgressBar, AlertDialog -->
     <string name="loading">Φορτώνει&#8230;</string>
     <string name="cancel">/Άκυρο</string>
     <string name="ok">OK</string>
     <string name="select">Επιλέξτε</string>
+    <string name="error_occured">Παρουσιάστηκε ένα σφάλμα!</string>
 
 </resources>
