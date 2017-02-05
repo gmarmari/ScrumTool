@@ -19,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 
 import gr.eap.dxt.marmaris.R;
@@ -45,6 +47,8 @@ public class MainNavigationDrawerFragment extends Fragment {
         void openLoginFragment();
     }
     private NavigationDrawerCallbacks mCallbacks;
+
+    private View rootView;
 
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -114,51 +118,62 @@ public class MainNavigationDrawerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView =  inflater.inflate( R.layout.drawer_main_navigation, container, false);
+        rootView =  inflater.inflate( R.layout.drawer_main_navigation, container, false);
 
-        mListView = (ListView) rootView.findViewById(R.id.my_list_view);
-        if (mListView != null){
-            mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            mListView.setItemChecked(mCurrentSelectedPosition, true);
-            ListMyOptionsItemAdapter adapter = new ListMyOptionsItemAdapter(getActivity(), items);
-            mListView.setAdapter(adapter);
-            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    int pos = position - mListView.getHeaderViewsCount();
-                    handleItemSelection(pos);
-                }
-            });
-        }
-
-
-        Button button = (Button) rootView.findViewById(R.id.my_button_toggle_login);
-        if (button != null){
-            StoreManagement store = new StoreManagement(getActivity());
-            final boolean isLoggedIn = store.isLoggedIn();
-            if (isLoggedIn){
-                button.setText(R.string.logout);
-            }else{
-                button.setText(R.string.login);
-            }
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (isLoggedIn){
-                        //: TODO logout
-                    }else{
-                        if (mDrawerLayout != null) {
-                            mDrawerLayout.closeDrawer(mFragmentContainerView);
-                        }
-                        if (mCallbacks != null) {
-                            mCallbacks.openLoginFragment();
-                        }
-                    }
-                }
-            });
-        }
+        setMyList();
+        setButtonToogleLogin();
 
         return rootView;
+    }
+
+    private void setMyList() {
+        if (rootView == null) return;
+
+        mListView = (ListView) rootView.findViewById(R.id.my_list_view);
+        if (mListView == null) return;
+
+        mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        mListView.setItemChecked(mCurrentSelectedPosition, true);
+        ListMyOptionsItemAdapter adapter = new ListMyOptionsItemAdapter(getActivity(), items);
+        mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int pos = position - mListView.getHeaderViewsCount();
+                handleItemSelection(pos);
+            }
+        });
+
+    }
+
+    private void setButtonToogleLogin(){
+        if (rootView == null) return;
+
+        final Button button = (Button) rootView.findViewById(R.id.my_button_toggle_login);
+        if (button == null) return;
+        if (AppShared.getUserLogged() != null) {
+            button.setText(R.string.logout);
+        } else {
+            button.setText(R.string.login);
+        }
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (AppShared.getUserLogged() != null) {
+                    FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+                    mFirebaseAuth.signOut();
+                    AppShared.loggout();
+                    button.setText(R.string.login);
+                } else {
+                    if (mDrawerLayout != null) {
+                        mDrawerLayout.closeDrawer(mFragmentContainerView);
+                    }
+                    if (mCallbacks != null) {
+                        mCallbacks.openLoginFragment();
+                    }
+                }
+            }
+        });
     }
 
     private void createListItems(){
@@ -262,6 +277,7 @@ public class MainNavigationDrawerFragment extends Fragment {
                     store.setUserLearnedMainDrawer(true);
                 }
 
+                setButtonToogleLogin();
                 Keyboard.close(getActivity());
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }

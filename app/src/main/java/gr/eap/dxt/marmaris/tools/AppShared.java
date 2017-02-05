@@ -6,11 +6,27 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import gr.eap.dxt.marmaris.persons.Person;
+
 /**
  * Created by GEO on 21/1/2017.
  */
 
 public class AppShared {
+
+    private static Person userLogged;
+    public static Person getUserLogged(){
+        return userLogged;
+    }
+    public static void setUserLogged(Person person){
+        if (person == null) return;
+        if (person.getPersonId() == null || person.getPersonId().isEmpty()) return;
+
+        userLogged = person;
+    }
+    public static void loggout(){
+        userLogged = null;
+    }
 
     private static String logString = "";
     public static String getLogString(){

@@ -17,10 +17,7 @@ public abstract class MyAsyncTask extends AsyncTask<Void, Integer, Void> impleme
         return context;
     }
 
-    private String errorno;
-    protected String getErrorno(){
-        return errorno;
-    }
+    protected String errorno;
 
     private boolean allowCancel;
 
@@ -91,7 +88,14 @@ public abstract class MyAsyncTask extends AsyncTask<Void, Integer, Void> impleme
     protected void alertError(String error){
         if (error == null || error.isEmpty()) return;
         writeError(error);
-       // if (notify) new AlertWithDetails(context).showAlert(error);
+
+       if (notify) {
+           new MyAlertDialog(context,
+                   context.getResources().getString(R.string.error_occured),
+                   R.drawable.ic_action_warning_purple,
+                   error,
+                   MyAlertDialog.MyAlertDialogType.MESSAGE).alertMessage();
+       }
     }
 
 

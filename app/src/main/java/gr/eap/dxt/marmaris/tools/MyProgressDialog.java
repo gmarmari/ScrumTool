@@ -26,6 +26,11 @@ public class MyProgressDialog {
         this.mAsyncTask = mAsyncTask;
     }
 
+    private FirebaseCall mFirebaseCall;
+    public void setFirebaseCall(FirebaseCall mFirebaseCall){
+        this.mFirebaseCall = mFirebaseCall;
+    }
+
     // Constructor for Styled Dialog with custom title
     public MyProgressDialog(Context context, String message, boolean allowCancel) {
         this.context = context;
@@ -74,7 +79,11 @@ public class MyProgressDialog {
             public void run() {
                 if(dialog.isShowing()){
                     dialog.dismiss();
-                    if (mAsyncTask != null) mAsyncTask.cancel(true);
+                    if (mAsyncTask != null) {
+                        mAsyncTask.cancel(true);
+                    }else if (mFirebaseCall != null){
+                        mFirebaseCall.cancel();
+                    }
                 }
                 timer.cancel();
             }

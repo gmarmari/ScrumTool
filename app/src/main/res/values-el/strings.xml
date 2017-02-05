@@ -2,8 +2,6 @@
 <resources>
 
     <!-- MainActivity -->
-    <string name="login">Είσοδος</string>
-    <string name="logout">\'Εξοδος</string>
     <string name="welcome_to_scrum_tool">Καλώς ορίσατε στο scrum tool!</string>
 
     <!-- MainNavigationDrawerFragment -->
@@ -22,6 +20,8 @@
     <string name="app_description">Η παρούσα εφαρμογή αποτελεί τμήμα της διπλωματικής εργασίας με τίτλο \"Διαχείριση, παρακολούθηση και έλεγχος έργων πληροφορικής - ανάπτυξη Android λογισμικού υποστήριξης της μεθόδου SCRUM\"\n\nΣυγγραφέας: Γεώργιος Μαρμάρης\nΕπιβλέπων: Βασίλειος Κώστογλου\nΒ\΄ Αξιολογητής: Νικόλαος Φραγκάκης\n\nΕλληνικό Ανοικτό Πανεπιστήμιο\nΑριστοτέλους 18, 26335 Πάτρα, Ελλάδα</string>
 
     <!-- LoginFragment -->
+    <string name="login">Είσοδος</string>
+    <string name="logout">\'Εξοδος</string>
     <string name="company">Εταιρεία</string>
     <string name="email">E-mail</string>
     <string name="password">Κωδικός</string>
@@ -30,11 +30,30 @@
     <string name="invalid_email">\'Ακυρο e-mail</string>
     <string name="enter_password">Δώστε τον κωδικό</string>
 
+    <!-- PersonFragment -->
+    <string name="developer">Προγραμματιστής</string>
+    <string name="product_owner">Product owner</string>
+    <string name="scrum_master">Scrum master</string>
+    <string name="stakeholder">Ενδιαφερόμενος</string>
+    <string name="person">Μέλος</string>
+    <string name="person_deleted">Το μέλος διαγράφηκε</string>
+    <string name="name">\'Ονομα</string>
+    <string name="role">Ρόλος</string>
+
     <!-- ProgressBar, AlertDialog -->
     <string name="loading">Φορτώνει&#8230;</string>
+    <string name="login_progress">Είσοδος&#8230;</string>
+    <string name="get_persons_progress">Φόρτωση των μελών&#8230;</string>
     <string name="cancel">/Άκυρο</string>
     <string name="ok">OK</string>
     <string name="select">Επιλέξτε</string>
     <string name="error_occured">Παρουσιάστηκε ένα σφάλμα!</string>
+    <string name="add">Προσθήκη</string>
+    <string name="edit">Επεξεργασία</string>
+    <string name="delete">Διαγραφή</string>
+    <string name="all">\'Ολα</string>
+    <string name="back">Πίσω</string>
+    <string name="none">Αδιευκρίνιστο</string>
+    <string name="no_change_occured">Δεν πραγματοποιήθηκε καμία αλλαγή</string>
 
 </resources>

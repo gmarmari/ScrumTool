@@ -58,15 +58,34 @@ public class StoreManagement {
         editor.apply();
     }
 
-    private static final String PREF_IS_LOGGED_IN = "pref_is_logged_in";
-    public boolean isLoggedIn(){
-        return prefs != null && prefs.getBoolean(PREF_IS_LOGGED_IN, false);
+    // Saved e-mail for execute
+    private static final String SAVED_EMAIL_FOR_LOGIN = "saved_email_for_login";
+    public String getSavedEmailForLogin(){
+        if (prefs == null) return "";
+        return prefs.getString(SAVED_EMAIL_FOR_LOGIN, "");
     }
-    public void setIsLoggedIn(boolean value){
+    public void setSavedEmailForLogin(String email){
+        if (email == null) return;
         if (prefs == null) return;
         Editor editor = prefs.edit();
         if (editor == null) return;
-        editor.putBoolean(PREF_IS_LOGGED_IN, value);
+        editor.putString(SAVED_EMAIL_FOR_LOGIN, email);
         editor.apply();
     }
+
+    // Saved passwort for execute
+    private static final String SAVED_PASSWORD_FOR_LOGIN = "saved_password_for_login";
+    public String getSavedPasswordForLogin(){
+        if (prefs == null) return "";
+        return prefs.getString(SAVED_PASSWORD_FOR_LOGIN, "");
+    }
+    public void setSavedPasswordForLogin(String password){
+        if (password == null) return;
+        if (prefs == null) return;
+        Editor editor = prefs.edit();
+        if (editor == null) return;
+        editor.putString(SAVED_PASSWORD_FOR_LOGIN, password);
+        editor.apply();
+    }
+
 }

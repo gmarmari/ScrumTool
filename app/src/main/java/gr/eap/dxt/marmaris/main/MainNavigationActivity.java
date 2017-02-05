@@ -8,14 +8,23 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 
 import gr.eap.dxt.marmaris.R;
+import gr.eap.dxt.marmaris.login.FirebaseLogin;
+import gr.eap.dxt.marmaris.login.LoginFragment;
+import gr.eap.dxt.marmaris.persons.Person;
+import gr.eap.dxt.marmaris.persons.PersonDialogActivity;
+import gr.eap.dxt.marmaris.persons.PersonsFragment;
 import gr.eap.dxt.marmaris.tools.AppShared;
 import gr.eap.dxt.marmaris.tools.GooglePlayServices;
+import gr.eap.dxt.marmaris.tools.MyRequestCodes;
 import gr.eap.dxt.marmaris.tools.StoreManagement;
 
 public class MainNavigationActivity extends Activity implements MainNavigationDrawerFragment.NavigationDrawerCallbacks,
-        LoginFragment.FragmentInteractionListener {
+        LoginFragment.FragmentInteractionListener,
+        PersonsFragment.FragmentInteractionListener{
 
 
     @Override
@@ -45,6 +54,40 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
             googlePlay.checkPlayServices(false);
         }
         googlePlay.getRegistrationID();
+
+        if (AppShared.getUserLogged() == null){
+            if (store.getSavedEmailForLogin() != null
+                    && !store.getSavedEmailForLogin().isEmpty()
+                    && store.getSavedPasswordForLogin() != null
+                    && !store.getSavedPasswordForLogin().isEmpty()){
+
+                new FirebaseLogin(this, store.getSavedEmailForLogin(), store.getSavedPasswordForLogin(), false, new FirebaseLogin.Listener() {
+                    @Override
+                    public void onResponse(Task<AuthResult> task) {
+                        if (task != null){
+                            if (task.isSuccessful()){
+                                AppShared.writeInfoToLogString(getClass().toString(), "Logged in to firebase automatically on start up.");
+                            }
+                        }
+                    }
+                }).execute();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MyRequestCodes.PERSON_EDIT_REQUEST){
+            if (resultCode == RESULT_OK){
+                // Person Editted
+                if (data != null){
+                    if (data.getBooleanExtra(PersonDialogActivity.RELOAD, false)){
+                        openFragmentPerson();
+                    }
+                }
+            }
+        }
     }
 
     /**  From {@link MainNavigationDrawerFragment.NavigationDrawerCallbacks} */
@@ -57,10 +100,13 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
 
         switch (itemId) {
             case MainNavigationDrawerFragment.HOME:
-                getFragmentManager().beginTransaction().replace(R.id.container, MainFragment.newInstance()).commit();
+                openFragmentHome();
                 break;
             case MainNavigationDrawerFragment.ABOUT:
-                getFragmentManager().beginTransaction().replace(R.id.container, AboutFragment.newInstance()).commit();
+                openFragmentAbout();
+                break;
+            case MainNavigationDrawerFragment.PEOPLE:
+                openFragmentPerson();
                 break;
             default:
                 AppShared.writeErrorToLogString(getClass().toString(), "Not supported itemId: " + itemId);
@@ -68,6 +114,19 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
                 break;
         }
     }
+
+    private void openFragmentHome(){
+        getFragmentManager().beginTransaction().replace(R.id.container, MainFragment.newInstance()).commit();
+    }
+
+    private void openFragmentAbout(){
+        getFragmentManager().beginTransaction().replace(R.id.container, AboutFragment.newInstance()).commit();
+    }
+
+    private void openFragmentPerson(){
+        getFragmentManager().beginTransaction().replace(R.id.container, PersonsFragment.newInstance()).commit();
+    }
+
 
     /**  From {@link MainNavigationDrawerFragment.NavigationDrawerCallbacks} */
     @Override
@@ -99,7 +158,21 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
 
     /** From {@link LoginFragment.FragmentInteractionListener}*/
     @Override
-    public void onDidLogIn() {
-        //: TODO handle login
+    public void onDidLogIn(Task<AuthResult> task) {
+        if (task != null){
+            if (task.isSuccessful()){
+                AppShared.writeInfoToLogString(getClass().toString(), "Logged in to firebase");
+            }
+        }
+
+        openFragmentHome();
+    }
+
+    /** From {@link PersonsFragment.FragmentInteractionListener}*/
+    @Override
+    public void onShowPerson(Person person) {
+        PersonDialogActivity.setStaticContent(person);
+        Intent intent = new Intent(this, PersonDialogActivity.class);
+        startActivityForResult(intent, MyRequestCodes.PERSON_EDIT_REQUEST);
     }
 }
