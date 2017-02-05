@@ -6,13 +6,13 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
 import gr.eap.dxt.marmaris.R;
-import gr.eap.dxt.marmaris.login.FirebaseLogin;
 import gr.eap.dxt.marmaris.login.LoginFragment;
 import gr.eap.dxt.marmaris.persons.Person;
 import gr.eap.dxt.marmaris.persons.PersonDialogActivity;
@@ -25,7 +25,6 @@ import gr.eap.dxt.marmaris.tools.StoreManagement;
 public class MainNavigationActivity extends Activity implements MainNavigationDrawerFragment.NavigationDrawerCallbacks,
         LoginFragment.FragmentInteractionListener,
         PersonsFragment.FragmentInteractionListener{
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,23 +55,17 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         googlePlay.getRegistrationID();
 
         if (AppShared.getUserLogged() == null){
-            if (store.getSavedEmailForLogin() != null
-                    && !store.getSavedEmailForLogin().isEmpty()
-                    && store.getSavedPasswordForLogin() != null
-                    && !store.getSavedPasswordForLogin().isEmpty()){
-
-                new FirebaseLogin(this, store.getSavedEmailForLogin(), store.getSavedPasswordForLogin(), false, new FirebaseLogin.Listener() {
-                    @Override
-                    public void onResponse(Task<AuthResult> task) {
-                        if (task != null){
-                            if (task.isSuccessful()){
-                                AppShared.writeInfoToLogString(getClass().toString(), "Logged in to firebase automatically on start up.");
-                            }
-                        }
-                    }
-                }).execute();
-            }
+            openDrawer();
         }
+    }
+
+    private void openDrawer(){
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (mDrawerLayout == null) return;
+        View mFragmentContainerView = findViewById(R.id.navigation_drawer);
+        if (mFragmentContainerView == null) return;
+
+        mDrawerLayout.openDrawer(mFragmentContainerView);
     }
 
     @Override
@@ -131,7 +124,7 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
     /**  From {@link MainNavigationDrawerFragment.NavigationDrawerCallbacks} */
     @Override
     public void openLoginFragment() {
-        getFragmentManager().beginTransaction().replace(R.id.container, new LoginFragment()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.container, LoginFragment.newInstance()).commit();
     }
 
 /*

@@ -15,12 +15,11 @@ import android.widget.EditText;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import gr.eap.dxt.marmaris.R;
 import gr.eap.dxt.marmaris.tools.Keyboard;
 import gr.eap.dxt.marmaris.tools.MyToast;
+import gr.eap.dxt.marmaris.tools.StoreManagement;
 
 public class LoginFragment extends Fragment {
 
@@ -30,15 +29,11 @@ public class LoginFragment extends Fragment {
     private FragmentInteractionListener mListener;
 
     public LoginFragment() { }
+
     public static LoginFragment newInstance() {
-        LoginFragment fragment = new LoginFragment();
-        return fragment;
+        return new LoginFragment();
     }
 
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
-
-    private String company;
     private String email;
     private String password;
 
@@ -80,29 +75,13 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
-        EditText companyEditText = (EditText) rootView.findViewById(R.id.company);
-        if (companyEditText != null){
-            companyEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    if (editable == null) return;
-                    company = editable.toString();
-                }
-            });
-        }
+        StoreManagement store = new StoreManagement(getActivity());
 
         EditText emailEditText = (EditText) rootView.findViewById(R.id.email);
         if (emailEditText != null){
+            email = store.getSavedEmailForLogin();
+            emailEditText.setText(email != null ? email : "");
+
             emailEditText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -124,6 +103,9 @@ public class LoginFragment extends Fragment {
 
         EditText passwordEditText = (EditText) rootView.findViewById(R.id.password);
         if (passwordEditText != null){
+            password = store.getSavedPasswordForLogin();
+            passwordEditText.setText(password != null ? password : "");
+
             passwordEditText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -159,10 +141,6 @@ public class LoginFragment extends Fragment {
     private void login(){
         Keyboard.close(getActivity());
 
-        if (company == null || company.isEmpty()){
-            new MyToast(getActivity(), R.string.enter_company).show();
-            return;
-        }
         if (email == null || email.isEmpty()){
             new MyToast(getActivity(), R.string.enter_email).show();
             return;
@@ -176,15 +154,15 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-       new FirebaseLogin(getActivity(), email, password, true, new FirebaseLogin.Listener() {
-           @Override
-           public void onResponse(Task<AuthResult> task) {
+        new FirebaseLogin(getActivity(), email, password, true, new FirebaseLogin.Listener() {
+            @Override
+            public void onResponse(Task<AuthResult> task) {
 
-               if (mListener != null){
-                   mListener.onDidLogIn(task);
-               }
-           }
-       }).execute();
+                if (mListener != null) {
+                    mListener.onDidLogIn(task);
+                }
+            }
+        }).execute();
     }
 
 

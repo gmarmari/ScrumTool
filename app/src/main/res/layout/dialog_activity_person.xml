@@ -45,7 +45,9 @@
                 android:text="@string/edit"
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/font_size_large"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:maxLines="2"/>
 
         </LinearLayout>
 
