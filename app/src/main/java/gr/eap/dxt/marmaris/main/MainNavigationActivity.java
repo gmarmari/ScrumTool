@@ -11,6 +11,7 @@ import android.view.View;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import gr.eap.dxt.marmaris.R;
 import gr.eap.dxt.marmaris.login.LoginFragment;
@@ -55,6 +56,8 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         googlePlay.getRegistrationID();
 
         if (AppShared.getUserLogged() == null){
+            FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+            mFirebaseAuth.signOut();
             openDrawer();
         }
     }
