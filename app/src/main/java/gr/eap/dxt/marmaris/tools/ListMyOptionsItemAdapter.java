@@ -24,6 +24,7 @@ public class ListMyOptionsItemAdapter extends ArrayAdapter<MyOtionsItem> {
     private ArrayList<MyOtionsItem> items;
     private int resource;
 
+
     public ListMyOptionsItemAdapter(Context context, ArrayList<MyOtionsItem> items) {
         super(context, R.layout.list_my_options_item, items != null ? items : new ArrayList<MyOtionsItem>());
         this.context = context;

@@ -2,7 +2,6 @@
 <resources>
 
     <!-- MainActivity -->
-    <string name="welcome_to_scrum_tool">Καλώς ορίσατε στο scrum tool!</string>
 
     <!-- MainNavigationDrawerFragment -->
     <string name="home">Αρχική</string>
@@ -14,6 +13,12 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- HomeFragment -->
+    <string name="welcome">Καλώς όρισες στο scrumtool</string>
+    <string name="group_consists_of">Η ομάδα σας αποτελείτε από</string>
+    <string name="members">μέλη</string>
+    <string name="currently_you_work_on">Αυτή τη στιγμή ασχολείστε με</string>
+
     <!-- AboutFragment -->
     <string name="eap">Ελληνικό Ανοικτό Πανεπιστήμιο</string>
     <string name="eap_website">https://www.eap.gr</string>
@@ -22,10 +27,8 @@
     <!-- LoginFragment -->
     <string name="login">Είσοδος</string>
     <string name="logout">\'Εξοδος</string>
-    <string name="company">Εταιρεία</string>
     <string name="email">E-mail</string>
     <string name="password">Κωδικός</string>
-    <string name="enter_company">Συμπληρώστε την εταιρεία</string>
     <string name="enter_email">Συμπληρώστε το e-mail</string>
     <string name="invalid_email">\'Ακυρο e-mail</string>
     <string name="enter_password">Δώστε τον κωδικό</string>
@@ -39,6 +42,8 @@
     <string name="person_deleted">Το μέλος διαγράφηκε</string>
     <string name="name">\'Ονομα</string>
     <string name="role">Ρόλος</string>
+
+    <!-- ProjectFragment -->
 
     <!-- ProgressBar, AlertDialog -->
     <string name="loading">Φορτώνει&#8230;</string>

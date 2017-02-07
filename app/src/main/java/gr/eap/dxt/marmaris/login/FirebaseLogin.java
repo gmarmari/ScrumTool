@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+import gr.eap.dxt.marmaris.R;
 import gr.eap.dxt.marmaris.persons.Person;
 import gr.eap.dxt.marmaris.persons.PersonRole;
 import gr.eap.dxt.marmaris.tools.AppShared;
@@ -24,7 +25,7 @@ import gr.eap.dxt.marmaris.tools.StoreManagement;
  * Created by GEO on 2/2/2017.
  */
 
-public class FirebaseLogin extends FirebaseCall{
+class FirebaseLogin extends FirebaseCall{
 
     public interface Listener {
         void onResponse(Task<AuthResult> task);
@@ -35,11 +36,12 @@ public class FirebaseLogin extends FirebaseCall{
     private String password;
 
 
-    public FirebaseLogin(@NonNull Activity activity, String email, String password, boolean notify, Listener mListener) {
-        super(activity, notify, false);
+    FirebaseLogin(@NonNull Activity activity, String email, String password, Listener mListener) {
+        super(activity, true, false);
         this.email = email;
         this.password = password;
         this.mListener = mListener;
+        setDialogTitle(getContext().getString(R.string.login_progress));
     }
 
     public void execute(){
@@ -113,7 +115,7 @@ public class FirebaseLogin extends FirebaseCall{
                                 person.setPersonRole(childShapshot.child(PersonRole.FIREBASE_ITEM).getValue().toString());
                             }
 
-                            AppShared.setUserLogged(person);
+                            AppShared.setLogginUser(person);
                             giveOutput(task);
                             return;
                         }
@@ -153,7 +155,7 @@ public class FirebaseLogin extends FirebaseCall{
                             addErrorNo(databaseError.getMessage());
                         }
 
-                        AppShared.setUserLogged(person);
+                        AppShared.setLogginUser(person);
                         giveOutput(task);
                     }
                 });
@@ -161,6 +163,7 @@ public class FirebaseLogin extends FirebaseCall{
         }
     }
 
+    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
     private void giveOutput(Task<AuthResult> task){
         super.giveOutput();
 

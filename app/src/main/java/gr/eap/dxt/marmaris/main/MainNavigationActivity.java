@@ -14,6 +14,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import gr.eap.dxt.marmaris.R;
+import gr.eap.dxt.marmaris.login.FirebaseGetUser;
 import gr.eap.dxt.marmaris.login.LoginFragment;
 import gr.eap.dxt.marmaris.persons.Person;
 import gr.eap.dxt.marmaris.persons.PersonDialogActivity;
@@ -25,7 +26,8 @@ import gr.eap.dxt.marmaris.tools.StoreManagement;
 
 public class MainNavigationActivity extends Activity implements MainNavigationDrawerFragment.NavigationDrawerCallbacks,
         LoginFragment.FragmentInteractionListener,
-        PersonsFragment.FragmentInteractionListener{
+        PersonsFragment.FragmentInteractionListener,
+        HomeFragment.FragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +57,18 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         }
         googlePlay.getRegistrationID();
 
-        if (AppShared.getUserLogged() == null){
-            FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-            mFirebaseAuth.signOut();
-            openDrawer();
+        if (AppShared.getLogginUser() == null){
+            new FirebaseGetUser(this, new FirebaseGetUser.Listener() {
+                @Override
+                public void onResponse(Person person) {
+                    if (person != null){
+                        AppShared.setLogginUser(person);
+                        openFragmentHome();
+                    }else{
+                        openDrawer();
+                    }
+                }
+            }).execute();
         }
     }
 
@@ -69,6 +79,15 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         if (mFragmentContainerView == null) return;
 
         mDrawerLayout.openDrawer(mFragmentContainerView);
+    }
+
+    private void closeDrawer(){
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (mDrawerLayout == null) return;
+        View mFragmentContainerView = findViewById(R.id.navigation_drawer);
+        if (mFragmentContainerView == null) return;
+
+        mDrawerLayout.closeDrawers();
     }
 
     @Override
@@ -84,6 +103,14 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
                 }
             }
         }
+    }
+
+    private void openFragmentHome(){
+        getFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance()).commit();
+    }
+
+    private void openFragmentAbout(){
+        getFragmentManager().beginTransaction().replace(R.id.container, AboutFragment.newInstance()).commit();
     }
 
     /**  From {@link MainNavigationDrawerFragment.NavigationDrawerCallbacks} */
@@ -111,45 +138,26 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         }
     }
 
-    private void openFragmentHome(){
-        getFragmentManager().beginTransaction().replace(R.id.container, MainFragment.newInstance()).commit();
+    /** From {@link MainNavigationDrawerFragment.NavigationDrawerCallbacks}*/
+    @Override
+    public void logout() {
+        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseAuth.signOut();
+        AppShared.logout();
+        closeDrawer();
+        openFragmentHome();
     }
 
-    private void openFragmentAbout(){
-        getFragmentManager().beginTransaction().replace(R.id.container, AboutFragment.newInstance()).commit();
-    }
-
-    private void openFragmentPerson(){
+    /**  From {@link HomeFragment.FragmentInteractionListener} */
+    @Override
+    public void openFragmentPerson(){
         getFragmentManager().beginTransaction().replace(R.id.container, PersonsFragment.newInstance()).commit();
     }
-
 
     /**  From {@link MainNavigationDrawerFragment.NavigationDrawerCallbacks} */
     @Override
     public void openLoginFragment() {
         getFragmentManager().beginTransaction().replace(R.id.container, LoginFragment.newInstance()).commit();
-    }
-
-/*
-    public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-*/
-
-    private void addShortcut() {
-        Intent shortcutIntent = new Intent(getApplicationContext(), MainNavigationActivity.class);
-
-        shortcutIntent.setAction(Intent.ACTION_MAIN);
-
-        Intent addIntent = new Intent();
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getResources().getString(R.string.app_name));
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_launcher));
-        addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-        getApplicationContext().sendBroadcast(addIntent);
     }
 
     /** From {@link LoginFragment.FragmentInteractionListener}*/
@@ -164,11 +172,39 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         openFragmentHome();
     }
 
-    /** From {@link PersonsFragment.FragmentInteractionListener}*/
+    /** From {@link PersonsFragment.FragmentInteractionListener}
+     *  and
+     * {@link HomeFragment.FragmentInteractionListener}
+     * */
     @Override
     public void onShowPerson(Person person) {
         PersonDialogActivity.setStaticContent(person);
         Intent intent = new Intent(this, PersonDialogActivity.class);
         startActivityForResult(intent, MyRequestCodes.PERSON_EDIT_REQUEST);
+    }
+
+
+
+
+    /*
+    public void restoreActionBar() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(mTitle);
+    }
+    */
+
+    private void addShortcut() {
+        Intent shortcutIntent = new Intent(getApplicationContext(), MainNavigationActivity.class);
+
+        shortcutIntent.setAction(Intent.ACTION_MAIN);
+
+        Intent addIntent = new Intent();
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getResources().getString(R.string.app_name));
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_launcher));
+        addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        getApplicationContext().sendBroadcast(addIntent);
     }
 }

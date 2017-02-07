@@ -66,11 +66,6 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
@@ -154,7 +149,7 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-        new FirebaseLogin(getActivity(), email, password, true, new FirebaseLogin.Listener() {
+        new FirebaseLogin(getActivity(), email, password, new FirebaseLogin.Listener() {
             @Override
             public void onResponse(Task<AuthResult> task) {
 
@@ -165,8 +160,7 @@ public class LoginFragment extends Fragment {
         }).execute();
     }
 
-
-
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isEmailValid(String email) {
         return !(email == null || email.isEmpty()) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }

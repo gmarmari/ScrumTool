@@ -3,6 +3,8 @@ package gr.eap.dxt.marmaris.tools;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.view.ContextThemeWrapper;
 
 import java.util.ArrayList;
@@ -67,7 +69,14 @@ public class MyAlertDialog {
         if (!type.equals(MyAlertDialogType.MESSAGE)) return;
         if (title == null && message == null) return;
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, android.R.style.Theme_Material_Dialog));
+        @SuppressWarnings("deprecation")
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(new ContextThemeWrapper(context, android.R.style.Theme_Material_Dialog));
+        }else{
+            builder = new AlertDialog.Builder(context);
+        }
+
         if (title != null) builder.setTitle(title);
         if (message != null)  builder.setMessage(message);
         if (icon != null) builder.setIcon(icon);
@@ -114,6 +123,7 @@ public class MyAlertDialog {
         builder.show();
     }
 
+    @SuppressWarnings("SameParameterValue")
     public static void alertError(Context context, String title, String error){
         if (context == null) return;
         if (error == null || error.isEmpty()) return;

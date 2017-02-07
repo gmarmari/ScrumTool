@@ -2,6 +2,7 @@ package gr.eap.dxt.marmaris.tools;
 
 import android.util.Log;
 
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -14,18 +15,18 @@ import gr.eap.dxt.marmaris.persons.Person;
 
 public class AppShared {
 
-    private static Person userLogged;
-    public static Person getUserLogged(){
-        return userLogged;
+    private static Person logginUser;
+    public static Person getLogginUser(){
+        return logginUser;
     }
-    public static void setUserLogged(Person person){
+    public static void setLogginUser(Person person){
         if (person == null) return;
         if (person.getPersonId() == null || person.getPersonId().isEmpty()) return;
 
-        userLogged = person;
+        logginUser = person;
     }
-    public static void loggout(){
-        userLogged = null;
+    public static void logout(){
+        logginUser = null;
     }
 
     private static String logString = "";

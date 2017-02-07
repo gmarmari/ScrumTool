@@ -7,6 +7,7 @@ package gr.eap.dxt.marmaris.tools;
 public interface MyAsyncTaskListeners {
 
     void myOnPreExecute();
+    @SuppressWarnings("RedundantThrows")
     void myDoInBackground() throws Exception;
     void myOnPostExecute();
 

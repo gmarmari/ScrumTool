@@ -19,8 +19,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.ArrayList;
 
 import gr.eap.dxt.marmaris.R;
@@ -45,6 +43,7 @@ public class MainNavigationDrawerFragment extends Fragment {
     public interface NavigationDrawerCallbacks {
         void onNavigationDrawerItemSelected(String itemId);
         void openLoginFragment();
+        void logout();
     }
     private NavigationDrawerCallbacks mCallbacks;
 
@@ -131,7 +130,6 @@ public class MainNavigationDrawerFragment extends Fragment {
         if (mListView == null) return;
 
         mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        mListView.setItemChecked(mCurrentSelectedPosition, true);
         ListMyOptionsItemAdapter adapter = new ListMyOptionsItemAdapter(getActivity(), items);
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -149,7 +147,7 @@ public class MainNavigationDrawerFragment extends Fragment {
 
         final Button button = (Button) rootView.findViewById(R.id.my_button_toggle_login);
         if (button == null) return;
-        if (AppShared.getUserLogged() != null) {
+        if (AppShared.getLogginUser() != null) {
             button.setText(R.string.logout);
         } else {
             button.setText(R.string.login);
@@ -157,10 +155,8 @@ public class MainNavigationDrawerFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (AppShared.getUserLogged() != null) {
-                    FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-                    mFirebaseAuth.signOut();
-                    AppShared.loggout();
+                if (AppShared.getLogginUser() != null) {
+                    if (mCallbacks != null) mCallbacks.logout();
                     button.setText(R.string.login);
                 } else {
                     if (mDrawerLayout != null) {
@@ -211,9 +207,6 @@ public class MainNavigationDrawerFragment extends Fragment {
         }
 
         mCurrentSelectedPosition = position;
-        if (mListView != null) {
-            mListView.setItemChecked(position, true);
-        }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }

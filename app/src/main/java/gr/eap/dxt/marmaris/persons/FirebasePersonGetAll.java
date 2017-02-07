@@ -18,16 +18,16 @@ import gr.eap.dxt.marmaris.tools.FirebaseCall;
  * Created by GEO on 5/2/2017.
  */
 
-public class FirebasePersonGetAll extends FirebaseCall{
+class FirebasePersonGetAll extends FirebaseCall{
 
-    public interface Listener {
+    interface Listener {
         void onResponse(ArrayList<Person> persons);
     }
     private Listener mListener;
 
 
-    public FirebasePersonGetAll(Context context, boolean notify, boolean allowCancel, Listener mListener){
-        super(context, notify, allowCancel);
+    FirebasePersonGetAll(Context context, Listener mListener){
+        super(context, true, true);
         this.mListener = mListener;
         setDialogTitle(context.getString(R.string.get_persons_progress));
     }
@@ -41,7 +41,6 @@ public class FirebasePersonGetAll extends FirebaseCall{
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot == null) {
                     addErrorNo("dataSnapshot == null");
-
                     giveOutput(null);
                     return;
                 }
