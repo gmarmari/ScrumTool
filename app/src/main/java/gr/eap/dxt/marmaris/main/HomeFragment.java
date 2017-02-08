@@ -153,16 +153,19 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        new FirebasePersonGetNumber(getActivity(), new FirebasePersonGetNumber.Listener() {
-            @Override
-            public void onResponse(long number) {
-                personsNumber = number >= 0 ? number : 0;
-                createListItems();
-                if (listView != null){
-                    adapter.notifyDataSetChanged();
+        if (person != null){
+            // only if logged in
+            new FirebasePersonGetNumber(getActivity(), new FirebasePersonGetNumber.Listener() {
+                @Override
+                public void onResponse(long number) {
+                    personsNumber = number >= 0 ? number : 0;
+                    createListItems();
+                    if (listView != null){
+                        adapter.notifyDataSetChanged();
+                    }
                 }
-            }
-        }).execute();
+            }).execute();
+        }
     }
 
     private void createListItems(){

@@ -16,7 +16,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import gr.eap.dxt.marmaris.R;
 import gr.eap.dxt.marmaris.persons.Person;
-import gr.eap.dxt.marmaris.persons.PersonRole;
 import gr.eap.dxt.marmaris.tools.AppShared;
 import gr.eap.dxt.marmaris.tools.FirebaseCall;
 import gr.eap.dxt.marmaris.tools.StoreManagement;
@@ -76,7 +75,7 @@ class FirebaseLogin extends FirebaseCall{
 
     private void checkIfPersonExist(@NonNull final Task<AuthResult> task){
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Person.FIREBASE_LIST);
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.orderByChild(Person.EMAIL).equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -92,16 +91,9 @@ class FirebaseLogin extends FirebaseCall{
                     return;
                 }
 
-                if (dataSnapshot.getChildrenCount() == 0) {
-                    // No persons yet, so add them
-                    addPerson(task);
-                    return;
-                }
-
                 for (DataSnapshot childShapshot : dataSnapshot.getChildren()){
                     try {
                         if (childShapshot.child(Person.EMAIL).getValue() == null) continue;
-
                         if (childShapshot.child(Person.EMAIL).getValue().equals(email)) {
 
                             Person person = new Person();
@@ -111,8 +103,8 @@ class FirebaseLogin extends FirebaseCall{
                             if (childShapshot.child(Person.NAME).getValue() != null){
                                 person.setName(childShapshot.child(Person.NAME).getValue().toString());
                             }
-                            if (childShapshot.child(PersonRole.FIREBASE_ITEM).getValue() != null){
-                                person.setPersonRole(childShapshot.child(PersonRole.FIREBASE_ITEM).getValue().toString());
+                            if (childShapshot.child(Person.PERSON_ROLE).getValue() != null){
+                                person.setPersonRole(childShapshot.child(Person.PERSON_ROLE).getValue().toString());
                             }
 
                             AppShared.setLogginUser(person);

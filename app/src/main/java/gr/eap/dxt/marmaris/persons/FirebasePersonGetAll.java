@@ -70,8 +70,8 @@ class FirebasePersonGetAll extends FirebaseCall{
                         if (childShapshot.child(Person.NAME).getValue() != null){
                             person.setName(childShapshot.child(Person.NAME).getValue().toString());
                         }
-                        if (childShapshot.child(PersonRole.FIREBASE_ITEM).getValue() != null){
-                            person.setPersonRole(childShapshot.child(PersonRole.FIREBASE_ITEM).getValue().toString());
+                        if (childShapshot.child(Person.PERSON_ROLE).getValue() != null){
+                            person.setPersonRole(childShapshot.child(Person.PERSON_ROLE).getValue().toString());
                         }
 
                         persons.add(person);
