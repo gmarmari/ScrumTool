@@ -14,11 +14,21 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import gr.eap.dxt.marmaris.R;
+import gr.eap.dxt.marmaris.backlog.Backlog;
+import gr.eap.dxt.marmaris.backlog.BacklogDialogActivity;
+import gr.eap.dxt.marmaris.backlog.BacklogEditFragment;
+import gr.eap.dxt.marmaris.backlog.BacklogNewDialogActivity;
+import gr.eap.dxt.marmaris.backlog.BacklogsFragment;
 import gr.eap.dxt.marmaris.login.FirebaseGetUser;
 import gr.eap.dxt.marmaris.login.LoginFragment;
 import gr.eap.dxt.marmaris.persons.Person;
 import gr.eap.dxt.marmaris.persons.PersonDialogActivity;
 import gr.eap.dxt.marmaris.persons.PersonsFragment;
+import gr.eap.dxt.marmaris.projects.Project;
+import gr.eap.dxt.marmaris.projects.ProjectDialogActivity;
+import gr.eap.dxt.marmaris.projects.ProjectEditFragment;
+import gr.eap.dxt.marmaris.projects.ProjectNewDialogActivity;
+import gr.eap.dxt.marmaris.projects.ProjectsFragment;
 import gr.eap.dxt.marmaris.tools.AppShared;
 import gr.eap.dxt.marmaris.tools.GooglePlayServices;
 import gr.eap.dxt.marmaris.tools.MyRequestCodes;
@@ -27,7 +37,9 @@ import gr.eap.dxt.marmaris.tools.StoreManagement;
 public class MainNavigationActivity extends Activity implements MainNavigationDrawerFragment.NavigationDrawerCallbacks,
         LoginFragment.FragmentInteractionListener,
         PersonsFragment.FragmentInteractionListener,
-        HomeFragment.FragmentInteractionListener{
+        HomeFragment.FragmentInteractionListener,
+        ProjectsFragment.FragmentInteractionListener,
+        BacklogsFragment.FragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,22 +107,34 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MyRequestCodes.PERSON_EDIT_REQUEST){
             if (resultCode == RESULT_OK){
-                // Person Editted
+                // Person editted or added
                 if (data != null){
                     if (data.getBooleanExtra(PersonDialogActivity.RELOAD, false)){
-                        openFragmentPerson();
+                        openFragmentPersons();
                     }
                 }
             }
         }
-    }
-
-    private void openFragmentHome(){
-        getFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance()).commit();
-    }
-
-    private void openFragmentAbout(){
-        getFragmentManager().beginTransaction().replace(R.id.container, AboutFragment.newInstance()).commit();
+        if (requestCode == MyRequestCodes.PROJECT_EDIT_REQUEST){
+            if (resultCode == RESULT_OK){
+                // Project editted or added
+                if (data != null){
+                    if (data.getBooleanExtra(ProjectEditFragment.RELOAD, false)){
+                        openFragmentProjects();
+                    }
+                }
+            }
+        }
+        if (requestCode == MyRequestCodes.BACKLOG_EDIT_REQUEST){
+            if (resultCode == RESULT_OK){
+                // Backlog editted or added
+                if (data != null){
+                    if (data.getBooleanExtra(BacklogEditFragment.RELOAD, false)){
+                        openFragmentBacklogs();
+                    }
+                }
+            }
+        }
     }
 
     /**  From {@link MainNavigationDrawerFragment.NavigationDrawerCallbacks} */
@@ -129,7 +153,13 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
                 openFragmentAbout();
                 break;
             case MainNavigationDrawerFragment.PEOPLE:
-                openFragmentPerson();
+                openFragmentPersons();
+                break;
+            case MainNavigationDrawerFragment.PROJECTS:
+                openFragmentProjects();
+                break;
+            case MainNavigationDrawerFragment.BACKLOG:
+                openFragmentBacklogs();
                 break;
             default:
                 AppShared.writeErrorToLogString(getClass().toString(), "Not supported itemId: " + itemId);
@@ -138,25 +168,39 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         }
     }
 
-    /** From {@link MainNavigationDrawerFragment.NavigationDrawerCallbacks}*/
-    @Override
-    public void logout() {
-        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseAuth.signOut();
-        AppShared.logout();
-        closeDrawer();
-        openFragmentHome();
+    private void openFragmentHome(){
+        if (getActionBar() != null) getActionBar().setTitle(R.string.app_name);
+        getFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance()).commit();
+    }
+
+    private void openFragmentAbout(){
+        if (getActionBar() != null) getActionBar().setTitle(R.string.about);
+        getFragmentManager().beginTransaction().replace(R.id.container, AboutFragment.newInstance()).commit();
     }
 
     /**  From {@link HomeFragment.FragmentInteractionListener} */
     @Override
-    public void openFragmentPerson(){
+    public void openFragmentPersons(){
+        if (getActionBar() != null) getActionBar().setTitle(R.string.people);
         getFragmentManager().beginTransaction().replace(R.id.container, PersonsFragment.newInstance()).commit();
+    }
+
+    /**  From {@link HomeFragment.FragmentInteractionListener} */
+    @Override
+    public void openFragmentProjects(){
+        if (getActionBar() != null) getActionBar().setTitle(R.string.projects);
+        getFragmentManager().beginTransaction().replace(R.id.container, ProjectsFragment.newInstance()).commit();
+    }
+
+    private void openFragmentBacklogs(){
+        if (getActionBar() != null) getActionBar().setTitle(R.string.backlog);
+        getFragmentManager().beginTransaction().replace(R.id.container, BacklogsFragment.newInstance()).commit();
     }
 
     /**  From {@link MainNavigationDrawerFragment.NavigationDrawerCallbacks} */
     @Override
     public void openLoginFragment() {
+        if (getActionBar() != null) getActionBar().setTitle(R.string.login);
         getFragmentManager().beginTransaction().replace(R.id.container, LoginFragment.newInstance()).commit();
     }
 
@@ -172,6 +216,16 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         openFragmentHome();
     }
 
+    /** From {@link MainNavigationDrawerFragment.NavigationDrawerCallbacks}*/
+    @Override
+    public void logout() {
+        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseAuth.signOut();
+        AppShared.logout();
+        closeDrawer();
+        openFragmentHome();
+    }
+
     /** From {@link PersonsFragment.FragmentInteractionListener}
      *  and
      * {@link HomeFragment.FragmentInteractionListener}
@@ -183,8 +237,35 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         startActivityForResult(intent, MyRequestCodes.PERSON_EDIT_REQUEST);
     }
 
+    /** From {@link ProjectsFragment.FragmentInteractionListener}*/
+    @Override
+    public void onShowProject(Project project) {
+        ProjectDialogActivity.setStaticContent(project);
+        Intent intent = new Intent(this, ProjectDialogActivity.class);
+        startActivityForResult(intent, MyRequestCodes.PROJECT_EDIT_REQUEST);
+    }
 
+    /** From {@link ProjectsFragment.FragmentInteractionListener}*/
+    @Override
+    public void onAddNewProject() {
+        Intent intent = new Intent(this, ProjectNewDialogActivity.class);
+        startActivityForResult(intent, MyRequestCodes.PROJECT_EDIT_REQUEST);
+    }
 
+    /** From {@link BacklogsFragment.FragmentInteractionListener}*/
+    @Override
+    public void onShowBacklog(Backlog backlog) {
+        BacklogDialogActivity.setStaticContent(backlog);
+        Intent intent = new Intent(this, BacklogDialogActivity.class);
+        startActivityForResult(intent, MyRequestCodes.BACKLOG_EDIT_REQUEST);
+    }
+
+    /** From {@link BacklogsFragment.FragmentInteractionListener}*/
+    @Override
+    public void onAddNewBacklog() {
+        Intent intent = new Intent(this, BacklogNewDialogActivity.class);
+        startActivityForResult(intent, MyRequestCodes.BACKLOG_EDIT_REQUEST);
+    }
 
     /*
     public void restoreActionBar() {
@@ -207,4 +288,5 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
         getApplicationContext().sendBroadcast(addIntent);
     }
+
 }

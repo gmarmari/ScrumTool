@@ -18,16 +18,19 @@ import java.util.ArrayList;
 import gr.eap.dxt.marmaris.R;
 import gr.eap.dxt.marmaris.persons.FirebasePersonGetNumber;
 import gr.eap.dxt.marmaris.persons.Person;
+import gr.eap.dxt.marmaris.projects.FirebaseProjectGetNumber;
 import gr.eap.dxt.marmaris.tools.AppShared;
 import gr.eap.dxt.marmaris.tools.ListMyOptionsItemAdapter;
 import gr.eap.dxt.marmaris.tools.MyOtionsItem;
+import gr.eap.dxt.marmaris.tools.MyProgressDialog;
 
 
 public class HomeFragment extends Fragment {
 
     public interface FragmentInteractionListener {
         void onShowPerson(Person person);
-        void openFragmentPerson();
+        void openFragmentPersons();
+        void openFragmentProjects();
     }
     private FragmentInteractionListener mListener;
 
@@ -39,6 +42,7 @@ public class HomeFragment extends Fragment {
 
     private Person person;
     private long personsNumber;
+    private long projectsNumber;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -47,6 +51,8 @@ public class HomeFragment extends Fragment {
     private ListView listView;
     private ListMyOptionsItemAdapter adapter;
     private ArrayList<MyOtionsItem> items;
+
+    private MyProgressDialog myDialog;
 
     @TargetApi(23)
     @Override
@@ -132,11 +138,13 @@ public class HomeFragment extends Fragment {
                             break;
                         case LIST_ITEM_GROUP:
                             if (mListener != null) {
-                                mListener.openFragmentPerson();
+                                mListener.openFragmentPersons();
                             }
                             break;
                         case LIST_ITEM_PROJECT:
-
+                            if (mListener != null) {
+                                mListener.openFragmentProjects();
+                            }
                             break;
                         default:
                             AppShared.writeErrorToLogString(getClass().toString(), "Not supported item id: " + item.getId());
@@ -155,17 +163,38 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         if (person != null){
             // only if logged in
-            new FirebasePersonGetNumber(getActivity(), new FirebasePersonGetNumber.Listener() {
-                @Override
-                public void onResponse(long number) {
-                    personsNumber = number >= 0 ? number : 0;
-                    createListItems();
-                    if (listView != null){
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            }).execute();
+            getPersonNumber();
         }
+    }
+
+    private void getPersonNumber(){
+        myDialog = new MyProgressDialog(getActivity(), null, false);
+        myDialog.start();
+
+        new FirebasePersonGetNumber(getActivity(), false, new FirebasePersonGetNumber.Listener() {
+            @Override
+            public void onResponse(long number) {
+                personsNumber = number > 0 ? number : 0;
+
+                getProjectNumber();
+            }
+        }).execute();
+    }
+
+    private void getProjectNumber(){
+        new FirebaseProjectGetNumber(getActivity(), false, new FirebaseProjectGetNumber.Listener() {
+            @Override
+            public void onResponse(long number) {
+                if (myDialog != null) myDialog.stop();
+
+                projectsNumber = number > 0 ? number : 0;
+
+                createListItems();
+                if (listView != null){
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }).execute();
     }
 
     private void createListItems(){
@@ -175,9 +204,9 @@ public class HomeFragment extends Fragment {
 
         String user = "";
         if (person.getName() != null && !person.getName().isEmpty()) {
-            user += getString(R.string.welcome) + " " + person.getName() + "!";
+            user += person.getName() + ", " + getString(R.string.welcome);
         } else if (person.getEmail() != null && !person.getEmail().isEmpty()) {
-            user += getString(R.string.welcome) + " " + person.getEmail() + "!";
+            user += person.getEmail() + ", " + getString(R.string.welcome);
         }
         items.add(new MyOtionsItem(user, R.drawable.ic_action_person_purple, LIST_ITEM_USER));
 
@@ -185,10 +214,8 @@ public class HomeFragment extends Fragment {
         String members = getString(R.string.group_consists_of) + " " + personsNumber + " " + getString(R.string.members);
         items.add(new MyOtionsItem(members, R.drawable.ic_action_people_purple, LIST_ITEM_GROUP));
 
-        //: TODO replace 0 with the number of projects
-        String projects = getString(R.string.currently_you_work_on) + " " + 0 + " " + getString(R.string.projects).toLowerCase();
+        String projects = getString(R.string.currently_you_work_on) + " " + projectsNumber + " " + getString(R.string.projects).toLowerCase();
         items.add(new MyOtionsItem(projects, R.drawable.ic_action_project_purple, LIST_ITEM_PROJECT));
     }
-
 
 }

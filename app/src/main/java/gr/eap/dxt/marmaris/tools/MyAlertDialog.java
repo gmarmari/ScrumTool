@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.view.ContextThemeWrapper;
 
 import java.util.ArrayList;

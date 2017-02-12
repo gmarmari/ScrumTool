@@ -1,5 +1,4 @@
-package gr.eap.dxt.marmaris.persons;
-
+package gr.eap.dxt.marmaris.projects;
 
 import android.content.Context;
 
@@ -15,27 +14,27 @@ import gr.eap.dxt.marmaris.R;
 import gr.eap.dxt.marmaris.tools.FirebaseCall;
 
 /**
- * Created by GEO on 5/2/2017.
+ * Created by GEO on 8/2/2017.
  */
 
-class FirebasePersonGetAll extends FirebaseCall{
+public class FirebaseProjectGetAll extends FirebaseCall {
 
     interface Listener {
-        void onResponse(ArrayList<Person> persons);
+        void onResponse(ArrayList<Project> projects);
     }
     private Listener mListener;
 
 
-    FirebasePersonGetAll(Context context, Listener mListener){
+    FirebaseProjectGetAll(Context context, Listener mListener){
         super(context, true, true);
         this.mListener = mListener;
-        setDialogTitle(context.getString(R.string.get_persons_progress));
+        setDialogTitle(context.getString(R.string.get_projects_progress));
     }
 
     public void execute(){
         super.execute();
 
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Person.FIREBASE_LIST);
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Project.FIREBASE_LIST);
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -51,35 +50,32 @@ class FirebasePersonGetAll extends FirebaseCall{
                 }
 
                 if (dataSnapshot.getChildrenCount() == 0) {
-                    giveOutput(new ArrayList<Person>());
+                    giveOutput(new ArrayList<Project>());
                     return;
                 }
 
-                ArrayList<Person> persons = new ArrayList<>();
+                ArrayList<Project> projects = new ArrayList<>();
 
                 for (DataSnapshot childShapshot : dataSnapshot.getChildren()){
 
                     try {
-                        Person person = new Person();
-                        person.setPersonId(childShapshot.getKey());
+                        Project project = new Project();
+                        project.setProjectId(childShapshot.getKey());
 
-                        if (childShapshot.child(Person.EMAIL).getValue() != null){
-                            person.setEmail(childShapshot.child(Person.EMAIL).getValue().toString());
+                        if (childShapshot.child(Project.PROJECT_NAME).getValue() != null){
+                            project.setProjectName(childShapshot.child(Project.PROJECT_NAME).getValue().toString());
                         }
-                        if (childShapshot.child(Person.NAME).getValue() != null){
-                            person.setName(childShapshot.child(Person.NAME).getValue().toString());
-                        }
-                        if (childShapshot.child(Person.PERSON_ROLE).getValue() != null){
-                            person.setPersonRole(childShapshot.child(Person.PERSON_ROLE).getValue().toString());
+                        if (childShapshot.child(Project.PROJECT_STATUS).getValue() != null){
+                            project.setProjectStatus(childShapshot.child(Project.PROJECT_STATUS).getValue().toString());
                         }
 
-                        persons.add(person);
+                        projects.add(project);
                     }catch (Exception e){
                         addErrorNo(e.toString());
                     }
                 }
 
-                giveOutput(persons);
+                giveOutput(projects);
             }
 
             @Override
@@ -92,19 +88,19 @@ class FirebasePersonGetAll extends FirebaseCall{
         });
     }
 
-    private void giveOutput(ArrayList<Person> persons){
+    private void giveOutput(ArrayList<Project> projects){
         super.giveOutput();
 
         if (getErrorno() != null && !getErrorno().isEmpty()){
             alertError(getErrorno());
             return;
         }
-        if (persons == null){
-            alertError("persons == null");
+        if (projects == null){
+            alertError("projects == null");
             return;
         }
 
-        if (mListener != null) mListener.onResponse(persons);
+        if (mListener != null) mListener.onResponse(projects);
     }
 
 }

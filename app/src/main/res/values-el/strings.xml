@@ -13,18 +13,18 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <!-- HomeFragment -->
-    <string name="welcome">Καλώς όρισες στο scrumtool</string>
+    <!-- Home -->
+    <string name="welcome">καλώς όρισες στο Scrum Tool!</string>
     <string name="group_consists_of">Η ομάδα σας αποτελείτε από</string>
     <string name="members">μέλη</string>
     <string name="currently_you_work_on">Αυτή τη στιγμή ασχολείστε με</string>
 
-    <!-- AboutFragment -->
+    <!-- About -->
     <string name="eap">Ελληνικό Ανοικτό Πανεπιστήμιο</string>
     <string name="eap_website">https://www.eap.gr</string>
     <string name="app_description">Η παρούσα εφαρμογή αποτελεί τμήμα της διπλωματικής εργασίας με τίτλο \"Διαχείριση, παρακολούθηση και έλεγχος έργων πληροφορικής - ανάπτυξη Android λογισμικού υποστήριξης της μεθόδου SCRUM\"\n\nΣυγγραφέας: Γεώργιος Μαρμάρης\nΕπιβλέπων: Βασίλειος Κώστογλου\nΒ\΄ Αξιολογητής: Νικόλαος Φραγκάκης\n\nΕλληνικό Ανοικτό Πανεπιστήμιο\nΑριστοτέλους 18, 26335 Πάτρα, Ελλάδα</string>
 
-    <!-- LoginFragment -->
+    <!-- Login -->
     <string name="login">Είσοδος</string>
     <string name="logout">\'Εξοδος</string>
     <string name="email">E-mail</string>
@@ -33,23 +33,46 @@
     <string name="invalid_email">\'Ακυρο e-mail</string>
     <string name="enter_password">Δώστε τον κωδικό</string>
 
-    <!-- PersonFragment -->
+    <!-- Person -->
     <string name="developer">Προγραμματιστής</string>
     <string name="product_owner">Product owner</string>
     <string name="scrum_master">Scrum master</string>
     <string name="stakeholder">Ενδιαφερόμενος</string>
     <string name="person">Μέλος</string>
-    <string name="person_deleted">Το μέλος διαγράφηκε</string>
     <string name="name">\'Ονομα</string>
     <string name="role">Ρόλος</string>
+    <string name="delete_person">Διαγραφή του μέλους?</string>
+    <string name="person_deleted">Το μέλος διαγράφηκε</string>
+    <string name="select_person">Επιλέξτε ένα μέλος</string>
 
-    <!-- ProjectFragment -->
+    <!-- Project -->
+    <string name="project">Project</string>
+    <string name="status">Κατάσταση</string>
+    <string name="not_started">Δεν ξεκίνησε</string>
+    <string name="in_progress">Σε εξέλιξη</string>
+    <string name="ended">Ολοκληρώθηκε</string>
+    <string name="canceled">Ακυρώθηκε</string>
+    <string name="delete_project">Διαγραφή του project;</string>
+    <string name="project_deleted">Το project διαγράφηκε</string>
+    <string name="new_project">Νέο project</string>
+    <string name="delete_backlog">Διαγραφή του backlog?</string>
+
+    <!-- Backlog -->
+    <string name="feature">Χαρακτηριστικό</string>
+    <string name="bug">Σφάλμα</string>
+    <string name="other">\'Αλλο</string>
+    <string name="description">Περιγραφή</string>
+    <string name="assigned_to">Ανατέθηκε στον</string>
+    <string name="type">Τύπος</string>
+    <string name="backlog_deleted">Το Backlog διαγράφηκε</string>
+    <string name="new_backlog">Νέο backlog</string>
 
     <!-- ProgressBar, AlertDialog -->
     <string name="loading">Φορτώνει&#8230;</string>
     <string name="login_progress">Είσοδος&#8230;</string>
     <string name="get_persons_progress">Φόρτωση των μελών&#8230;</string>
     <string name="get_projects_progress">Φόρτωση των projects&#8230;</string>
+    <string name="get_backlog_progress">Φόρτωση της λίστας των backlog&#8230;</string>
     <string name="cancel">/Άκυρο</string>
     <string name="ok">OK</string>
     <string name="select">Επιλέξτε</string>
@@ -61,5 +84,7 @@
     <string name="back">Πίσω</string>
     <string name="none">Αδιευκρίνιστο</string>
     <string name="no_change_occured">Δεν πραγματοποιήθηκε καμία αλλαγή</string>
+    <string name="no">\'Οχι</string>
+    <string name="yes">Ναι</string>
 
 </resources>

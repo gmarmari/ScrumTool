@@ -1,4 +1,4 @@
-package gr.eap.dxt.marmaris.persons;
+package gr.eap.dxt.marmaris.projects;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -12,33 +12,32 @@ import android.widget.TextView;
 import gr.eap.dxt.marmaris.R;
 
 /**
- * Created by GEO on 5/2/2017.
+ * Created by GEO on 11/2/2017.
  */
 
-public class PersonDialogActivity extends Activity implements PersonShowFragment.FragmentInteractionListener{
-
-    public static final String RELOAD = "gr.eap.dxt.marmaris.persons.PersonDialogActivity.RELOAD";
+public class ProjectDialogActivity extends Activity implements ProjectShowFragment.FragmentInteractionListener{
 
     /**
      * Static content for input
      */
-    private static Person person;
+    private static Project project;
 
-    public static void setStaticContent(Person _person){
+    public static void setStaticContent(Project _project){
         clearStaticContent();
-        // Create a copy from this person, so if cancel the changes are only on the copy, not on the original person
-        person = Person.getCopy(_person);
+        // Create a copy from this project, so if cancel the changes are only on the copy, not on the original person
+        project = Project.getCopy(_project);
     }
 
     private static void clearStaticContent(){
-        person = null;
+        project = null;
     }
     /**
      * End of static content
      */
 
-    private boolean isPersonShowFragmentOn = false;
-    private boolean isPersonEditFragmentOn = false;
+    private boolean isProjectShowFragmentOn = false;
+
+    private boolean isProjectEditFragmentOn = false;
 
     private TextView myTitleTextView;
     private ImageButton backButton;
@@ -47,7 +46,7 @@ public class PersonDialogActivity extends Activity implements PersonShowFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_activity_person);
+        setContentView(R.layout.dialog_activity_project);
 
         myTitleTextView = (TextView) findViewById(R.id.my_title_view);
 
@@ -65,7 +64,7 @@ public class PersonDialogActivity extends Activity implements PersonShowFragment
         setDimensions();
 
         if (savedInstanceState == null) {
-            goToPersonShowFragment();
+            goToProjectShowFragment();
         }
     }
 
@@ -93,25 +92,25 @@ public class PersonDialogActivity extends Activity implements PersonShowFragment
     }
 
     private void handleBack(){
-        if (isPersonEditFragmentOn){
-            goToPersonShowFragment();
+        if (isProjectEditFragmentOn){
+            goToProjectShowFragment();
             return;
         }
-        if (isPersonShowFragmentOn){
+        if (isProjectShowFragmentOn){
             finish();
         }
     }
 
-    private void goToPersonShowFragment(){
+    private void goToProjectShowFragment(){
         setDimensions();
-        PersonShowFragment fragment = PersonShowFragment.newInstance(person);
+        ProjectShowFragment fragment = ProjectShowFragment.newInstance(project);
         getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-        isPersonEditFragmentOn = false;
-        isPersonShowFragmentOn = true;
+        isProjectEditFragmentOn = false;
+        isProjectShowFragmentOn = true;
 
         if (myTitleTextView != null){
-            String name = person != null ? person.getName() : null;
-            myTitleTextView.setText(name != null ? name : "");
+            String name = project != null ? project.getProjectName() : null;
+            myTitleTextView.setText(name != null ? name : getString(R.string.project));
         }
         if (backButton != null){
             backButton.setImageResource(R.drawable.ic_action_back);
@@ -121,12 +120,12 @@ public class PersonDialogActivity extends Activity implements PersonShowFragment
         }
     }
 
-    private void goToPersonEditFragment(){
+    private void goToProjectEditFragment(){
         setDimensions();
-        final PersonEditFragment fragment = PersonEditFragment.newInstance(person);
+        final ProjectEditFragment fragment = ProjectEditFragment.newInstance(project);
         getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-        isPersonEditFragmentOn = true;
-        isPersonShowFragmentOn = false;
+        isProjectEditFragmentOn = true;
+        isProjectShowFragmentOn = false;
 
         if (myTitleTextView != null){
             myTitleTextView.setText(R.string.edit);
@@ -139,15 +138,14 @@ public class PersonDialogActivity extends Activity implements PersonShowFragment
             saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (fragment != null) fragment.saveChanges();
+                   if (fragment != null) fragment.saveChanges();
                 }
             });
         }
     }
 
-    /** From PersonShowFragment.FragmentInteractionListener */
     @Override
-    public void onPersonEdit() {
-        goToPersonEditFragment();
+    public void onProjectEdit() {
+        goToProjectEditFragment();
     }
 }
