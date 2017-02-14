@@ -109,7 +109,7 @@ public class ProjectDialogActivity extends Activity implements ProjectShowFragme
         isProjectShowFragmentOn = true;
 
         if (myTitleTextView != null){
-            String name = project != null ? project.getProjectName() : null;
+            String name = project != null ? project.getName() : null;
             myTitleTextView.setText(name != null ? name : getString(R.string.project));
         }
         if (backButton != null){

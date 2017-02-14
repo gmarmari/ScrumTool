@@ -12,12 +12,13 @@ import java.util.ArrayList;
 
 import gr.eap.dxt.marmaris.R;
 import gr.eap.dxt.marmaris.tools.FirebaseCall;
+import gr.eap.dxt.marmaris.tools.FirebaseParse;
 
 /**
  * Created by GEO on 8/2/2017.
  */
 
-public class FirebaseProjectGetAll extends FirebaseCall {
+class FirebaseProjectGetAll extends FirebaseCall {
 
     interface Listener {
         void onResponse(ArrayList<Project> projects);
@@ -61,13 +62,9 @@ public class FirebaseProjectGetAll extends FirebaseCall {
                     try {
                         Project project = new Project();
                         project.setProjectId(childShapshot.getKey());
-
-                        if (childShapshot.child(Project.PROJECT_NAME).getValue() != null){
-                            project.setProjectName(childShapshot.child(Project.PROJECT_NAME).getValue().toString());
-                        }
-                        if (childShapshot.child(Project.PROJECT_STATUS).getValue() != null){
-                            project.setProjectStatus(childShapshot.child(Project.PROJECT_STATUS).getValue().toString());
-                        }
+                        project.setName(FirebaseParse.getString(childShapshot.child(Project.NAME)));
+                        project.setDescription(FirebaseParse.getString(childShapshot.child(Project.DESCRIPTION)));
+                        project.setStatus(FirebaseParse.getString(childShapshot.child(Project.STATUS)));
 
                         projects.add(project);
                     }catch (Exception e){

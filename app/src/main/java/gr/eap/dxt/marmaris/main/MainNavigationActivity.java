@@ -18,17 +18,19 @@ import gr.eap.dxt.marmaris.backlog.Backlog;
 import gr.eap.dxt.marmaris.backlog.BacklogDialogActivity;
 import gr.eap.dxt.marmaris.backlog.BacklogEditFragment;
 import gr.eap.dxt.marmaris.backlog.BacklogNewDialogActivity;
-import gr.eap.dxt.marmaris.backlog.BacklogsFragment;
+import gr.eap.dxt.marmaris.backlog.BacklogListFragment;
 import gr.eap.dxt.marmaris.login.FirebaseGetUser;
 import gr.eap.dxt.marmaris.login.LoginFragment;
 import gr.eap.dxt.marmaris.persons.Person;
 import gr.eap.dxt.marmaris.persons.PersonDialogActivity;
-import gr.eap.dxt.marmaris.persons.PersonsFragment;
+import gr.eap.dxt.marmaris.persons.PersonListFragment;
 import gr.eap.dxt.marmaris.projects.Project;
 import gr.eap.dxt.marmaris.projects.ProjectDialogActivity;
 import gr.eap.dxt.marmaris.projects.ProjectEditFragment;
 import gr.eap.dxt.marmaris.projects.ProjectNewDialogActivity;
-import gr.eap.dxt.marmaris.projects.ProjectsFragment;
+import gr.eap.dxt.marmaris.projects.ProjectListFragment;
+import gr.eap.dxt.marmaris.sprints.Sprint;
+import gr.eap.dxt.marmaris.sprints.SprintListFragment;
 import gr.eap.dxt.marmaris.tools.AppShared;
 import gr.eap.dxt.marmaris.tools.GooglePlayServices;
 import gr.eap.dxt.marmaris.tools.MyRequestCodes;
@@ -36,10 +38,11 @@ import gr.eap.dxt.marmaris.tools.StoreManagement;
 
 public class MainNavigationActivity extends Activity implements MainNavigationDrawerFragment.NavigationDrawerCallbacks,
         LoginFragment.FragmentInteractionListener,
-        PersonsFragment.FragmentInteractionListener,
+        PersonListFragment.FragmentInteractionListener,
         HomeFragment.FragmentInteractionListener,
-        ProjectsFragment.FragmentInteractionListener,
-        BacklogsFragment.FragmentInteractionListener{
+        ProjectListFragment.FragmentInteractionListener,
+        BacklogListFragment.FragmentInteractionListener,
+        SprintListFragment.FragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +164,9 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
             case MainNavigationDrawerFragment.BACKLOG:
                 openFragmentBacklogs();
                 break;
+            case MainNavigationDrawerFragment.SPRINTS:
+                openFragmentSprints();
+                break;
             default:
                 AppShared.writeErrorToLogString(getClass().toString(), "Not supported itemId: " + itemId);
                 getFragmentManager().beginTransaction().replace(R.id.container, new Fragment()).commit();
@@ -182,19 +188,24 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
     @Override
     public void openFragmentPersons(){
         if (getActionBar() != null) getActionBar().setTitle(R.string.people);
-        getFragmentManager().beginTransaction().replace(R.id.container, PersonsFragment.newInstance()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.container, PersonListFragment.newInstance()).commit();
     }
 
     /**  From {@link HomeFragment.FragmentInteractionListener} */
     @Override
     public void openFragmentProjects(){
         if (getActionBar() != null) getActionBar().setTitle(R.string.projects);
-        getFragmentManager().beginTransaction().replace(R.id.container, ProjectsFragment.newInstance()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.container, ProjectListFragment.newInstance()).commit();
     }
 
     private void openFragmentBacklogs(){
         if (getActionBar() != null) getActionBar().setTitle(R.string.backlog);
-        getFragmentManager().beginTransaction().replace(R.id.container, BacklogsFragment.newInstance()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.container, BacklogListFragment.newInstance()).commit();
+    }
+
+    private void openFragmentSprints(){
+        if (getActionBar() != null) getActionBar().setTitle(R.string.sprints);
+        getFragmentManager().beginTransaction().replace(R.id.container, SprintListFragment.newInstance()).commit();
     }
 
     /**  From {@link MainNavigationDrawerFragment.NavigationDrawerCallbacks} */
@@ -226,7 +237,7 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         openFragmentHome();
     }
 
-    /** From {@link PersonsFragment.FragmentInteractionListener}
+    /** From {@link PersonListFragment.FragmentInteractionListener}
      *  and
      * {@link HomeFragment.FragmentInteractionListener}
      * */
@@ -237,7 +248,7 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         startActivityForResult(intent, MyRequestCodes.PERSON_EDIT_REQUEST);
     }
 
-    /** From {@link ProjectsFragment.FragmentInteractionListener}*/
+    /** From {@link ProjectListFragment.FragmentInteractionListener}*/
     @Override
     public void onShowProject(Project project) {
         ProjectDialogActivity.setStaticContent(project);
@@ -245,14 +256,14 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         startActivityForResult(intent, MyRequestCodes.PROJECT_EDIT_REQUEST);
     }
 
-    /** From {@link ProjectsFragment.FragmentInteractionListener}*/
+    /** From {@link ProjectListFragment.FragmentInteractionListener}*/
     @Override
     public void onAddNewProject() {
         Intent intent = new Intent(this, ProjectNewDialogActivity.class);
         startActivityForResult(intent, MyRequestCodes.PROJECT_EDIT_REQUEST);
     }
 
-    /** From {@link BacklogsFragment.FragmentInteractionListener}*/
+    /** From {@link BacklogListFragment.FragmentInteractionListener}*/
     @Override
     public void onShowBacklog(Backlog backlog) {
         BacklogDialogActivity.setStaticContent(backlog);
@@ -260,11 +271,23 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         startActivityForResult(intent, MyRequestCodes.BACKLOG_EDIT_REQUEST);
     }
 
-    /** From {@link BacklogsFragment.FragmentInteractionListener}*/
+    /** From {@link BacklogListFragment.FragmentInteractionListener}*/
     @Override
     public void onAddNewBacklog() {
         Intent intent = new Intent(this, BacklogNewDialogActivity.class);
         startActivityForResult(intent, MyRequestCodes.BACKLOG_EDIT_REQUEST);
+    }
+
+    /** From {@link SprintListFragment.FragmentInteractionListener}*/
+    @Override
+    public void onShowSprint(Sprint sprint) {
+
+    }
+
+    /** From {@link SprintListFragment.FragmentInteractionListener}*/
+    @Override
+    public void onAddNewSprint() {
+
     }
 
     /*

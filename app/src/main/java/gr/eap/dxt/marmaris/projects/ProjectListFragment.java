@@ -21,15 +21,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import gr.eap.dxt.marmaris.R;
-import gr.eap.dxt.marmaris.persons.Person;
 import gr.eap.dxt.marmaris.tools.AppShared;
+import gr.eap.dxt.marmaris.tools.FirebaseParse;
 import gr.eap.dxt.marmaris.tools.MyAlertDialog;
 
 /**
  * Created by GEO on 8/2/2017.
  */
 
-public class ProjectsFragment extends Fragment {
+public class ProjectListFragment extends Fragment {
 
     public interface FragmentInteractionListener {
         void onShowProject(Project project);
@@ -37,9 +37,9 @@ public class ProjectsFragment extends Fragment {
     }
     private FragmentInteractionListener mListener;
 
-    public ProjectsFragment() { }
-    public static ProjectsFragment newInstance() {
-        return new ProjectsFragment();
+    public ProjectListFragment() { }
+    public static ProjectListFragment newInstance() {
+        return new ProjectListFragment();
     }
 
     private ListView listView;
@@ -125,12 +125,9 @@ public class ProjectsFragment extends Fragment {
                     Project project = new Project();
                     project.setProjectId(dataSnapshot.getKey());
 
-                    if (dataSnapshot.child(Project.PROJECT_NAME).getValue() != null) {
-                        project.setProjectName(dataSnapshot.child(Project.PROJECT_NAME).getValue().toString());
-                    }
-                    if (dataSnapshot.child(Project.PROJECT_STATUS).getValue() != null) {
-                        project.setProjectStatus(dataSnapshot.child(Person.NAME).getValue().toString());
-                    }
+                    project.setName(FirebaseParse.getString(dataSnapshot.child(Project.NAME)));
+                    project.setDescription(FirebaseParse.getString(dataSnapshot.child(Project.DESCRIPTION)));
+                    project.setStatus(FirebaseParse.getString(dataSnapshot.child(Project.STATUS)));
 
                     projects.add(project);
                     if (listView != null) {
@@ -150,12 +147,9 @@ public class ProjectsFragment extends Fragment {
                     Project project = getProjectWithId(dataSnapshot.getKey());
                     if (project == null) return;
 
-                    if (dataSnapshot.child(Project.PROJECT_NAME).getValue() != null) {
-                        project.setProjectName(dataSnapshot.child(Project.PROJECT_NAME).getValue().toString());
-                    }
-                    if (dataSnapshot.child(Project.PROJECT_STATUS).getValue() != null) {
-                        project.setProjectStatus(dataSnapshot.child(Person.NAME).getValue().toString());
-                    }
+                    project.setName(FirebaseParse.getString(dataSnapshot.child(Project.NAME)));
+                    project.setDescription(FirebaseParse.getString(dataSnapshot.child(Project.DESCRIPTION)));
+                    project.setStatus(FirebaseParse.getString(dataSnapshot.child(Project.STATUS)));
 
                     if (adapter != null) adapter.notifyDataSetChanged();
                 } catch (Exception e) {
@@ -270,4 +264,3 @@ public class ProjectsFragment extends Fragment {
     }
 
 }
-

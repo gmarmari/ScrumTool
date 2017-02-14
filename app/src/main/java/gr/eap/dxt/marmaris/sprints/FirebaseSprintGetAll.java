@@ -1,5 +1,4 @@
-package gr.eap.dxt.marmaris.persons;
-
+package gr.eap.dxt.marmaris.sprints;
 
 import android.content.Context;
 
@@ -16,27 +15,27 @@ import gr.eap.dxt.marmaris.tools.FirebaseCall;
 import gr.eap.dxt.marmaris.tools.FirebaseParse;
 
 /**
- * Created by GEO on 5/2/2017.
+ * Created by GEO on 12/2/2017.
  */
 
-class FirebasePersonGetAll extends FirebaseCall{
+class FirebaseSprintGetAll extends FirebaseCall {
 
     interface Listener {
-        void onResponse(ArrayList<Person> persons);
+        void onResponse(ArrayList<Sprint> sprints);
     }
     private Listener mListener;
 
 
-    FirebasePersonGetAll(Context context, Listener mListener){
+    FirebaseSprintGetAll(Context context, Listener mListener){
         super(context, true, true);
         this.mListener = mListener;
-        setDialogTitle(context.getString(R.string.get_persons_progress));
+        setDialogTitle(context.getString(R.string.get_sprints_progress));
     }
 
     public void execute(){
         super.execute();
 
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Person.FIREBASE_LIST);
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Sprint.FIREBASE_LIST);
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -52,29 +51,31 @@ class FirebasePersonGetAll extends FirebaseCall{
                 }
 
                 if (dataSnapshot.getChildrenCount() == 0) {
-                    giveOutput(new ArrayList<Person>());
+                    giveOutput(new ArrayList<Sprint>());
                     return;
                 }
 
-                ArrayList<Person> persons = new ArrayList<>();
+                ArrayList<Sprint> sprints = new ArrayList<>();
 
                 for (DataSnapshot childShapshot : dataSnapshot.getChildren()){
 
                     try {
-                        Person person = new Person();
-                        person.setPersonId(childShapshot.getKey());
+                        Sprint sprint = new Sprint();
+                        sprint.setSprintId(childShapshot.getKey());
 
-                        person.setEmail(FirebaseParse.getString(childShapshot.child(Person.EMAIL)));
-                        person.setName(FirebaseParse.getString(childShapshot.child(Person.NAME)));
-                        person.setPersonRole(FirebaseParse.getString(childShapshot.child(Person.PERSON_ROLE)));
+                        sprint.setName(FirebaseParse.getString(childShapshot.child(Sprint.NAME)));
+                        sprint.setDescription(FirebaseParse.getString(childShapshot.child(Sprint.DESCRIPTION)));
+                        sprint.setStatus(FirebaseParse.getString(childShapshot.child(Sprint.STATUS)));
+                        sprint.setStartDate(FirebaseParse.getDate(childShapshot.child(Sprint.START_DATE)));
+                        sprint.setEndDate(FirebaseParse.getDate(childShapshot.child(Sprint.END_DATE)));
 
-                        persons.add(person);
+                        sprints.add(sprint);
                     }catch (Exception e){
                         addErrorNo(e.toString());
                     }
                 }
 
-                giveOutput(persons);
+                giveOutput(sprints);
             }
 
             @Override
@@ -87,19 +88,19 @@ class FirebasePersonGetAll extends FirebaseCall{
         });
     }
 
-    private void giveOutput(ArrayList<Person> persons){
+    private void giveOutput(ArrayList<Sprint> sprints){
         super.giveOutput();
 
         if (getErrorno() != null && !getErrorno().isEmpty()){
             alertError(getErrorno());
             return;
         }
-        if (persons == null){
-            alertError("persons == null");
+        if (sprints == null){
+            alertError("sprints == null");
             return;
         }
 
-        if (mListener != null) mListener.onResponse(persons);
+        if (mListener != null) mListener.onResponse(sprints);
     }
 
 }

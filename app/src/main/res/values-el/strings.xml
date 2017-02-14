@@ -50,7 +50,7 @@
     <string name="status">Κατάσταση</string>
     <string name="not_started">Δεν ξεκίνησε</string>
     <string name="in_progress">Σε εξέλιξη</string>
-    <string name="ended">Ολοκληρώθηκε</string>
+    <string name="completed">Ολοκληρώθηκε</string>
     <string name="canceled">Ακυρώθηκε</string>
     <string name="delete_project">Διαγραφή του project;</string>
     <string name="project_deleted">Το project διαγράφηκε</string>
@@ -66,6 +66,8 @@
     <string name="type">Τύπος</string>
     <string name="backlog_deleted">Το Backlog διαγράφηκε</string>
     <string name="new_backlog">Νέο backlog</string>
+    <string name="to_do">Να γίνει</string>
+    <string name="done">\Έγινε</string>
 
     <!-- ProgressBar, AlertDialog -->
     <string name="loading">Φορτώνει&#8230;</string>
@@ -73,6 +75,7 @@
     <string name="get_persons_progress">Φόρτωση των μελών&#8230;</string>
     <string name="get_projects_progress">Φόρτωση των projects&#8230;</string>
     <string name="get_backlog_progress">Φόρτωση της λίστας των backlog&#8230;</string>
+    <string name="get_sprints_progress">Φόρτωση της λίστας των sprint&#8230;</string>
     <string name="cancel">/Άκυρο</string>
     <string name="ok">OK</string>
     <string name="select">Επιλέξτε</string>

@@ -18,6 +18,7 @@ import gr.eap.dxt.marmaris.R;
 import gr.eap.dxt.marmaris.persons.Person;
 import gr.eap.dxt.marmaris.tools.AppShared;
 import gr.eap.dxt.marmaris.tools.FirebaseCall;
+import gr.eap.dxt.marmaris.tools.FirebaseParse;
 import gr.eap.dxt.marmaris.tools.StoreManagement;
 
 /**
@@ -98,14 +99,10 @@ class FirebaseLogin extends FirebaseCall{
 
                             Person person = new Person();
                             person.setPersonId(childShapshot.getKey());
-                            person.setEmail(childShapshot.child(Person.EMAIL).getValue().toString());
 
-                            if (childShapshot.child(Person.NAME).getValue() != null){
-                                person.setName(childShapshot.child(Person.NAME).getValue().toString());
-                            }
-                            if (childShapshot.child(Person.PERSON_ROLE).getValue() != null){
-                                person.setPersonRole(childShapshot.child(Person.PERSON_ROLE).getValue().toString());
-                            }
+                            person.setEmail(FirebaseParse.getString(childShapshot.child(Person.EMAIL)));
+                            person.setName(FirebaseParse.getString(childShapshot.child(Person.NAME)));
+                            person.setPersonRole(FirebaseParse.getString(childShapshot.child(Person.PERSON_ROLE)));
 
                             AppShared.setLogginUser(person);
                             giveOutput(task);

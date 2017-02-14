@@ -10,16 +10,6 @@ public class Project {
 
     public Project(){}
 
-    public static String PROJECT_NAME = "projectName";
-    private String projectName;
-    public String getProjectName() {
-        return projectName;
-    }
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public static String PROJECT_ID = "projectId";
     private String projectId;
     public String getProjectId() {
         return projectId;
@@ -28,13 +18,31 @@ public class Project {
         this.projectId = projectId;
     }
 
-    public static String PROJECT_STATUS = "projectStatus";
-    private String projectStatus;
-    public String getProjectStatus() {
-        return projectStatus;
+    public static String NAME = "name";
+    private String name;
+    public String getName() {
+        return name;
     }
-    public void setProjectStatus(String projectStatus) {
-        this.projectStatus = projectStatus;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public static String STATUS = "status";
+    private String status;
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public static String DESCRIPTION = "description";
+    private String description;
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public static Project getCopy(Project project){
@@ -42,8 +50,9 @@ public class Project {
 
         Project copy = new Project();
         copy.projectId = project.projectId;
-        copy.projectName = project.projectName;
-        copy.projectStatus = project.projectStatus;
+        copy.name = project.name;
+        copy.description = project.description;
+        copy.status = project.status;
         return copy;
     }
 }

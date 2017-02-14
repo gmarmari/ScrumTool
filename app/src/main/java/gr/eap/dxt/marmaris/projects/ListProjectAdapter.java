@@ -18,13 +18,13 @@ import gr.eap.dxt.marmaris.tools.AppShared;
  * Created by GEO on 9/2/2017.
  */
 
-public class ListProjectAdapter extends ArrayAdapter<Project> {
+class ListProjectAdapter extends ArrayAdapter<Project> {
 
     private Context context;
     private ArrayList<Project> items;
     private int resource;
 
-    public ListProjectAdapter(Context context, ArrayList<Project> items) {
+    ListProjectAdapter(Context context, ArrayList<Project> items) {
         super(context, R.layout.list_project_item, items != null ? items : new ArrayList<Project>());
         this.context = context;
         this.items = items != null ? items : new ArrayList<Project>();
@@ -57,18 +57,26 @@ public class ListProjectAdapter extends ArrayAdapter<Project> {
             return convertView;
         }
 
-        TextView nameTextView = (TextView) convertView.findViewById(R.id.project_name);
-        if (nameTextView != null){
-            nameTextView.setText(project.getProjectName() != null ? project.getProjectName() : "");
+        TextView detailsTextView = (TextView) convertView.findViewById(R.id.project_details);
+        if (detailsTextView != null){
+            String details = "";
+            if (project.getName() != null && !project.getName().isEmpty()){
+                details += project.getName();
+            }
+            if (project.getDescription() != null && !project.getDescription().isEmpty()){
+                if (!details.isEmpty()) details += "\n";
+                details += context.getString(R.string.description) +": " + project.getDescription();
+            }
+
+            detailsTextView.setText(details);
         }
 
-        TextView statusTextView = (TextView) convertView.findViewById(R.id.project_status);
+        TextView statusTextView = (TextView) convertView.findViewById(R.id.status);
         if (statusTextView != null){
-            String status = ProjectStatus.getProjectStatus(context, project.getProjectStatus());
+            String status = ProjectStatus.getProjectStatus(context, project.getStatus());
             statusTextView.setText(status != null ? status : "");
         }
 
         return convertView;
     }
 }
-

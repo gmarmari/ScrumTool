@@ -14,7 +14,7 @@ import gr.eap.dxt.marmaris.tools.FirebaseCall;
  * Created by GEO on 10/2/2017.
  */
 
-public class FirebaseProjectAdd extends FirebaseCall {
+class FirebaseProjectAdd extends FirebaseCall {
 
     interface Listener {
         void onResponse(String errorMsg);
@@ -40,7 +40,7 @@ public class FirebaseProjectAdd extends FirebaseCall {
 
         // Check if a project with the same name exists
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Project.FIREBASE_LIST);
-        mDatabase.orderByChild(Project.PROJECT_NAME).equalTo(project.getProjectName()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.orderByChild(Project.NAME).equalTo(project.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null) {
@@ -72,13 +72,13 @@ public class FirebaseProjectAdd extends FirebaseCall {
             giveOutput();
             return;
         }
-        if (project.getProjectName() == null) {
-            addErrorNo("project.getProjectName() == null");
+        if (project.getName() == null) {
+            addErrorNo("project.getName() == null");
             giveOutput();
             return;
         }
-        if (project.getProjectName().isEmpty()) {
-            addErrorNo("project.getProjectName().isEmpty()");
+        if (project.getName().isEmpty()) {
+            addErrorNo("project.getName().isEmpty()");
             giveOutput();
             return;
         }
