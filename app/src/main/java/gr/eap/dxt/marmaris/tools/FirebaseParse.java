@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 public class FirebaseParse {
 
+    @SuppressWarnings("unchecked")
     public static Date getDate(DataSnapshot dataSnapshot) throws Exception{
         if (dataSnapshot == null) return null;
 
