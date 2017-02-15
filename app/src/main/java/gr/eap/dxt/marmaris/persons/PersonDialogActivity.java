@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import gr.eap.dxt.marmaris.R;
+import gr.eap.dxt.marmaris.tools.Keyboard;
 
 /**
  * Created by GEO on 5/2/2017.
@@ -93,6 +94,7 @@ public class PersonDialogActivity extends Activity implements PersonShowFragment
     }
 
     private void handleBack(){
+        Keyboard.close(this);
         if (isPersonEditFragmentOn){
             goToPersonShowFragment();
             return;

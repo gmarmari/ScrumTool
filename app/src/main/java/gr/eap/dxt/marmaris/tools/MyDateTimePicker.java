@@ -1,12 +1,15 @@
 package gr.eap.dxt.marmaris.tools;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
@@ -20,31 +23,47 @@ import gr.eap.dxt.marmaris.R;
 
 public class MyDateTimePicker extends Dialog{
 
+    public enum DateType{
+        BOTH,
+        ONLY_DATE,
+        ONLY_TIME
+    }
+
     public interface MyListener {
         void onDateSelected(Date date);
     }
 
     private MyListener myListener;
 
+    private Context context;
     private DatePicker myDatePicker;
     private TimePicker myTimePicker;
     private Date startDate;
+    private DateType dateType;
 
-    public MyDateTimePicker(Context context, Date startDate, MyListener myListener) {
+    public MyDateTimePicker(Context context, Date startDate, DateType dateType, MyListener myListener) {
         super(context,  R.style.my_dialog_no_title);
+        this.context = context;
+        this.dateType = dateType != null ? dateType : DateType.BOTH;
         this.startDate = startDate;
         this.myListener = myListener;
     }
 
-    public void setContentAndShow(final boolean showOnlyDate, boolean showOnlyTime){
+    public void setContentAndShow(){
         setContentView(R.layout.dialog_date_und_time_picker);
+
+        if (getWindow() != null){
+            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+            int width = (int) (metrics.widthPixels*0.8);
+            getWindow().setLayout(width, LinearLayout.LayoutParams.WRAP_CONTENT);
+        }
 
         myDatePicker = (DatePicker) findViewById(R.id.my_date_picker);
         myTimePicker = (TimePicker) findViewById(R.id.my_time_picker);
-        if (showOnlyDate) {
+        if (dateType != null && dateType.equals(DateType.ONLY_DATE)) {
             myDatePicker.setVisibility(View.VISIBLE);
             myTimePicker.setVisibility(View.GONE);
-        }else if(showOnlyTime){
+        }else if(dateType != null && dateType.equals(DateType.ONLY_TIME)){
             myDatePicker.setVisibility(View.GONE);
             myTimePicker.setVisibility(View.VISIBLE);
             myTimePicker.setIs24HourView(true);
@@ -75,7 +94,7 @@ public class MyDateTimePicker extends Dialog{
                 calendar.set(Calendar.MONTH, myDatePicker.getMonth());
                 calendar.set(Calendar.DAY_OF_MONTH, myDatePicker.getDayOfMonth());
 
-                if (showOnlyDate) {
+                if (dateType != null && dateType.equals(DateType.ONLY_DATE)) {
                     calendar.set(Calendar.HOUR_OF_DAY, 0);
                     calendar.set(Calendar.MINUTE, 0);
                     calendar.set(Calendar.SECOND, 0);

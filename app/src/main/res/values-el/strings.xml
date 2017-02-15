@@ -55,7 +55,6 @@
     <string name="delete_project">Διαγραφή του project;</string>
     <string name="project_deleted">Το project διαγράφηκε</string>
     <string name="new_project">Νέο project</string>
-    <string name="delete_backlog">Διαγραφή του backlog?</string>
 
     <!-- Backlog -->
     <string name="feature">Χαρακτηριστικό</string>
@@ -64,10 +63,19 @@
     <string name="description">Περιγραφή</string>
     <string name="assigned_to">Ανατέθηκε στον</string>
     <string name="type">Τύπος</string>
-    <string name="backlog_deleted">Το Backlog διαγράφηκε</string>
+    <string name="delete_backlog">Διαγραφή του backlog?</string>
+    <string name="backlog_deleted">Το backlog διαγράφηκε</string>
     <string name="new_backlog">Νέο backlog</string>
     <string name="to_do">Να γίνει</string>
     <string name="done">\Έγινε</string>
+
+    <!-- Sprint -->
+    <string name="sprint">Sprint</string>
+    <string name="start">Αρχή</string>
+    <string name="end">Τέλος</string>
+    <string name="delete_sprint">Διαγραφή του sprint?</string>
+    <string name="sprint_deleted">Το sprint διαγράφηκε</string>
+    <string name="new_sprint">Νέο sprint</string>
 
     <!-- ProgressBar, AlertDialog -->
     <string name="loading">Φορτώνει&#8230;</string>

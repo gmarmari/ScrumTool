@@ -30,7 +30,10 @@ import gr.eap.dxt.marmaris.projects.ProjectEditFragment;
 import gr.eap.dxt.marmaris.projects.ProjectNewDialogActivity;
 import gr.eap.dxt.marmaris.projects.ProjectListFragment;
 import gr.eap.dxt.marmaris.sprints.Sprint;
+import gr.eap.dxt.marmaris.sprints.SprintDialogActivity;
+import gr.eap.dxt.marmaris.sprints.SprintEditFragment;
 import gr.eap.dxt.marmaris.sprints.SprintListFragment;
+import gr.eap.dxt.marmaris.sprints.SprintNewDialogActivity;
 import gr.eap.dxt.marmaris.tools.AppShared;
 import gr.eap.dxt.marmaris.tools.GooglePlayServices;
 import gr.eap.dxt.marmaris.tools.MyRequestCodes;
@@ -134,6 +137,16 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
                 if (data != null){
                     if (data.getBooleanExtra(BacklogEditFragment.RELOAD, false)){
                         openFragmentBacklogs();
+                    }
+                }
+            }
+        }
+        if (requestCode == MyRequestCodes.SPRINT_EDIT_REQUEST){
+            if (resultCode == RESULT_OK){
+                // Sprint editted or added
+                if (data != null){
+                    if (data.getBooleanExtra(SprintEditFragment.RELOAD, false)){
+                        openFragmentSprints();
                     }
                 }
             }
@@ -281,13 +294,16 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
     /** From {@link SprintListFragment.FragmentInteractionListener}*/
     @Override
     public void onShowSprint(Sprint sprint) {
-
+        SprintDialogActivity.setStaticContent(sprint);
+        Intent intent = new Intent(this, SprintDialogActivity.class);
+        startActivityForResult(intent, MyRequestCodes.SPRINT_EDIT_REQUEST);
     }
 
     /** From {@link SprintListFragment.FragmentInteractionListener}*/
     @Override
     public void onAddNewSprint() {
-
+        Intent intent = new Intent(this, SprintNewDialogActivity.class);
+        startActivityForResult(intent, MyRequestCodes.SPRINT_EDIT_REQUEST);
     }
 
     /*

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import gr.eap.dxt.marmaris.R;
+import gr.eap.dxt.marmaris.tools.Keyboard;
 
 /**
  * Created by GEO on 11/2/2017.
@@ -24,7 +25,7 @@ public class ProjectDialogActivity extends Activity implements ProjectShowFragme
 
     public static void setStaticContent(Project _project){
         clearStaticContent();
-        // Create a copy from this project, so if cancel the changes are only on the copy, not on the original person
+        // Create a copy from this project, so if cancel the changes are only on the copy, not on the original
         project = Project.getCopy(_project);
     }
 
@@ -92,6 +93,7 @@ public class ProjectDialogActivity extends Activity implements ProjectShowFragme
     }
 
     private void handleBack(){
+        Keyboard.close(this);
         if (isProjectEditFragmentOn){
             goToProjectShowFragment();
             return;
