@@ -127,8 +127,11 @@ public class BacklogListFragment extends Fragment {
                     backlog.setName(FirebaseParse.getString(dataSnapshot.child(Backlog.NAME)));
                     backlog.setDescription(FirebaseParse.getString(dataSnapshot.child(Backlog.DESCRIPTION)));
                     backlog.setStatus(FirebaseParse.getString(dataSnapshot.child(Backlog.STATUS)));
-                    backlog.setAssignedPersonId(FirebaseParse.getString(dataSnapshot.child(Backlog.ASSIGNED_PERSON_ID)));
-                    backlog.setAssignedPersonName(FirebaseParse.getString(dataSnapshot.child(Backlog.ASSIGNED_PERSON_NAME)));
+                    backlog.setDuration(FirebaseParse.getLong(dataSnapshot.child(Backlog.DURATION)));
+                    backlog.setPersonId(FirebaseParse.getString(dataSnapshot.child(Backlog.PERSON_ID)));
+                    backlog.setPersonName(FirebaseParse.getString(dataSnapshot.child(Backlog.PERSON_NAME)));
+                    backlog.setSprintId(FirebaseParse.getString(dataSnapshot.child(Backlog.SPRINT_ID)));
+                    backlog.setSprintName(FirebaseParse.getString(dataSnapshot.child(Backlog.SPRINT_NAME)));
                     backlog.setType(FirebaseParse.getString(dataSnapshot.child(Backlog.TYPE)));
 
                     backlogs.add(backlog);
@@ -152,8 +155,11 @@ public class BacklogListFragment extends Fragment {
                     backlog.setName(FirebaseParse.getString(dataSnapshot.child(Backlog.NAME)));
                     backlog.setDescription(FirebaseParse.getString(dataSnapshot.child(Backlog.DESCRIPTION)));
                     backlog.setStatus(FirebaseParse.getString(dataSnapshot.child(Backlog.STATUS)));
-                    backlog.setAssignedPersonId(FirebaseParse.getString(dataSnapshot.child(Backlog.ASSIGNED_PERSON_ID)));
-                    backlog.setAssignedPersonName(FirebaseParse.getString(dataSnapshot.child(Backlog.ASSIGNED_PERSON_NAME)));
+                    backlog.setDuration(FirebaseParse.getLong(dataSnapshot.child(Backlog.DURATION)));
+                    backlog.setPersonId(FirebaseParse.getString(dataSnapshot.child(Backlog.PERSON_ID)));
+                    backlog.setPersonName(FirebaseParse.getString(dataSnapshot.child(Backlog.PERSON_NAME)));
+                    backlog.setSprintId(FirebaseParse.getString(dataSnapshot.child(Backlog.SPRINT_ID)));
+                    backlog.setSprintName(FirebaseParse.getString(dataSnapshot.child(Backlog.SPRINT_NAME)));
                     backlog.setType(FirebaseParse.getString(dataSnapshot.child(Backlog.TYPE)));
 
                     if (adapter != null) adapter.notifyDataSetChanged();

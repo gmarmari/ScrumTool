@@ -32,4 +32,10 @@ public class FirebaseParse {
         if (dataSnapshot.getValue() == null) return null;
         return dataSnapshot.getValue().toString();
     }
+
+    public static Long getLong(DataSnapshot dataSnapshot) throws Exception{
+        if (dataSnapshot == null) return null;
+        if (dataSnapshot.getValue() == null) return null;
+        return (Long) dataSnapshot.getValue();
+    }
 }

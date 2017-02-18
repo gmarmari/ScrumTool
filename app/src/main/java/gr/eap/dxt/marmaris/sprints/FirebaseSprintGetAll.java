@@ -65,9 +65,12 @@ class FirebaseSprintGetAll extends FirebaseCall {
 
                         sprint.setName(FirebaseParse.getString(childShapshot.child(Sprint.NAME)));
                         sprint.setDescription(FirebaseParse.getString(childShapshot.child(Sprint.DESCRIPTION)));
+                        sprint.setProjectId(FirebaseParse.getString(childShapshot.child(Sprint.PROJECT_ID)));
+                        sprint.setProjectName(FirebaseParse.getString(childShapshot.child(Sprint.PROJECT_NAME)));
                         sprint.setStatus(FirebaseParse.getString(childShapshot.child(Sprint.STATUS)));
                         sprint.setStartDate(FirebaseParse.getDate(childShapshot.child(Sprint.START_DATE)));
                         sprint.setEndDate(FirebaseParse.getDate(childShapshot.child(Sprint.END_DATE)));
+                        sprint.setDuration(FirebaseParse.getLong(childShapshot.child(Sprint.DURATION)));
 
                         sprints.add(sprint);
                     }catch (Exception e){
