@@ -3,6 +3,7 @@ package gr.eap.dxt.marmaris.sprints;
 import android.content.Context;
 
 import gr.eap.dxt.marmaris.R;
+import gr.eap.dxt.marmaris.tools.MyColor;
 
 /**
  * Created by GEO on 12/2/2017.
@@ -30,6 +31,26 @@ public class SprintStatus {
         }
         if (status.equals(CANCELED)){
             return context.getResources().getString(R.string.canceled);
+        }
+
+        return null;
+    }
+
+    public static Integer getSprintStatusColor(Context context, String status){
+        if (context == null) return null;
+        if (status == null || status.isEmpty()) return null;
+
+        if (status.equals(NOT_STARTED)){
+            return MyColor.getColorAccordingToAndroidVersion(context, R.color.color_blue);
+        }
+        if (status.equals(IN_PROGRESS)){
+            return MyColor.getColorAccordingToAndroidVersion(context, R.color.color_orange);
+        }
+        if (status.equals(COMPLETED)){
+            return MyColor.getColorAccordingToAndroidVersion(context, R.color.color_green);
+        }
+        if (status.equals(CANCELED)){
+            return MyColor.getColorAccordingToAndroidVersion(context, R.color.color_red);
         }
 
         return null;

@@ -41,21 +41,22 @@ class FirebaseSprintGetAll extends FirebaseCall {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot == null) {
                     addErrorNo("dataSnapshot == null");
-                    giveOutput(null);
+                    giveOutput(null, null);
                     return;
                 }
                 if (dataSnapshot.getChildren() == null) {
                     addErrorNo("dataSnapshotgetChildren() == null");
-                    giveOutput(null);
+                    giveOutput(null, null);
                     return;
                 }
 
                 if (dataSnapshot.getChildrenCount() == 0) {
-                    giveOutput(new ArrayList<Sprint>());
+                    giveOutput(new ArrayList<Sprint>(), null);
                     return;
                 }
 
                 ArrayList<Sprint> sprints = new ArrayList<>();
+                ArrayList<Sprint> sprintsToChange = new ArrayList<>();
 
                 for (DataSnapshot childShapshot : dataSnapshot.getChildren()){
 
@@ -73,12 +74,17 @@ class FirebaseSprintGetAll extends FirebaseCall {
                         sprint.setDuration(FirebaseParse.getLong(childShapshot.child(Sprint.DURATION)));
 
                         sprints.add(sprint);
+                        if (Sprint.checkSprintStatus(sprint)){
+                            sprintsToChange.add(sprint);
+                        }
+
                     }catch (Exception e){
                         addErrorNo(e.toString());
                     }
                 }
 
-                giveOutput(sprints);
+
+                giveOutput(sprints, sprintsToChange);
             }
 
             @Override
@@ -86,12 +92,12 @@ class FirebaseSprintGetAll extends FirebaseCall {
                 if (databaseError != null) {
                     addErrorNo(databaseError.getMessage());
                 }
-                giveOutput(null);
+                giveOutput(null, null);
             }
         });
     }
 
-    private void giveOutput(ArrayList<Sprint> sprints){
+    private void giveOutput(ArrayList<Sprint> sprints,  ArrayList<Sprint> sprintsToChange){
         super.giveOutput();
 
         if (getErrorno() != null && !getErrorno().isEmpty()){
@@ -104,6 +110,20 @@ class FirebaseSprintGetAll extends FirebaseCall {
         }
 
         if (mListener != null) mListener.onResponse(sprints);
+
+        if (sprintsToChange != null && !sprintsToChange.isEmpty()){
+            // save the changes on background
+            new FirebaseSprintEditMany(getContext(), sprintsToChange, new FirebaseSprintEditMany.Listener() {
+                @Override
+                public void onResponse(String errorMsg) {
+
+                    if (errorMsg != null && !errorMsg.isEmpty()){
+                        writeError(errorMsg);
+                    }
+
+                }
+            }).execute();
+        }
     }
 
 }

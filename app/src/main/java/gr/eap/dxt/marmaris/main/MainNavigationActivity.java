@@ -276,7 +276,7 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
         startActivityForResult(intent, MyRequestCodes.PROJECT_EDIT_REQUEST);
     }
 
-    /** From {@link BacklogListFragment.FragmentInteractionListener}*/
+    /** From {@link BacklogListFragment.FragmentInteractionListener} */
     @Override
     public void onShowBacklog(Backlog backlog) {
         BacklogDialogActivity.setStaticContent(backlog);

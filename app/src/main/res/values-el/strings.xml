@@ -56,6 +56,7 @@
     <string name="project_deleted">Το project διαγράφηκε</string>
     <string name="new_project">Νέο project</string>
     <string name="select_project">Επιλέξτε ένα project</string>
+    <string name="sprint_project_remove">Απομάκρυνση από το project</string>
 
     <!-- Backlog -->
     <string name="feature">Χαρακτηριστικό</string>
@@ -72,6 +73,9 @@
     <string name="duration">Διάρκεια</string>
     <string name="day">Ημέρα</string>
     <string name="days">Ημέρες</string>
+    <string name="backlog_sprint_remove">Απομάκρυνση από το sprint</string>
+    <string name="not_allowed">Δεν επιτρέπεται</string>
+    <string name="backlog_status_change_message">Το backlog πρέπει να ανήκει σε ένα sprint καθ αυτό να έχει ξεκινήσει για να αλλάξετε το status</string>
 
     <!-- Sprint -->
     <string name="sprint">Sprint</string>
@@ -81,6 +85,8 @@
     <string name="sprint_deleted">Το sprint διαγράφηκε</string>
     <string name="new_sprint">Νέο sprint</string>
     <string name="select_sprint">Επιλέξτε ένα sprint</string>
+    <string name="sprint_status_change_message">Το sprint πρέπει να έχει ξεκινήσει για να αλλάξετε το status</string>
+    <string name="days_available">Ημέρες διαθέσιμες</string>
 
     <!-- ProgressBar, AlertDialog -->
     <string name="loading">Φορτώνει&#8230;</string>

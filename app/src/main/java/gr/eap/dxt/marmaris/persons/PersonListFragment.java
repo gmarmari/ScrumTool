@@ -75,7 +75,7 @@ public class PersonListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_persons, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_person_list, container, false);
 
         listView = (ListView) rootView.findViewById(R.id.my_list_view);
         if (listView != null){

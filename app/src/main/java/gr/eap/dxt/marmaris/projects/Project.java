@@ -8,7 +8,9 @@ public class Project {
 
     public static String FIREBASE_LIST = "Projects";
 
-    public Project(){}
+    public Project(){
+        status = ProjectStatus.NOT_STARTED;
+    }
 
     private String projectId;
     public String getProjectId() {

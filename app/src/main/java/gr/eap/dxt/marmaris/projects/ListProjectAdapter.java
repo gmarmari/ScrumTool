@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import gr.eap.dxt.marmaris.R;
 import gr.eap.dxt.marmaris.tools.AppShared;
+import gr.eap.dxt.marmaris.tools.MyColor;
 
 /**
  * Created by GEO on 9/2/2017.
@@ -74,7 +75,12 @@ class ListProjectAdapter extends ArrayAdapter<Project> {
         TextView statusTextView = (TextView) convertView.findViewById(R.id.status);
         if (statusTextView != null){
             String status = ProjectStatus.getProjectStatus(context, project.getStatus());
+            Integer color = ProjectStatus.getProjectStatusColor(context, project.getStatus());
+            if (color == null){
+                color = MyColor.getColorAccordingToAndroidVersion(context, R.color.color_eap_logo_dark_blue);
+            }
             statusTextView.setText(status != null ? status : "");
+            statusTextView.setTextColor(color);
         }
 
         return convertView;
