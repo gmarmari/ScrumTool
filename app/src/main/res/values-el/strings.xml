@@ -5,7 +5,7 @@
 
     <!-- MainNavigationDrawerFragment -->
     <string name="home">Αρχική</string>
-    <string name="projects">Projects</string>
+    <string name="projects">\'Εργα</string>
     <string name="people">Μέλη</string>
     <string name="backlog">Backlog</string>
     <string name="sprints">Sprints</string>
@@ -16,8 +16,8 @@
     <!-- Home -->
     <string name="welcome">καλώς όρισες στο Scrum Tool!</string>
     <string name="group_consists_of">Η ομάδα σας αποτελείτε από</string>
+    <string name="member">μέλος</string>
     <string name="members">μέλη</string>
-    <string name="currently_you_work_on">Αυτή τη στιγμή ασχολείστε με</string>
 
     <!-- About -->
     <string name="eap">Ελληνικό Ανοικτό Πανεπιστήμιο</string>
@@ -44,21 +44,23 @@
     <string name="delete_person">Διαγραφή του μέλους?</string>
     <string name="person_deleted">Το μέλος διαγράφηκε</string>
     <string name="select_person">Επιλέξτε ένα μέλος</string>
+    <string name="role_exists">Ο ρόλος -role- είναι ήδη κατειλλημένος</string>
 
     <!-- Project -->
-    <string name="project">Project</string>
+    <string name="project">\'Εργο</string>
     <string name="status">Κατάσταση</string>
     <string name="not_started">Δεν ξεκίνησε</string>
     <string name="in_progress">Σε εξέλιξη</string>
     <string name="completed">Ολοκληρώθηκε</string>
     <string name="canceled">Ακυρώθηκε</string>
-    <string name="delete_project">Διαγραφή του project;</string>
-    <string name="project_deleted">Το project διαγράφηκε</string>
-    <string name="new_project">Νέο project</string>
-    <string name="select_project">Επιλέξτε ένα project</string>
-    <string name="sprint_project_remove">Απομάκρυνση από το project</string>
+    <string name="delete_project">Διαγραφή του έργου;</string>
+    <string name="project_deleted">Το έργο διαγράφηκε</string>
+    <string name="new_project">Νέο έργο</string>
+    <string name="select_project">Επιλέξτε ένα έργο</string>
+    <string name="sprint_project_remove">Απομάκρυνση από το έργο</string>
 
     <!-- Backlog -->
+    <string name="backlogs">Backlogs</string>
     <string name="feature">Χαρακτηριστικό</string>
     <string name="bug">Σφάλμα</string>
     <string name="other">\'Αλλο</string>
@@ -69,13 +71,16 @@
     <string name="backlog_deleted">Το backlog διαγράφηκε</string>
     <string name="new_backlog">Νέο backlog</string>
     <string name="to_do">Να γίνει</string>
-    <string name="done">\Έγινε</string>
+    <string name="done">\'Εγινε</string>
     <string name="duration">Διάρκεια</string>
     <string name="day">Ημέρα</string>
     <string name="days">Ημέρες</string>
     <string name="backlog_sprint_remove">Απομάκρυνση από το sprint</string>
     <string name="not_allowed">Δεν επιτρέπεται</string>
-    <string name="backlog_status_change_message">Το backlog πρέπει να ανήκει σε ένα sprint καθ αυτό να έχει ξεκινήσει για να αλλάξετε το status</string>
+    <string name="backlog_status_change_message">Το backlog πρέπει να ανήκει σε ένα sprint και αυτό να έχει ξεκινήσει για να αλλάξετε το status</string>
+    <string name="backlog_person_change_message">Δεν επιτρέπεται η αλλαγή του μέλους  επειδή tο backlog έχει ολοκληρωθεί</string>
+    <string name="backlog_sprint_change_message">Δεν επιτρέπεται η αλλαγή του sprint  επειδή tο backlog έχει ολοκληρωθεί</string>
+    <string name="backlog_new_not_allowed_message">Η προσθήκη των backlogs υπόκειται μόνο στη δικαιοδοσία του Product Owner</string>
 
     <!-- Sprint -->
     <string name="sprint">Sprint</string>
@@ -86,23 +91,23 @@
     <string name="new_sprint">Νέο sprint</string>
     <string name="select_sprint">Επιλέξτε ένα sprint</string>
     <string name="sprint_status_change_message">Το sprint πρέπει να έχει ξεκινήσει για να αλλάξετε το status</string>
+    <string name="day_available">Ημέρα διαθέσιμη</string>
     <string name="days_available">Ημέρες διαθέσιμες</string>
 
     <!-- ProgressBar, AlertDialog -->
     <string name="loading">Φορτώνει&#8230;</string>
     <string name="login_progress">Είσοδος&#8230;</string>
     <string name="get_persons_progress">Φόρτωση των μελών&#8230;</string>
-    <string name="get_projects_progress">Φόρτωση των projects&#8230;</string>
+    <string name="get_projects_progress">Φόρτωση των έργων&#8230;</string>
     <string name="get_backlog_progress">Φόρτωση της λίστας των backlog&#8230;</string>
     <string name="get_sprints_progress">Φόρτωση της λίστας των sprint&#8230;</string>
-    <string name="cancel">/Άκυρο</string>
+    <string name="cancel">\'Aκυρο</string>
     <string name="ok">OK</string>
     <string name="select">Επιλέξτε</string>
     <string name="error_occured">Παρουσιάστηκε ένα σφάλμα!</string>
     <string name="add">Προσθήκη</string>
     <string name="edit">Επεξεργασία</string>
     <string name="delete">Διαγραφή</string>
-    <string name="all">\'Ολα</string>
     <string name="back">Πίσω</string>
     <string name="none">Αδιευκρίνιστο</string>
     <string name="no_change_occured">Δεν πραγματοποιήθηκε καμία αλλαγή</string>
