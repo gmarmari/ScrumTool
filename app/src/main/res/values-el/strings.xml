@@ -37,7 +37,6 @@
     <string name="developer">Προγραμματιστής</string>
     <string name="product_owner">Product owner</string>
     <string name="scrum_master">Scrum master</string>
-    <string name="stakeholder">Ενδιαφερόμενος</string>
     <string name="person">Μέλος</string>
     <string name="name">\'Ονομα</string>
     <string name="role">Ρόλος</string>
@@ -81,6 +80,11 @@
     <string name="backlog_person_change_message">Δεν επιτρέπεται η αλλαγή του μέλους  επειδή tο backlog έχει ολοκληρωθεί</string>
     <string name="backlog_sprint_change_message">Δεν επιτρέπεται η αλλαγή του sprint  επειδή tο backlog έχει ολοκληρωθεί</string>
     <string name="backlog_new_not_allowed_message">Η προσθήκη των backlogs υπόκειται μόνο στη δικαιοδοσία του Product Owner</string>
+    <string name="priority">Προτεραιότητα</string>
+    <string name="prio_1_urgent">1 Επείγον</string>
+    <string name="prio_2_important">2 Σημαντικό</string>
+    <string name="prio_3_normal">3 Κανονικό</string>
+    <string name="prio_4_not_important">4 Ασήμαντο</string>
 
     <!-- Sprint -->
     <string name="sprint">Sprint</string>

@@ -127,6 +127,7 @@ public class BacklogListFragment extends Fragment {
 
                     backlog.setName(FirebaseParse.getString(dataSnapshot.child(Backlog.NAME)));
                     backlog.setDescription(FirebaseParse.getString(dataSnapshot.child(Backlog.DESCRIPTION)));
+                    backlog.setPriority(FirebaseParse.getString(dataSnapshot.child(Backlog.PRIORITY)));
                     backlog.setStatus(FirebaseParse.getString(dataSnapshot.child(Backlog.STATUS)));
                     backlog.setDuration(FirebaseParse.getLong(dataSnapshot.child(Backlog.DURATION)));
                     backlog.setPersonId(FirebaseParse.getString(dataSnapshot.child(Backlog.PERSON_ID)));
@@ -153,6 +154,7 @@ public class BacklogListFragment extends Fragment {
 
                     backlog.setName(FirebaseParse.getString(dataSnapshot.child(Backlog.NAME)));
                     backlog.setDescription(FirebaseParse.getString(dataSnapshot.child(Backlog.DESCRIPTION)));
+                    backlog.setPriority(FirebaseParse.getString(dataSnapshot.child(Backlog.PRIORITY)));
                     backlog.setStatus(FirebaseParse.getString(dataSnapshot.child(Backlog.STATUS)));
                     backlog.setDuration(FirebaseParse.getLong(dataSnapshot.child(Backlog.DURATION)));
                     backlog.setPersonId(FirebaseParse.getString(dataSnapshot.child(Backlog.PERSON_ID)));
@@ -312,7 +314,7 @@ public class BacklogListFragment extends Fragment {
             return;
         }
 
-        String personRole = person.getPersonRole() != null ? person.getPersonRole() : "";
+        String personRole = person.getRole() != null ? person.getRole() : "";
         if (!personRole.equals(PersonRole.PRODUCT_OWNER)) {
             MyAlertDialog.alertError(getActivity(), getString(R.string.not_allowed), getString(R.string.backlog_new_not_allowed_message));
             return;

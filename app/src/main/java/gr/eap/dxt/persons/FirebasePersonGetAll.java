@@ -55,7 +55,7 @@ class FirebasePersonGetAll extends FirebaseCall{
             return;
         }
 
-        mDatabase.orderByChild(Person.PERSON_ROLE).equalTo(personRole).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.orderByChild(Person.ROLE).equalTo(personRole).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot == null) {
@@ -84,7 +84,7 @@ class FirebasePersonGetAll extends FirebaseCall{
 
                         person.setEmail(FirebaseParse.getString(childShapshot.child(Person.EMAIL)));
                         person.setName(FirebaseParse.getString(childShapshot.child(Person.NAME)));
-                        person.setPersonRole(FirebaseParse.getString(childShapshot.child(Person.PERSON_ROLE)));
+                        person.setRole(FirebaseParse.getString(childShapshot.child(Person.ROLE)));
 
                         persons.add(person);
                     }catch (Exception e){
@@ -137,7 +137,7 @@ class FirebasePersonGetAll extends FirebaseCall{
 
                         person.setEmail(FirebaseParse.getString(childShapshot.child(Person.EMAIL)));
                         person.setName(FirebaseParse.getString(childShapshot.child(Person.NAME)));
-                        person.setPersonRole(FirebaseParse.getString(childShapshot.child(Person.PERSON_ROLE)));
+                        person.setRole(FirebaseParse.getString(childShapshot.child(Person.ROLE)));
 
                         persons.add(person);
                     }catch (Exception e){

@@ -111,7 +111,7 @@ public class PersonListFragment extends Fragment {
 
                     person.setEmail(FirebaseParse.getString(dataSnapshot.child(Person.EMAIL)));
                     person.setName(FirebaseParse.getString(dataSnapshot.child(Person.NAME)));
-                    person.setPersonRole(FirebaseParse.getString(dataSnapshot.child(Person.PERSON_ROLE)));
+                    person.setRole(FirebaseParse.getString(dataSnapshot.child(Person.ROLE)));
 
                     persons.add(person);
                     if (listView != null) {
@@ -133,7 +133,7 @@ public class PersonListFragment extends Fragment {
 
                     person.setEmail(FirebaseParse.getString(dataSnapshot.child(Person.EMAIL)));
                     person.setName(FirebaseParse.getString(dataSnapshot.child(Person.NAME)));
-                    person.setPersonRole(FirebaseParse.getString(dataSnapshot.child(Person.PERSON_ROLE)));
+                    person.setRole(FirebaseParse.getString(dataSnapshot.child(Person.ROLE)));
 
                     if (adapter != null) adapter.notifyDataSetChanged();
                 } catch (Exception e) {
