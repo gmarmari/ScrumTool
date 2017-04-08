@@ -4,6 +4,39 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TableRow android:id="@+id/project_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_selector_my_transp_background"
+        android:padding="@dimen/padding_small"
+        android:gravity="bottom">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_small"
+            android:clickable="false"
+            android:contentDescription="@string/backlog"
+            android:focusable="false"
+            android:src="@drawable/ic_action_project_purple"/>
+
+        <TextView
+            android:id="@+id/project_details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/color_eap_logo_dark_blue"
+            android:textSize="@dimen/font_size_small"
+            android:maxLines="3"/>
+
+    </TableRow>
+
+    <View
+        android:id="@+id/my_divider_project"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_eap_logo_purple"/>
+
     <ListView android:id="@+id/my_list_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"

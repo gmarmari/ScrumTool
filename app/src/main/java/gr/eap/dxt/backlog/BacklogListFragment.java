@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +27,9 @@ import gr.eap.dxt.R;
 import gr.eap.dxt.login.FirebaseGetUser;
 import gr.eap.dxt.persons.Person;
 import gr.eap.dxt.persons.PersonRole;
+import gr.eap.dxt.projects.DialogProjectSelect;
+import gr.eap.dxt.projects.FirebaseProjectGetAll;
+import gr.eap.dxt.projects.Project;
 import gr.eap.dxt.tools.AppShared;
 import gr.eap.dxt.tools.FirebaseParse;
 import gr.eap.dxt.tools.MyAlertDialog;
@@ -45,9 +51,11 @@ public class BacklogListFragment extends Fragment {
         return new BacklogListFragment();
     }
 
-    private ListView listView;
+    private View rootView;
     private ListBacklogAdapter adapter;
     private ArrayList<Backlog> backlogs;
+    private ArrayList<Project> projects;
+    private static Project project; // static, in order to show the last selected project after view reload
 
     @TargetApi(23)
     @Override
@@ -80,41 +88,76 @@ public class BacklogListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_backlog_list, container, false);
+        rootView = inflater.inflate(R.layout.fragment_backlog_list, container, false);
 
-        listView = (ListView) rootView.findViewById(R.id.my_list_view);
-        if (listView != null){
-            adapter = new ListBacklogAdapter(getActivity(), backlogs);
-            listView.setAdapter(adapter);
-            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    listView.setItemChecked(i, true);
+        setList();
+        setFirebaseListeners();
+        setBottomToolbar();
+        return rootView;
+    }
 
-                    int position = i - listView.getHeaderViewsCount();
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-                    if (backlogs == null){
-                        AppShared.writeErrorToLogString(getClass().toString(), "backlogs == null");
-                        return;
-                    }
-
-                    backlogSelected(position);
-                }
-            });
+        if (projects == null){
+            getProjects();
+        }else{
+            setActivatedPosition(AppShared.backlogListSelPos, true);
         }
+    }
 
-        ImageButton addButton = (ImageButton) rootView.findViewById(R.id.my_button_add);
-        if (addButton != null){
-            addButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setProjectLayoutAccordingToOrientation(newConfig.orientation);
+    }
 
-                    handleBacklogAdd();
+    private void setActivatedPosition(final int position, boolean scroll) {
+        if (backlogs == null) return;
+        if (position < 0 || position >= backlogs.size())  return;
+        AppShared.backlogListSelPos = position;
+        if (rootView == null) return;
+        final ListView listView = (ListView) rootView.findViewById(R.id.my_list_view);
+        if (listView == null) return;
+        listView.setItemChecked(position, true);
+        if (!scroll) return;
+        listView.post(new Runnable() {
+            public void run() {
+                listView.smoothScrollToPosition(position);
+            }
+        });
+    }
 
+    private void setList() {
+        if (rootView == null) return;
+
+        final ListView listView = (ListView) rootView.findViewById(R.id.my_list_view);
+        if (listView == null) return;
+        adapter = new ListBacklogAdapter(getActivity(), backlogs);
+        listView.setAdapter(adapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                setActivatedPosition(i, false);
+
+                int position = i - listView.getHeaderViewsCount();
+
+                if (backlogs == null) {
+                    AppShared.writeErrorToLogString(getClass().toString(), "backlogs == null");
+                    return;
                 }
-            });
-        }
+
+                backlogSelected(position);
+            }
+        });
+    }
+
+    private void setFirebaseListeners(){
+        if (rootView == null) return;
+        final ListView listView = (ListView) rootView.findViewById(R.id.my_list_view);
+        if (listView == null) return;
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Backlog.FIREBASE_LIST);
         mDatabase.addChildEventListener(new ChildEventListener() {
@@ -132,13 +175,12 @@ public class BacklogListFragment extends Fragment {
                     backlog.setDuration(FirebaseParse.getLong(dataSnapshot.child(Backlog.DURATION)));
                     backlog.setPersonId(FirebaseParse.getString(dataSnapshot.child(Backlog.PERSON_ID)));
                     backlog.setSprintId(FirebaseParse.getString(dataSnapshot.child(Backlog.SPRINT_ID)));
+                    backlog.setProjectId(FirebaseParse.getString(dataSnapshot.child(Backlog.PROJECT_ID)));
                     backlog.setType(FirebaseParse.getString(dataSnapshot.child(Backlog.TYPE)));
 
                     backlogs.add(backlog);
-                    if (listView != null) {
-                        adapter = new ListBacklogAdapter(getActivity(), backlogs);
-                        listView.setAdapter(adapter);
-                    }
+                    adapter = new ListBacklogAdapter(getActivity(), backlogs);
+                    listView.setAdapter(adapter);
                 } catch (Exception e) {
                     e.printStackTrace();
                     AppShared.writeErrorToLogString(getClass().toString(), e.toString());
@@ -149,7 +191,7 @@ public class BacklogListFragment extends Fragment {
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot == null) return;
                 try {
-                    Backlog backlog = getBacklogWithId(dataSnapshot.getKey());
+                    Backlog backlog = Backlog.getBacklogWithId(dataSnapshot.getKey(), backlogs);
                     if (backlog == null) return;
 
                     backlog.setName(FirebaseParse.getString(dataSnapshot.child(Backlog.NAME)));
@@ -159,6 +201,7 @@ public class BacklogListFragment extends Fragment {
                     backlog.setDuration(FirebaseParse.getLong(dataSnapshot.child(Backlog.DURATION)));
                     backlog.setPersonId(FirebaseParse.getString(dataSnapshot.child(Backlog.PERSON_ID)));
                     backlog.setSprintId(FirebaseParse.getString(dataSnapshot.child(Backlog.SPRINT_ID)));
+                    backlog.setProjectId(FirebaseParse.getString(dataSnapshot.child(Backlog.PROJECT_ID)));
                     backlog.setType(FirebaseParse.getString(dataSnapshot.child(Backlog.TYPE)));
 
                     if (adapter != null) adapter.notifyDataSetChanged();
@@ -172,14 +215,12 @@ public class BacklogListFragment extends Fragment {
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 if (dataSnapshot == null) return;
                 try {
-                    Backlog backlog = getBacklogWithId(dataSnapshot.getKey());
+                    Backlog backlog = Backlog.getBacklogWithId(dataSnapshot.getKey(), backlogs);
                     if (backlog == null) return;
 
                     backlogs.remove(backlog);
-                    if (listView != null) {
-                        adapter = new ListBacklogAdapter(getActivity(), backlogs);
-                        listView.setAdapter(adapter);
-                    }
+                    adapter = new ListBacklogAdapter(getActivity(), backlogs);
+                    listView.setAdapter(adapter);
                 } catch (Exception e) {
                     e.printStackTrace();
                     AppShared.writeErrorToLogString(getClass().toString(), e.toString());
@@ -196,57 +237,132 @@ public class BacklogListFragment extends Fragment {
 
             }
         });
-
-        return rootView;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        if (backlogs == null){
-            getAllBacklogs();
-        }
-    }
-
-    private void getAllBacklogs(){
-        new FirebaseBacklogGetAll(getActivity(), new FirebaseBacklogGetAll.Listener() {
+    private void setBottomToolbar(){
+        if (rootView == null) return;
+        ImageButton addButton = (ImageButton) rootView.findViewById(R.id.my_button_add);
+        if (addButton == null) return;
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(ArrayList<Backlog> _backlogs, String errorMsg) {
+            public void onClick(View view) {
+
+                handleBacklogAdd();
+
+            }
+        });
+    }
+
+    private void getProjects(){
+        new FirebaseProjectGetAll(getActivity(), new FirebaseProjectGetAll.Listener() {
+            @Override
+            public void onResponse(ArrayList<Project> projects, String errorMsg) {
 
                 if (errorMsg != null && !errorMsg.isEmpty()){
+                    AppShared.writeErrorToLogString(getClass().toString(), errorMsg);
                     MyAlertDialog.alertError(getActivity(), null, errorMsg);
                     return;
                 }
 
-                if (_backlogs == null) {
-                    MyAlertDialog.alertError(getActivity(), null, "backlogs == null");
-                    return;
+                BacklogListFragment.this.projects = new ArrayList<>();
+
+                if (projects != null) {
+                    BacklogListFragment.this.projects.addAll(projects);
                 }
 
-                backlogs = _backlogs;
-                if (listView != null) {
-                    adapter = new ListBacklogAdapter(getActivity(), backlogs);
-                    listView.setAdapter(adapter);
-                }
+                Project noProject = new Project();
+                noProject.setName(getString(R.string.unsorted_backlogs));
+                noProject.setStatus(null);
+                noProject.setProjectId(AppShared.NO_ID);
+                BacklogListFragment.this.projects.add(noProject);
+
+                if (project == null) project = Project.getFirstProjectInProgress(BacklogListFragment.this.projects);
+
+                setProjectLayout();
+                getProjectBacklogs();
 
             }
         }).execute();
     }
 
-    private Backlog getBacklogWithId(String backlogId){
-        if (backlogId == null || backlogId.isEmpty()) return null;
-        if (backlogs == null || backlogs.isEmpty()) return null;
+    private void setProjectLayout(){
+        if (rootView == null) return;
 
-        for (Backlog backlog : backlogs) {
-            if (backlog != null){
-                if (backlog.getBacklogId() != null){
-                    if (backlog.getBacklogId().equals(backlogId)) return backlog;
+        final TextView detailsTextView = (TextView) rootView.findViewById(R.id.project_details);
+        if (detailsTextView != null){
+            String details = "";
+            if (project != null){
+                if (project.getName() != null && !project.getName().isEmpty()){
+                    details += project.getName();
+                }
+                if (project.getDescription() != null && !project.getDescription().isEmpty()){
+                    if (!details.isEmpty()) details += "\n";
+                    details += getString(R.string.description) +": " + project.getDescription();
                 }
             }
+
+            detailsTextView.setText(details);
         }
 
-        return null;
+        TableRow tableRow = (TableRow) rootView.findViewById(R.id.project_layout);
+        if (tableRow != null){
+            tableRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    new DialogProjectSelect(getActivity(), projects, new DialogProjectSelect.Listener() {
+                        @Override
+                        public void onProjectSelected(Project _project) {
+
+                            project = _project;
+
+                            if (detailsTextView != null){
+                                String details = "";
+                                if (project != null){
+                                    if (project.getName() != null && !project.getName().isEmpty()){
+                                        details += project.getName();
+                                    }
+                                    if (project.getDescription() != null && !project.getDescription().isEmpty()){
+                                        if (!details.isEmpty()) details += "\n";
+                                        details += getString(R.string.description) +": " + project.getDescription();
+                                    }
+                                }
+
+                                detailsTextView.setText(details);
+                            }
+
+                            getProjectBacklogs();
+
+                        }
+                    }).show();
+                }
+            });
+        }
+
+        setProjectLayoutAccordingToOrientation(getResources().getConfiguration().orientation);
+    }
+
+    private void getProjectBacklogs(){
+        if (project == null) return;
+        if (project.getProjectId() == null || project.getProjectId().isEmpty()) return;
+
+        new FirebaseProjectBacklogs(getActivity(), project.getProjectId(), true, new FirebaseProjectBacklogs.Listener() {
+            @Override
+            public void onResponse(ArrayList<Backlog> backlogs, String errorMsg) {
+
+                BacklogListFragment.this.backlogs = backlogs;
+
+                if (rootView == null) return;
+                final ListView listView = (ListView) rootView.findViewById(R.id.my_list_view);
+                if (listView == null) return;
+                adapter = new ListBacklogAdapter(getActivity(), BacklogListFragment.this.backlogs);
+                listView.setAdapter(adapter);
+
+                setActivatedPosition(AppShared.backlogListSelPos, true);
+
+            }
+        }).execute();
+
     }
 
     private void backlogSelected(final int position){
@@ -322,6 +438,22 @@ public class BacklogListFragment extends Fragment {
 
         if (mListener != null){
             mListener.onAddNewBacklog();
+        }
+    }
+
+    private void setProjectLayoutAccordingToOrientation(int orientation){
+        if (rootView == null) return;
+
+        if (getResources().getBoolean(R.bool.large_screen)) return;
+
+        TableRow projectRow = (TableRow) rootView.findViewById(R.id.project_layout);
+        View projectDivider = rootView.findViewById(R.id.my_divider_project);
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (projectRow != null) projectRow.setVisibility(View.GONE);
+            if (projectDivider != null) projectDivider.setVisibility(View.GONE);
+        }else{
+            if (projectRow != null) projectRow.setVisibility(View.VISIBLE);
+            if (projectDivider != null) projectDivider.setVisibility(View.VISIBLE);
         }
     }
 }

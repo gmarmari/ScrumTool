@@ -13,12 +13,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Date;
+
 import gr.eap.dxt.R;
 import gr.eap.dxt.backlog.Backlog;
 import gr.eap.dxt.backlog.BacklogDialogActivity;
 import gr.eap.dxt.backlog.BacklogEditFragment;
 import gr.eap.dxt.backlog.BacklogNewDialogActivity;
 import gr.eap.dxt.backlog.BacklogListFragment;
+import gr.eap.dxt.board.BoardFragment;
 import gr.eap.dxt.login.FirebaseGetUser;
 import gr.eap.dxt.login.LoginFragment;
 import gr.eap.dxt.persons.Person;
@@ -34,6 +37,7 @@ import gr.eap.dxt.sprints.SprintDialogActivity;
 import gr.eap.dxt.sprints.SprintEditFragment;
 import gr.eap.dxt.sprints.SprintListFragment;
 import gr.eap.dxt.sprints.SprintNewDialogActivity;
+import gr.eap.dxt.sprints.SprintNewFragment;
 import gr.eap.dxt.tools.AppShared;
 import gr.eap.dxt.tools.GooglePlayServices;
 import gr.eap.dxt.tools.MyRequestCodes;
@@ -150,7 +154,8 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
             if (resultCode == RESULT_OK){
                 // Sprint editted or added
                 if (data != null){
-                    if (data.getBooleanExtra(SprintEditFragment.RELOAD, false)){
+                    if (data.getBooleanExtra(SprintEditFragment.RELOAD, false)
+                            || data.getBooleanExtra(SprintNewFragment.RELOAD, false)){
                         openFragmentSprints();
                     }
                 }
@@ -170,9 +175,6 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
             case MainNavigationDrawerFragment.HOME:
                 openFragmentHome();
                 break;
-            case MainNavigationDrawerFragment.ABOUT:
-                openFragmentAbout();
-                break;
             case MainNavigationDrawerFragment.PEOPLE:
                 openFragmentPersons();
                 break;
@@ -184,6 +186,12 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
                 break;
             case MainNavigationDrawerFragment.SPRINTS:
                 openFragmentSprints();
+                break;
+            case MainNavigationDrawerFragment.BOARD:
+                openFragmentBoard();
+                break;
+            case MainNavigationDrawerFragment.ABOUT:
+                openFragmentAbout();
                 break;
             default:
                 AppShared.writeErrorToLogString(getClass().toString(), "Not supported itemId: " + itemId);
@@ -200,6 +208,11 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
     private void openFragmentAbout(){
         if (getActionBar() != null) getActionBar().setTitle(R.string.about);
         getFragmentManager().beginTransaction().replace(R.id.container, AboutFragment.newInstance()).commit();
+    }
+
+    private void openFragmentBoard(){
+        if (getActionBar() != null) getActionBar().setTitle(R.string.board);
+        getFragmentManager().beginTransaction().replace(R.id.container, BoardFragment.newInstance()).commit();
     }
 
     /**  From {@link HomeFragment.FragmentInteractionListener} */
@@ -308,7 +321,8 @@ public class MainNavigationActivity extends Activity implements MainNavigationDr
 
     /** From {@link SprintListFragment.FragmentInteractionListener}*/
     @Override
-    public void onAddNewSprint() {
+    public void onAddNewSprint(Project project, Date startDate, long durationDays, int oldNumber) {
+        SprintNewDialogActivity.setStaticContent(project, startDate, durationDays, oldNumber);
         Intent intent = new Intent(this, SprintNewDialogActivity.class);
         startActivityForResult(intent, MyRequestCodes.SPRINT_EDIT_REQUEST);
     }

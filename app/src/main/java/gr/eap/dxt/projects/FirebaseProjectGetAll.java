@@ -20,9 +20,9 @@ import gr.eap.dxt.tools.FirebaseParse;
  * Created by GEO on 8/2/2017.
  */
 
-class FirebaseProjectGetAll extends FirebaseCall {
+public class FirebaseProjectGetAll extends FirebaseCall {
 
-    interface Listener {
+    public interface Listener {
         void onResponse(ArrayList<Project> projects, String errorMsg);
     }
     private Listener mListener;
@@ -41,7 +41,7 @@ class FirebaseProjectGetAll extends FirebaseCall {
         }
     }
 
-    FirebaseProjectGetAll(Context context, Listener mListener){
+    public FirebaseProjectGetAll(Context context, Listener mListener){
         super(context, true);
         this.mListener = mListener;
         setDialogTitle(context.getString(R.string.get_projects_progress));
@@ -80,6 +80,7 @@ class FirebaseProjectGetAll extends FirebaseCall {
                         project.setName(FirebaseParse.getString(childShapshot.child(Project.NAME)));
                         project.setDescription(FirebaseParse.getString(childShapshot.child(Project.DESCRIPTION)));
                         project.setStatus(FirebaseParse.getString(childShapshot.child(Project.STATUS)));
+                        project.setStartDate(FirebaseParse.getDate(childShapshot.child(Project.START_DATE)));
 
                         projects.add(project);
                     }catch (Exception e){

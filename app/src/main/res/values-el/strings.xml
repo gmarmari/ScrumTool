@@ -56,7 +56,6 @@
     <string name="project_deleted">Το έργο διαγράφηκε</string>
     <string name="new_project">Νέο έργο</string>
     <string name="select_project">Επιλέξτε ένα έργο</string>
-    <string name="sprint_project_remove">Απομάκρυνση από το έργο</string>
 
     <!-- Backlog -->
     <string name="backlogs">Backlogs</string>
@@ -80,23 +79,39 @@
     <string name="backlog_person_change_message">Δεν επιτρέπεται η αλλαγή του μέλους  επειδή tο backlog έχει ολοκληρωθεί</string>
     <string name="backlog_sprint_change_message">Δεν επιτρέπεται η αλλαγή του sprint  επειδή tο backlog έχει ολοκληρωθεί</string>
     <string name="backlog_new_not_allowed_message">Η προσθήκη των backlogs υπόκειται μόνο στη δικαιοδοσία του Product Owner</string>
+    <string name="backlog_delete_not_allowed_message">Η διαγραφή των backlogs υπόκειται μόνο στη δικαιοδοσία του Product Owner</string>
     <string name="priority">Προτεραιότητα</string>
     <string name="prio_1_urgent">1 Επείγον</string>
     <string name="prio_2_important">2 Σημαντικό</string>
     <string name="prio_3_normal">3 Κανονικό</string>
     <string name="prio_4_not_important">4 Ασήμαντο</string>
+    <string name="unsorted_backlogs">Αταξινόμητα backlogs</string>
 
     <!-- Sprint -->
     <string name="sprint">Sprint</string>
     <string name="start">Αρχή</string>
     <string name="end">Τέλος</string>
-    <string name="delete_sprint">Διαγραφή του sprint?</string>
-    <string name="sprint_deleted">Το sprint διαγράφηκε</string>
-    <string name="new_sprint">Νέο sprint</string>
+    <string name="delete_project_sprints">Διαγραφή των sprints αυτού του έργου;</string>
+    <string name="sprints_create">Δημιουργία sprints</string>
+    <string name="sprints_add">Προσθήκη sprints</string>
+    <string name="sprint_number">Αριθμός των sprints</string>
+    <string name="sprint_duration">Διάρκεια των sprint</string>
     <string name="select_sprint">Επιλέξτε ένα sprint</string>
-    <string name="sprint_status_change_message">Το sprint πρέπει να έχει ξεκινήσει για να αλλάξετε το status</string>
-    <string name="day_available">Ημέρα διαθέσιμη</string>
-    <string name="days_available">Ημέρες διαθέσιμες</string>
+    <string name="sprint_add_project_select">Για τη δημιοργία sprints πρέπει να επιλέξετε ένα έργο</string>
+    <string name="sprint_duration_error">Η διάρκεια του sprint δεν πρέπει να υπερβαίνει τον ένα μήνα</string>
+    <string name="sprint_number_set">Δώστε τον αριθμό των sprints</string>
+    <string name="sprint_duration_set">Δώστε τη διάρκεια των sprints</string>
+    <string name="sprint_date_set">Δώστε τη ημερομηνία έγκρισης των sprints</string>
+    <string name="project_completed_sprint_del">Δεν επιτρέπεται η διαγραφή των sprints επειδή το έργο ολοκληρώθηκε</string>
+    <string name="project_completed_sprint_add">Δεν επιτρέπεται η προσθήκη sprints επειδή το έργο ολοκληρώθηκε</string>
+    <string name="project_canceled_sprint_add">Δεν επιτρέπεται η προσθήκη sprints επειδή το έργο ακυρώθηκε</string>
+    <string name="all_sprints">Όλα τα sprints</string>
+    <string name="last_sprint">Το τελευταίο sprint</string>
+    <string name="sprint_backlog_add_status_error">Η προσθήκη backlog στο sprint επιτρέπεται μόνο όσο αυτό είναι εξέλιξη</string>
+    <string name="sprint_backlog_add_person_role_error">Μόνο οι προγραμματιστές μπορούν να προσθέσουν backlogs στο sprint</string>
+
+    <!-- Board -->
+    <string name="board">Πίνακας</string>
 
     <!-- ProgressBar, AlertDialog -->
     <string name="loading">Φορτώνει&#8230;</string>
@@ -105,6 +120,8 @@
     <string name="get_projects_progress">Φόρτωση των έργων&#8230;</string>
     <string name="get_backlog_progress">Φόρτωση της λίστας των backlog&#8230;</string>
     <string name="get_sprints_progress">Φόρτωση της λίστας των sprint&#8230;</string>
+    <string name="add_sprints_progress">Προσθήκη sprint -this-/-total-&#8230;</string>
+    <string name="delete_sprints_progress">Διαγραφή sprint -this-/-total-&#8230;</string>
     <string name="cancel">\'Aκυρο</string>
     <string name="ok">OK</string>
     <string name="select">Επιλέξτε</string>

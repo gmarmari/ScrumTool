@@ -38,6 +38,7 @@ public class MainNavigationDrawerFragment extends Fragment {
     public static final String PEOPLE = "gr.eap.dxt.main.MainNavigationDrawerFragment.PEOPLE";
     public static final String BACKLOG = "gr.eap.dxt.main.MainNavigationDrawerFragment.BACKLOG";
     public static final String SPRINTS = "gr.eap.dxt.main.MainNavigationDrawerFragment.SPRINTS";
+    public static final String BOARD = "gr.eap.dxt.main.MainNavigationDrawerFragment.BOARD";
     public static final String ABOUT = "gr.eap.dxt.main.MainNavigationDrawerFragment.ABOUT";
 
     public interface NavigationDrawerCallbacks {
@@ -177,6 +178,7 @@ public class MainNavigationDrawerFragment extends Fragment {
         items.add(new MyOtionsItem(getString(R.string.people), R.drawable.ic_action_people_purple, PEOPLE));
         items.add(new MyOtionsItem(getString(R.string.backlog), R.drawable.ic_action_backlog_purple, BACKLOG));
         items.add(new MyOtionsItem(getString(R.string.sprints), R.drawable.ic_action_event_purple, SPRINTS));
+        items.add(new MyOtionsItem(getString(R.string.board), R.drawable.ic_action_board_purple, BOARD));
         items.add(new MyOtionsItem(getString(R.string.about), R.drawable.ic_action_about_purple, ABOUT));
     }
 

@@ -27,16 +27,12 @@ public class DialogProjectSelect extends Dialog {
 
     private Context context;
     private ArrayList<Project> projects;
-    private boolean active;
 
-    private ListView listView;
-
-    public DialogProjectSelect(Context context, boolean active, Listener mListener) {
+    public DialogProjectSelect(Context context, ArrayList<Project> projects, Listener mListener) {
         super(context, R.style.my_dialog_no_title);
         this.context = context;
-        this.active = active;
+        this.projects = projects;
         this.mListener = mListener;
-        projects = new ArrayList<>();
         setContext();
     }
 
@@ -51,9 +47,7 @@ public class DialogProjectSelect extends Dialog {
             getWindow().setLayout(width,height);
         }
 
-        setCancelable(false);
-
-        listView = (ListView) findViewById(R.id.my_list_view);
+        ListView listView = (ListView) findViewById(R.id.my_list_view);
         if (listView != null){
             ListProjectAdapter adapter = new ListProjectAdapter(context, projects);
             listView.setAdapter(adapter);
@@ -91,47 +85,5 @@ public class DialogProjectSelect extends Dialog {
                 }
             });
         }
-    }
-
-    @Override
-    public void show() {
-        super.show();
-
-        new FirebaseProjectGetAll(context, new FirebaseProjectGetAll.Listener() {
-            @Override
-            public void onResponse(ArrayList<Project> _projects, String errorMsg) {
-
-                if (errorMsg != null && !errorMsg.isEmpty()){
-                    MyAlertDialog.alertError(context, null, errorMsg);
-                    return;
-                }
-                if (_projects == null){
-                    MyAlertDialog.alertError(context, null, "projects == null");
-                    return;
-                }
-
-                if (active){
-                    projects = new ArrayList<>();
-                    for (Project project: _projects) {
-                        if (project != null){
-                            String status = project.getStatus() != null ? project.getStatus() : "";
-                            if (!status.equals(ProjectStatus.CANCELED) && !status.equals(ProjectStatus.COMPLETED)){
-                                projects.add(project);
-                            }
-                        }
-                    }
-                }else{
-                    projects = _projects;
-                }
-
-
-
-                if (listView != null) {
-                    ListProjectAdapter adapter = new ListProjectAdapter(context, projects);
-                    listView.setAdapter(adapter);
-                }
-
-            }
-        }).execute();
     }
 }

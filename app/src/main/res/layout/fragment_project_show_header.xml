@@ -11,6 +11,15 @@
         android:layout_marginTop="@dimen/margin_small"
         android:gravity="bottom">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_small"
+            android:clickable="false"
+            android:contentDescription="@string/project"
+            android:focusable="false"
+            android:src="@drawable/ic_action_project_purple"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,6 +41,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
         android:gravity="bottom">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_small"
+            android:clickable="false"
+            android:contentDescription="@string/project"
+            android:focusable="false"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,6 +72,14 @@
         android:layout_marginTop="@dimen/margin_small"
         android:gravity="bottom">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_small"
+            android:clickable="false"
+            android:contentDescription="@string/project"
+            android:focusable="false" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,6 +89,37 @@
 
         <TextView
             android:id="@+id/status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/font_size_small" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:gravity="bottom">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_small"
+            android:clickable="false"
+            android:contentDescription="@string/project"
+            android:focusable="false"
+            android:src="@drawable/ic_action_time_purple" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_default"
+            android:text="@string/start"
+            android:textSize="@dimen/font_size_small" />
+
+        <TextView
+            android:id="@+id/start"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

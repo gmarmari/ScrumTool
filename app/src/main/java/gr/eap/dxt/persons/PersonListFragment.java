@@ -40,7 +40,7 @@ public class PersonListFragment extends Fragment {
         return new PersonListFragment();
     }
 
-    private ListView listView;
+    private View rootView;
     private ListPersonAdapter adapter;
     private ArrayList<Person> persons;
 
@@ -75,31 +75,68 @@ public class PersonListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_person_list, container, false);
+        rootView = inflater.inflate(R.layout.fragment_person_list, container, false);
 
-        listView = (ListView) rootView.findViewById(R.id.my_list_view);
-        if (listView != null){
-            adapter = new ListPersonAdapter(getActivity(), persons);
-            listView.setAdapter(adapter);
-            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    listView.setItemChecked(i, true);
+        setlist();
+        setFirebaseListeners();
 
-                    int position = i - listView.getHeaderViewsCount();
+        return rootView;
+    }
 
-                    if (persons == null){
-                        AppShared.writeErrorToLogString(getClass().toString(), "persons == null");
-                        return;
-                    }
-
-                    personSelected(position);
-                }
-            });
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (persons == null){
+            getAllPersons();
+        }else{
+            setActivatedPosition(AppShared.personListSelPos, true);
         }
+    }
+
+    private void setActivatedPosition(final int position, boolean scroll) {
+        if (persons == null) return;
+        if (position < 0 || position >= persons.size())  return;
+        AppShared.personListSelPos = position;
+        if (rootView == null) return;
+        final ListView listView = (ListView) rootView.findViewById(R.id.my_list_view);
+        listView.setItemChecked(position, true);
+        if (!scroll) return;
+        listView.post(new Runnable() {
+            public void run() {
+                listView.smoothScrollToPosition(position);
+            }
+        });
+    }
 
 
+    private void setlist(){
+        if (rootView == null) return;
+        final  ListView listView = (ListView) rootView.findViewById(R.id.my_list_view);
+        if (listView == null) return;
+        adapter = new ListPersonAdapter(getActivity(), persons);
+        listView.setAdapter(adapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                setActivatedPosition(i, false);
+
+                int position = i - listView.getHeaderViewsCount();
+
+                if (persons == null) {
+                    AppShared.writeErrorToLogString(getClass().toString(), "persons == null");
+                    return;
+                }
+
+                personSelected(position);
+            }
+        });
+    }
+
+    private void setFirebaseListeners(){
+        if (rootView == null) return;
+        final  ListView listView = (ListView) rootView.findViewById(R.id.my_list_view);
+        if (listView == null) return;
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Person.FIREBASE_LIST);
         mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
@@ -114,10 +151,8 @@ public class PersonListFragment extends Fragment {
                     person.setRole(FirebaseParse.getString(dataSnapshot.child(Person.ROLE)));
 
                     persons.add(person);
-                    if (listView != null) {
-                        adapter = new ListPersonAdapter(getActivity(), persons);
-                        listView.setAdapter(adapter);
-                    }
+                    adapter = new ListPersonAdapter(getActivity(), persons);
+                    listView.setAdapter(adapter);
                 } catch (Exception e) {
                     e.printStackTrace();
                     AppShared.writeErrorToLogString(getClass().toString(), e.toString());
@@ -128,13 +163,12 @@ public class PersonListFragment extends Fragment {
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot == null) return;
                 try {
-                    Person person = getPersonWithId(dataSnapshot.getKey());
+                    Person person = Person.getPersonWithId(dataSnapshot.getKey(), persons);
                     if (person == null) return;
 
                     person.setEmail(FirebaseParse.getString(dataSnapshot.child(Person.EMAIL)));
                     person.setName(FirebaseParse.getString(dataSnapshot.child(Person.NAME)));
                     person.setRole(FirebaseParse.getString(dataSnapshot.child(Person.ROLE)));
-
                     if (adapter != null) adapter.notifyDataSetChanged();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -146,14 +180,13 @@ public class PersonListFragment extends Fragment {
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 if (dataSnapshot == null) return;
                 try {
-                    Person person = getPersonWithId(dataSnapshot.getKey());
+                    Person person = Person.getPersonWithId(dataSnapshot.getKey(), persons);
                     if (person == null) return;
 
                     persons.remove(person);
-                    if (listView != null) {
-                        adapter = new ListPersonAdapter(getActivity(), persons);
-                        listView.setAdapter(adapter);
-                    }
+                    adapter = new ListPersonAdapter(getActivity(), persons);
+                    listView.setAdapter(adapter);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     AppShared.writeErrorToLogString(getClass().toString(), e.toString());
@@ -170,16 +203,6 @@ public class PersonListFragment extends Fragment {
 
             }
         });
-
-        return rootView;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (persons == null){
-            getAllPersons();
-        }
     }
 
     private void getAllPersons(){
@@ -197,29 +220,17 @@ public class PersonListFragment extends Fragment {
                 }
 
                 persons = _persons;
-                if (listView != null) {
-                    adapter = new ListPersonAdapter(getActivity(), persons);
-                    listView.setAdapter(adapter);
-                }
+                if (rootView == null) return;
+                final  ListView listView = (ListView) rootView.findViewById(R.id.my_list_view);
+                if (listView == null) return;
+                adapter = new ListPersonAdapter(getActivity(), persons);
+                listView.setAdapter(adapter);
+                setActivatedPosition(AppShared.personListSelPos, true);
+
             }
         }).execute();
     }
 
-
-    private Person getPersonWithId(String personId){
-        if (personId == null || personId.isEmpty()) return null;
-        if (persons == null || persons.isEmpty()) return null;
-
-        for (Person person : persons) {
-            if (person != null){
-                if (person.getPersonId() != null){
-                    if (person.getPersonId().equals(personId)) return person;
-                }
-            }
-        }
-
-        return null;
-    }
 
     private void personSelected(final int position){
         if (persons == null){

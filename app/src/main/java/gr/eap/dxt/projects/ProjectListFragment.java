@@ -42,7 +42,8 @@ public class ProjectListFragment extends Fragment {
         return new ProjectListFragment();
     }
 
-    private ListView listView;
+
+    private View rootView;
     private ListProjectAdapter adapter;
     private ArrayList<Project> projects;
 
@@ -77,45 +78,68 @@ public class ProjectListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_project_list, container, false);
+        rootView = inflater.inflate(R.layout.fragment_project_list, container, false);
 
+        setList();
+        setFirebaseListeners();
+        setBottomToolbar();
 
-        listView = (ListView) rootView.findViewById(R.id.my_list_view);
-        if (listView != null){
-            adapter = new ListProjectAdapter(getActivity(), projects);
-            listView.setAdapter(adapter);
-            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    listView.setItemChecked(i, true);
+        return rootView;
+    }
 
-                    int position = i - listView.getHeaderViewsCount();
-
-                    if (projects == null){
-                        AppShared.writeErrorToLogString(getClass().toString(), "projects == null");
-                        return;
-                    }
-
-                    projectSelected(position);
-                }
-            });
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (projects == null){
+            getAllProjects();
+        }else{
+            setActivatedPosition(AppShared.projectListSelPos, true);
         }
+    }
 
-        ImageButton addButton = (ImageButton) rootView.findViewById(R.id.my_button_add);
-        if (addButton != null){
-            addButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+    private void setActivatedPosition(final int position, boolean scroll) {
+        if (projects == null) return;
+        if (position < 0 || position >= projects.size())  return;
+        AppShared.projectListSelPos = position;
+        if (rootView == null) return;
+        final ListView listView = (ListView) rootView.findViewById(R.id.my_list_view);
+        listView.setItemChecked(position, true);
+        if (!scroll) return;
+        listView.post(new Runnable() {
+            public void run() {
+                listView.smoothScrollToPosition(position);
+            }
+        });
+    }
 
-                    if (mListener != null){
-                        mListener.onAddNewProject();
-                    }
+    private void setList(){
+        if (rootView == null) return;
+        final ListView listView = (ListView) rootView.findViewById(R.id.my_list_view);
+        if (listView == null) return;
+        adapter = new ListProjectAdapter(getActivity(), projects);
+        listView.setAdapter(adapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                setActivatedPosition(i, false);
 
+                int position = i - listView.getHeaderViewsCount();
+
+                if (projects == null) {
+                    AppShared.writeErrorToLogString(getClass().toString(), "projects == null");
+                    return;
                 }
-            });
-        }
 
+                projectSelected(position);
+            }
+        });
+    }
+
+    private void setFirebaseListeners(){
+        if (rootView == null) return;
+        final ListView listView = (ListView) rootView.findViewById(R.id.my_list_view);
+        if (listView == null) return;
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Project.FIREBASE_LIST);
         mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
@@ -128,12 +152,11 @@ public class ProjectListFragment extends Fragment {
                     project.setName(FirebaseParse.getString(dataSnapshot.child(Project.NAME)));
                     project.setDescription(FirebaseParse.getString(dataSnapshot.child(Project.DESCRIPTION)));
                     project.setStatus(FirebaseParse.getString(dataSnapshot.child(Project.STATUS)));
+                    project.setStartDate(FirebaseParse.getDate(dataSnapshot.child(Project.START_DATE)));
 
                     projects.add(project);
-                    if (listView != null) {
-                        adapter = new ListProjectAdapter(getActivity(), projects);
-                        listView.setAdapter(adapter);
-                    }
+                    adapter = new ListProjectAdapter(getActivity(), projects);
+                    listView.setAdapter(adapter);
                 } catch (Exception e) {
                     e.printStackTrace();
                     AppShared.writeErrorToLogString(getClass().toString(), e.toString());
@@ -150,6 +173,7 @@ public class ProjectListFragment extends Fragment {
                     project.setName(FirebaseParse.getString(dataSnapshot.child(Project.NAME)));
                     project.setDescription(FirebaseParse.getString(dataSnapshot.child(Project.DESCRIPTION)));
                     project.setStatus(FirebaseParse.getString(dataSnapshot.child(Project.STATUS)));
+                    project.setStartDate(FirebaseParse.getDate(dataSnapshot.child(Project.START_DATE)));
 
                     if (adapter != null) adapter.notifyDataSetChanged();
                 } catch (Exception e) {
@@ -166,10 +190,8 @@ public class ProjectListFragment extends Fragment {
                     if (project == null) return;
 
                     projects.remove(project);
-                    if (listView != null) {
-                        adapter = new ListProjectAdapter(getActivity(), projects);
-                        listView.setAdapter(adapter);
-                    }
+                    adapter = new ListProjectAdapter(getActivity(), projects);
+                    listView.setAdapter(adapter);
                 } catch (Exception e) {
                     e.printStackTrace();
                     AppShared.writeErrorToLogString(getClass().toString(), e.toString());
@@ -186,16 +208,21 @@ public class ProjectListFragment extends Fragment {
 
             }
         });
-
-        return rootView;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (projects == null){
-            getAllProjects();
-        }
+    private void setBottomToolbar(){
+        ImageButton addButton = (ImageButton) rootView.findViewById(R.id.my_button_add);
+        if (addButton == null) return;
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (mListener != null) {
+                    mListener.onAddNewProject();
+                }
+
+            }
+        });
     }
 
     private void getAllProjects(){
@@ -213,10 +240,12 @@ public class ProjectListFragment extends Fragment {
                 }
 
                 projects = _projects;
-                if (listView != null) {
-                    adapter = new ListProjectAdapter(getActivity(), projects);
-                    listView.setAdapter(adapter);
-                }
+                if (rootView == null) return;
+                final ListView listView = (ListView) rootView.findViewById(R.id.my_list_view);
+                if (listView == null) return;
+                adapter = new ListProjectAdapter(getActivity(), projects);
+                listView.setAdapter(adapter);
+                setActivatedPosition(AppShared.projectListSelPos, true);
             }
         }).execute();
     }

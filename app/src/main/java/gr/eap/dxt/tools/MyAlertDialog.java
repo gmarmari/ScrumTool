@@ -103,7 +103,14 @@ public class MyAlertDialog {
         if (!type.equals(MyAlertDialogType.LIST)) return;
         if (items == null || items.isEmpty()) return;
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        @SuppressWarnings("deprecation")
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(new ContextThemeWrapper(context, android.R.style.Theme_Material_Dialog));
+        }else{
+            builder = new AlertDialog.Builder(context);
+        }
+
         if (title != null) builder.setTitle(title);
         if (icon != null) builder.setIcon(icon);
 

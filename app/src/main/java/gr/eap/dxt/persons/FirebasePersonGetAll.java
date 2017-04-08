@@ -10,6 +10,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import gr.eap.dxt.R;
 import gr.eap.dxt.tools.FirebaseCall;
@@ -25,6 +27,34 @@ class FirebasePersonGetAll extends FirebaseCall{
         void onResponse(ArrayList<Person> persons, String errorMsg);
     }
     private Listener mListener;
+
+    private class RoleComparator implements Comparator<Person> {
+
+        @Override
+        public int compare(Person left, Person right) {
+            if (left == null) return 0;
+            if (right == null) return 0;
+            String leftString = left.getRole();
+            if (leftString == null) return 0;
+            String rightString = right.getRole();
+            if (rightString == null) return 0;
+            return rightString.compareTo(leftString);
+        }
+    }
+
+    private class NameComparator implements Comparator<Person> {
+
+        @Override
+        public int compare(Person left, Person right) {
+            if (left == null) return 0;
+            if (right == null) return 0;
+            String leftString = left.getName();
+            if (leftString == null) return 0;
+            String rightString = right.getName();
+            if (rightString == null) return 0;
+            return leftString.compareTo(rightString);
+        }
+    }
 
     private String personRole;
 
@@ -92,6 +122,7 @@ class FirebasePersonGetAll extends FirebaseCall{
                     }
                 }
 
+                Collections.sort(persons, new NameComparator());
                 giveOutput(persons);
             }
 
@@ -145,6 +176,7 @@ class FirebasePersonGetAll extends FirebaseCall{
                     }
                 }
 
+                Collections.sort(persons, new RoleComparator());
                 giveOutput(persons);
             }
 

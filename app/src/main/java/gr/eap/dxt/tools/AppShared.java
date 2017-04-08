@@ -1,6 +1,7 @@
 package gr.eap.dxt.tools;
 
 import android.util.Log;
+import android.widget.ListView;
 
 
 import java.text.SimpleDateFormat;
@@ -14,6 +15,13 @@ import gr.eap.dxt.persons.Person;
  */
 
 public class AppShared {
+
+    public static final String NO_ID = "no_id";
+
+    public static int projectListSelPos = ListView.INVALID_POSITION;
+    public static int personListSelPos = ListView.INVALID_POSITION;
+    public static int backlogListSelPos = ListView.INVALID_POSITION;
+    public static int sprintListSelPos = ListView.INVALID_POSITION;
 
     private static Person logginUser;
     public static Person getLogginUser(){
