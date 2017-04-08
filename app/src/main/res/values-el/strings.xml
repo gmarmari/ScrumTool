@@ -75,9 +75,6 @@
     <string name="days">Ημέρες</string>
     <string name="backlog_sprint_remove">Απομάκρυνση από το sprint</string>
     <string name="not_allowed">Δεν επιτρέπεται</string>
-    <string name="backlog_status_change_message">Το backlog πρέπει να ανήκει σε ένα sprint και αυτό να έχει ξεκινήσει για να αλλάξετε το status</string>
-    <string name="backlog_person_change_message">Δεν επιτρέπεται η αλλαγή του μέλους  επειδή tο backlog έχει ολοκληρωθεί</string>
-    <string name="backlog_sprint_change_message">Δεν επιτρέπεται η αλλαγή του sprint  επειδή tο backlog έχει ολοκληρωθεί</string>
     <string name="backlog_new_not_allowed_message">Η προσθήκη των backlogs υπόκειται μόνο στη δικαιοδοσία του Product Owner</string>
     <string name="backlog_delete_not_allowed_message">Η διαγραφή των backlogs υπόκειται μόνο στη δικαιοδοσία του Product Owner</string>
     <string name="priority">Προτεραιότητα</string>
