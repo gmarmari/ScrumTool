@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "81131253785",
+    "firebase_url": "https://gr-eap-dxt-scrumtool-f1bce.firebaseio.com",
+    "project_id": "gr-eap-dxt-scrumtool-f1bce",
+    "storage_bucket": "gr-eap-dxt-scrumtool-f1bce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81131253785:android:a64a69c228e1a14e",
+        "android_client_info": {
+          "package_name": "gr.eap.dxt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81131253785-fenp9cpnl6out2djjqf4nubac2be7rob.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVfeRbP3njMMlmSArU715tpKqa7ydtnbk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
