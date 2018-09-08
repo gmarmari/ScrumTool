@@ -124,7 +124,7 @@ public class BacklogListFragment extends Fragment {
         if (!scroll) return;
         listView.post(new Runnable() {
             public void run() {
-                listView.smoothScrollToPosition(position);
+                listView.setSelection(position);
             }
         });
     }
