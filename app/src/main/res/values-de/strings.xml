@@ -1,0 +1,133 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- MainNavigationDrawerFragment -->
+    <string name="home">Startseite</string>
+    <string name="projects">Projekte</string>
+    <string name="people">Personen</string>
+    <string name="backlog">Backlog</string>
+    <string name="sprints">Sprints</string>
+    <string name="about">Über</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Home -->
+    <string name="welcome">willkommem im Scrum Tool!</string>
+    <string name="group_consists_of">Ihre Gruppe besteht aus</string>
+    <string name="member">Mitglied</string>
+    <string name="members">Mitglieder</string>
+
+    <!-- About -->
+    <string name="eap">Hellenische Offene Universität</string>
+    <string name="eap_website">https://www.eap.gr</string>
+    <string name="app_description" tools:ignore="Typos">Diese App ist ein Teil der Thesis mit Titel \"Management, Überwachung und Kontrolle von IT-Projekten - Android-Software-Entwicklung, die die SCRUM-Methode unterstützt\"\n\nAutor: Georgios Marmaris\nSupervisor: Basilios Kostoglou\nB\' Supervisor: Nikolaos Fragkakis\n\nHellenische Offene Universität\nAristotelous 18, 26335 Patra, Griechenland</string>
+
+    <!-- Login -->
+    <string name="login">Anmeldung</string>
+    <string name="logout">Abmeldung</string>
+    <string name="email">E-Mail</string>
+    <string name="password">Passwort</string>
+    <string name="enter_email">Bitte geben Sie die E-Mail ein</string>
+    <string name="invalid_email">Ungültige E-Mail</string>
+    <string name="enter_password">Bitte geben Sie das Passwort ein</string>
+
+    <!-- Person -->
+    <string name="developer">Entwickler</string>
+    <string name="product_owner">Product owner</string>
+    <string name="scrum_master">Scrum master</string>
+    <string name="person">Person</string>
+    <string name="name">Name</string>
+    <string name="role">Rolle</string>
+    <string name="delete_person">Person löschen?</string>
+    <string name="person_deleted">Person gelöscht</string>
+    <string name="select_person">Person auswählen</string>
+    <string name="role_exists">Die Rolle -role- ist bereits besetzt</string>
+
+    <!-- Project -->
+    <string name="project">Projekt</string>
+    <string name="status">Status</string>
+    <string name="not_started">Nicht angefangen</string>
+    <string name="in_progress">In Bearbeitung</string>
+    <string name="completed">Abgeschlossen</string>
+    <string name="canceled">Abgebrochen</string>
+    <string name="delete_project">Projekt löschen?</string>
+    <string name="project_deleted">Projekt gelöscht</string>
+    <string name="new_project">Neues Projekt</string>
+    <string name="select_project">Projekt auswählen</string>
+
+    <!-- Backlog -->
+    <string name="backlogs">Backlogs</string>
+    <string name="feature">Feature</string>
+    <string name="bug">Bug</string>
+    <string name="other">Andere</string>
+    <string name="description">Beschreibung</string>
+    <string name="assigned_to">Zugewiesen an</string>
+    <string name="type">Typ</string>
+    <string name="delete_backlog">Backlog löschen?</string>
+    <string name="backlog_deleted">Backlog gelöscht</string>
+    <string name="new_backlog">Neues Backlog</string>
+    <string name="to_do">Zu tun</string>
+    <string name="done">Erledigt</string>
+    <string name="duration">Dauer</string>
+    <string name="day">Tag</string>
+    <string name="days">Tage</string>
+    <string name="backlog_sprint_remove">Vom Sprint entfernen</string>
+    <string name="not_allowed">Nicht erlaubt</string>
+    <string name="backlog_new_not_allowed_message">Nur der Product Owner hat das Privileg, neue Backlogs hinzuzufügen</string>
+    <string name="backlog_delete_not_allowed_message">Nur der Product Owner hat das Privileg, neue Backlogs zu löschen</string>
+    <string name="priority">Priorität</string>
+    <string name="prio_1_urgent">1 Dringend</string>
+    <string name="prio_2_important">2 Wichtig</string>
+    <string name="prio_3_normal">3 Normal</string>
+    <string name="prio_4_not_important">4 Unwichtig</string>
+    <string name="unsorted_backlogs">Unsortierte Backlogs</string>
+
+    <!-- Sprint -->
+    <string name="sprint">Sprint</string>
+    <string name="start">Anfang</string>
+    <string name="end">Ende</string>
+    <string name="delete_project_sprints">Sprints dieses Projekt löschen?</string>
+    <string name="sprints_create">Sprints erstellen</string>
+    <string name="sprints_add">Sprints hinzufügen</string>
+    <string name="sprint_number">Anzahl der Sprints</string>
+    <string name="sprint_duration">Dauer des Sprints</string>
+    <string name="select_sprint">Sprint auswählen</string>
+    <string name="sprint_add_project_select">Um Sprints zu erstellen, mussen Sie ein Projekt auswählen</string>
+    <string name="sprint_duration_error">Die Dauer eines Sprints darf einen Monat nicht überschreiten</string>
+    <string name="sprint_number_set">Bitte geben Sie die Anzahl der Sprints ein</string>
+    <string name="sprint_duration_set">Bitte geben Sie die Dauer der Sprints ein</string>
+    <string name="sprint_date_set">Bitte geben Sie das Startdatum der Sprints ein</string>
+    <string name="project_completed_sprint_del">Sie dürfen keine Sprints löschen, da das Projekt abgeschlossen ist</string>
+    <string name="project_completed_sprint_add">Sie dürfen keine Sprints hinzufügen, da das Projekt abgeschlossen ist</string>
+    <string name="project_canceled_sprint_add">Sie dürfen keine Sprints hinzufügen, da das Projekt abgebrochen wird</string>
+    <string name="all_sprints">Alle Sprints</string>
+    <string name="last_sprint">Letztes Sprint</string>
+    <string name="sprint_backlog_add_status_error">Das Hinzufügen eines Backlogs zum Sprint ist erlaubt, nur wenn das Sprint in Bearbeitung ist</string>
+    <string name="sprint_backlog_add_person_role_error">Nur die Entwickler können Backlogs zum Sprint hinzufügen</string>
+
+    <!-- Board -->
+    <string name="board">Tafel</string>
+
+    <!-- ProgressBar, AlertDialog -->
+    <string name="loading">Laden&#8230;</string>
+    <string name="login_progress">Anmeldung&#8230;</string>
+    <string name="get_persons_progress">Personen holen&#8230;</string>
+    <string name="get_projects_progress">Projekte holen&#8230;</string>
+    <string name="get_backlog_progress">Backlogs holen&#8230;</string>
+    <string name="get_sprints_progress">Sprints holen&#8230;</string>
+    <string name="add_sprints_progress">Sprints -this-/-total- hinzufügen&#8230;</string>
+    <string name="delete_sprints_progress">Sprints -this-/-total- löschen&#8230;</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="ok">OK</string>
+    <string name="select">Auswählen</string>
+    <string name="error_occured">Es ist ein Fehler aufgetreten!</string>
+    <string name="add">Hinzufügen</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="delete">Löschen</string>
+    <string name="back">Zurück</string>
+    <string name="none">Kein</string>
+    <string name="no_change_occured">Es ist keine Änderung aufgetreten</string>
+    <string name="no">Nein</string>
+    <string name="yes">Ja</string>
+
+
+</resources>

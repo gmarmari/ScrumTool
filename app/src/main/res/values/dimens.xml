@@ -1,0 +1,24 @@
+<resources>
+
+    <!-- Padding -->
+    <dimen name="padding_small">8dp</dimen>
+
+    <!-- Margin -->
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_default">16dp</dimen>
+
+    <!-- Font Size -->
+    <dimen name="font_size_small">14sp</dimen>
+    <dimen name="font_size_default">16sp</dimen>
+    <dimen name="font_size_large">20sp</dimen>
+
+    <!-- Board dimen -->
+    <dimen name="font_size_board">10sp</dimen>
+    <dimen name="padding_board">2dp</dimen>
+
+
+    <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
+         https://developer.android.com/design/patterns/navigation-drawer.html -->
+    <dimen name="navigation_drawer_width">240dp</dimen>
+
+</resources>

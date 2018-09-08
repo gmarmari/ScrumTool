@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- MainActivity -->
-
     <!-- MainNavigationDrawerFragment -->
     <string name="home">Αρχική</string>
     <string name="projects">\'Εργα</string>
@@ -15,7 +13,7 @@
 
     <!-- Home -->
     <string name="welcome">καλώς όρισες στο Scrum Tool!</string>
-    <string name="group_consists_of">Η ομάδα σας αποτελείτε από</string>
+    <string name="group_consists_of">Η ομάδα σας αποτελείται από</string>
     <string name="member">μέλος</string>
     <string name="members">μέλη</string>
 
@@ -98,7 +96,7 @@
     <string name="sprint_duration_error">Η διάρκεια του sprint δεν πρέπει να υπερβαίνει τον ένα μήνα</string>
     <string name="sprint_number_set">Δώστε τον αριθμό των sprints</string>
     <string name="sprint_duration_set">Δώστε τη διάρκεια των sprints</string>
-    <string name="sprint_date_set">Δώστε τη ημερομηνία έγκρισης των sprints</string>
+    <string name="sprint_date_set">Δώστε την ημερομηνία έναρξης των sprints</string>
     <string name="project_completed_sprint_del">Δεν επιτρέπεται η διαγραφή των sprints επειδή το έργο ολοκληρώθηκε</string>
     <string name="project_completed_sprint_add">Δεν επιτρέπεται η προσθήκη sprints επειδή το έργο ολοκληρώθηκε</string>
     <string name="project_canceled_sprint_add">Δεν επιτρέπεται η προσθήκη sprints επειδή το έργο ακυρώθηκε</string>
