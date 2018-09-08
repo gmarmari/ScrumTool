@@ -18,12 +18,12 @@ import gr.eap.dxt.tools.FirebaseCall;
 import gr.eap.dxt.tools.FirebaseParse;
 
 /**
- * Created by GEO on 12/2/2017.
+ * Created by GEO on 19/2/2017.
  */
 
-class FirebaseSprintGetAll extends FirebaseCall {
+public class FirebaseSprintProjectGet extends FirebaseCall {
 
-    interface Listener {
+    public interface Listener {
         void onResponse(ArrayList<Sprint> sprints, String errorMsg);
     }
     private Listener mListener;
@@ -42,8 +42,11 @@ class FirebaseSprintGetAll extends FirebaseCall {
         }
     }
 
-    FirebaseSprintGetAll(Context context, Listener mListener){
-        super(context, true);
+    private String projectId;
+
+    public FirebaseSprintProjectGet(Context context, String projectId, boolean notify, Listener mListener){
+        super(context, notify);
+        this.projectId = projectId;
         this.mListener = mListener;
         setDialogTitle(context.getString(R.string.get_sprints_progress));
     }
@@ -51,8 +54,19 @@ class FirebaseSprintGetAll extends FirebaseCall {
     public void execute(){
         super.execute();
 
+        if (projectId == null) {
+            addErrorNo("projectId == null");
+            giveOutput(null, null);
+            return;
+        }
+        if (projectId.isEmpty()) {
+            addErrorNo("projectId.isEmpty()");
+            giveOutput(null, null);
+            return;
+        }
+
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Sprint.FIREBASE_LIST);
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.orderByChild(Sprint.PROJECT_ID).equalTo(projectId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot == null) {
