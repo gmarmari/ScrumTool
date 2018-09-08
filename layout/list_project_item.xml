@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/my_linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_selector_my_transp_background"
+    android:gravity="center|top"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:orientation="horizontal"
+    android:padding="@dimen/padding_small">
+
+    <ImageView
+        android:id="@+id/my_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_small"
+        android:background="@drawable/list_selector_my_transp_background"
+        android:clickable="false"
+        android:contentDescription="@string/projects"
+        android:focusable="false"
+        android:src="@drawable/ic_action_project_purple" />
+
+    <TextView
+        android:id="@+id/project_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/color_eap_logo_dark_blue"
+        android:textSize="@dimen/font_size_small" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_eap_logo_dark_blue"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_size_small" />
+</LinearLayout>

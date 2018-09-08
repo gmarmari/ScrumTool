@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/list_selector_board_background">
+
+    <TextView
+        android:id="@+id/backlog_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_eap_logo_dark_blue"
+        android:ellipsize="start"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_size_board"/>
+
+    <TextView
+        android:id="@+id/backlog_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_eap_logo_dark_blue"
+        android:ellipsize="start"
+        android:gravity="center"
+        android:textSize="@dimen/font_size_board"/>
+
+</LinearLayout>

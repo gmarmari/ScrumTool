@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/project_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_selector_my_transp_background"
+        android:gravity="center|top"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_small">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_small"
+            android:clickable="false"
+            android:contentDescription="@string/backlog"
+            android:focusable="false"
+            android:src="@drawable/ic_action_project_purple" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/project_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColor="@color/color_eap_logo_dark_blue"
+                android:textSize="@dimen/font_size_small" />
+
+            <TextView
+                android:id="@+id/project_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColor="@color/color_eap_logo_dark_blue"
+                android:textSize="@dimen/font_size_small" />
+
+            <TextView
+                android:id="@+id/project_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColor="@color/color_eap_logo_dark_blue"
+                android:textSize="@dimen/font_size_small" />
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/my_divider_project"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_eap_logo_purple" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/sprints"
+            android:ellipsize="start"
+            android:src="@drawable/ic_action_event_purple" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:contentDescription="@string/backlogs"
+            android:ellipsize="start"
+            android:src="@drawable/ic_action_backlog_purple" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="start"
+            android:gravity="center"
+            android:text="@string/sprints"
+            android:textColor="@color/color_eap_logo_dark_blue"
+            android:textSize="@dimen/font_size_small"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="start"
+            android:gravity="center"
+            android:text="@string/to_do"
+            android:textColor="@color/color_blue"
+            android:textSize="@dimen/font_size_small"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="start"
+            android:gravity="center"
+            android:text="@string/in_progress"
+            android:textColor="@color/color_orange"
+            android:textSize="@dimen/font_size_small"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="start"
+            android:gravity="center"
+            android:text="@string/done"
+            android:textColor="@color/color_green"
+            android:textSize="@dimen/font_size_small"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/my_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center|top"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <RelativeLayout
+                android:id="@+id/sprints_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/backlog_to_do_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/backlog_in_progress_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/backlog_done_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
