@@ -31,11 +31,10 @@
 
     </TableRow>
 
-    <View
-        android:id="@+id/my_divider_project"
-        android:layout_width="match_parent"
+    <View android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/color_eap_logo_purple"/>
+
 
     <ListView android:id="@+id/my_list_view"
         android:layout_width="match_parent"
@@ -52,14 +51,26 @@
         android:orientation="horizontal" >
 
         <ImageButton
-            android:id="@+id/my_button_add"
+        android:id="@+id/my_button_add"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/list_selector_my_transp_background"
+        android:src="@drawable/ic_action_add"
+        android:contentDescription="@string/add" />
+
+        <ImageButton
+            android:id="@+id/my_button_delete"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/list_selector_my_transp_background"
-            android:src="@drawable/ic_action_add"
-            android:contentDescription="@string/add" />
+            android:src="@drawable/ic_action_delete"
+            android:contentDescription="@string/delete" />
 
     </LinearLayout>
+
 </LinearLayout>
+

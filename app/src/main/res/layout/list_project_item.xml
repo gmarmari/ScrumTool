@@ -1,41 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/my_linear_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/list_selector_my_transp_background"
-    android:orientation="horizontal"
+    android:gravity="center|top"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
-    android:padding="@dimen/padding_small"
-    android:gravity="center">
+    android:orientation="horizontal"
+    android:padding="@dimen/padding_small">
 
     <ImageView
+        android:id="@+id/my_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/margin_small"
-        android:contentDescription="@string/backlog"
+        android:background="@drawable/list_selector_my_transp_background"
+        android:clickable="false"
+        android:contentDescription="@string/projects"
         android:focusable="false"
-        android:src="@drawable/ic_action_backlog_purple" />
+        android:src="@drawable/ic_action_project_purple" />
 
     <TextView
-        android:id="@+id/backlog_type"
+        android:id="@+id/project_details"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="@dimen/font_size_default"
         android:textColor="@color/color_eap_logo_dark_blue"
-        android:ellipsize="end"
-        android:maxLines="2" />
+        android:textSize="@dimen/font_size_small" />
 
-    <ImageView
-        android:id="@+id/toogle"
-        style="?android:attr/borderlessButtonStyle"
+    <TextView
+        android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/backlog"
-        android:src="@drawable/ic_action_more_purple"
-        android:minHeight="0dp"
-        android:minWidth="0dp"
-        android:focusable="false"
-        android:clickable="false" />
-
+        android:textColor="@color/color_eap_logo_dark_blue"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_size_small" />
 </LinearLayout>

@@ -12,12 +12,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/margin_small"
-        android:contentDescription="@string/backlog"
+        android:contentDescription="@string/sprint"
         android:focusable="false"
-        android:src="@drawable/ic_action_backlog_purple" />
+        android:src="@drawable/ic_action_event_purple" />
 
     <TextView
-        android:id="@+id/backlog_type"
+        android:id="@+id/sprints"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
