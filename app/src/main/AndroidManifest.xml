@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="gr.eap.dxt"
+    android:installLocation="auto">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.staware.permission.C2D_MESSAGE" />
+    <permission
+        android:name="gr.eap.dxt.marmaris.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
+    <application
+        android:allowBackup="true"
+        android:configChanges="keyboardHidden|orientation|screenSize"
+        android:fullBackupContent="@xml/my_backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/my_app_theme"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <!-- Main -->
+        <activity
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:name="gr.eap.dxt.main.MainNavigationActivity"
+            android:label="@string/app_name"
+            android:theme="@style/my_app_theme_no_logo">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Persons -->
+        <activity
+            android:name="gr.eap.dxt.persons.PersonDialogActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+        </activity>
+
+        <!-- Projects -->
+        <activity
+            android:name="gr.eap.dxt.projects.ProjectDialogActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+        </activity>
+        <activity
+            android:name="gr.eap.dxt.projects.ProjectNewDialogActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+        </activity>
+
+        <!-- Backlog -->
+        <activity
+            android:name="gr.eap.dxt.backlog.BacklogDialogActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+        </activity>
+        <activity
+            android:name="gr.eap.dxt.backlog.BacklogNewDialogActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+        </activity>
+
+        <!-- Sprint -->
+        <activity
+            android:name="gr.eap.dxt.sprints.SprintDialogActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+        </activity>
+        <activity
+            android:name="gr.eap.dxt.sprints.SprintNewDialogActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth">
+        </activity>
+
+        <!-- Firebase Cloud Messaging (Push Notifications) -->
+
+        <service
+            android:name="gr.eap.dxt.tools.FCMService"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="gr.eap.dxt.tools.FCMInstanceIDService"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="gr.eap.dxt.tools.FCMRegistrationIntentService"
+            android:exported="false"/>
+    </application>
+
+</manifest>
